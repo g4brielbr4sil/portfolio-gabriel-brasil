@@ -1,0 +1,169 @@
+/* Almarai e Instrument Serif são carregadas em .figma/make/site.json (headEnd),
+   com preconnect para fonts.googleapis.com e fonts.gstatic.com. */
+@import 'tailwindcss';
+
+@theme {
+  --color-ink: #000000;
+  --color-surface: #101010;
+  --color-card: #212121;
+  --color-cream: #e1e0cc;
+  --color-primary: #dedbc8;
+  --color-muted: #9ca3af;
+  --color-line: rgba(222, 219, 200, 0.12);
+  --color-signal: #2b4a70;
+
+  --font-sans: 'Almarai', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-serif: 'Instrument Serif', Georgia, serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-cream);
+    font-family: var(--font-sans);
+  }
+
+  ::selection {
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-cream);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+/* Ruído fractal — textura cinematográfica sobre mídia e superfícies */
+.noise-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n2'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n2)'/%3E%3C/svg%3E");
+}
+
+/* Malha discreta que remete a arquitetura de sistemas */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(222, 219, 200, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(222, 219, 200, 0.06) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* Keyframes usados por Sheet, Collapsible, Tooltip e pelo status do Hero */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes sheet-in {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sheet-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes sheet-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes sheet-out-right {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+}
+
+@keyframes collapsible-down {
+  from {
+    height: 0;
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    height: var(--radix-collapsible-content-height);
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes collapsible-up {
+  from {
+    height: var(--radix-collapsible-content-height);
+    opacity: 1;
+  }
+  to {
+    height: 0;
+    opacity: 0;
+  }
+}
+
+/* Letreiro contínuo da stack principal — metade da trilha é a lista original. */
+@keyframes ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

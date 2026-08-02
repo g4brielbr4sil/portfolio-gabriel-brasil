@@ -1,0 +1,19 @@
+{
+  "title": "Gabriel Brasil | Analista de Sistemas e Desenvolvedor",
+  "description": "Portfólio de Gabriel Brasil, Analista de Sistemas e Desenvolvedor em Brasília. Projetos Full Stack, APIs, automações, integrações, implantação e produtos digitais.",
+  "language": "pt-BR",
+  "url": "",
+  "robots": {
+    "index": true
+  },
+  "openGraph": {
+    "image": ""
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  },
+  "customScripts": {
+    "headEnd": "<meta name=\"author\" content=\"Gabriel Brasil\" />\n<meta name=\"robots\" content=\"index, follow\" />\n<meta name=\"theme-color\" content=\"#000000\" />\n<meta name=\"color-scheme\" content=\"dark\" />\n<meta name=\"referrer\" content=\"strict-origin-when-cross-origin\" />\n<meta property=\"og:type\" content=\"website\" />\n<meta property=\"og:locale\" content=\"pt_BR\" />\n<meta property=\"og:site_name\" content=\"Gabriel Brasil\" />\n<meta name=\"twitter:card\" content=\"summary_large_image\" />\n<meta name=\"twitter:title\" content=\"Gabriel Brasil | Analista de Sistemas e Desenvolvedor\" />\n<meta name=\"twitter:description\" content=\"Portfólio de Gabriel Brasil, Analista de Sistemas e Desenvolvedor em Brasília. Projetos Full Stack, APIs, automações, integrações, implantação e produtos digitais.\" />\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\" />\n<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin />\n<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Instrument+Serif:ital@1&display=swap\" />\n<script type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"Person\",\"name\":\"Gabriel Brasil\",\"jobTitle\":\"Analista de Sistemas e Desenvolvedor\",\"email\":\"mailto:g4brielbr4sil@gmail.com\",\"address\":{\"@type\":\"PostalAddress\",\"addressLocality\":\"Brasília\",\"addressRegion\":\"DF\",\"addressCountry\":\"BR\"},\"sameAs\":[\"https://www.linkedin.com/in/gabrielbrasildev\",\"https://github.com/g4brielbr4sil\"],\"knowsAbout\":[\"Análise de sistemas\",\"Desenvolvimento Full Stack\",\"React\",\"TypeScript\",\"Python\",\"FastAPI\",\"APIs REST\",\"Automação de processos\",\"Integrações\",\"Docker\",\"Cloudflare Pages\"]}</script>"
+  }
+}
