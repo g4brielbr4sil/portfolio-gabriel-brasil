@@ -132,7 +132,6 @@ export default function ProjectGallery({
           <p className="text-[10px] uppercase tracking-[0.22em] text-cream/35">Galeria real</p>
           <p className="mt-1 text-sm text-cream/60">{projectName}</p>
         </div>
-
         <span className="font-mono text-[11px] tracking-[0.16em] text-cream/45">
           {String(index + 1).padStart(2, '0')} / {String(images.length).padStart(2, '0')}
         </span>
@@ -148,8 +147,8 @@ export default function ProjectGallery({
 
       <div
         className={cn(
-          'relative overflow-hidden rounded-[1.5rem] border border-line bg-black/40',
-          current?.device === 'mobile' ? 'mx-auto w-full max-w-[22rem] md:max-w-[24rem]' : 'w-full',
+          'relative touch-pan-y overflow-hidden rounded-[1.5rem] border border-line bg-black/40',
+          current.device === 'mobile' ? 'mx-auto w-full max-w-[22rem] md:max-w-[24rem]' : 'w-full',
         )}
         {...swipeHandlers}
       >
@@ -167,9 +166,7 @@ export default function ProjectGallery({
           >
             <CaretLeft size={18} weight="regular" aria-hidden="true" />
           </button>
-
-          <p className="min-w-0 flex-1 truncate text-center text-[11px] text-cream/55">{current?.caption}</p>
-
+          <p className="min-w-0 flex-1 truncate text-center text-[11px] text-cream/55">{current.caption}</p>
           <button
             type="button"
             onClick={() => setIndex((currentIndex) => (currentIndex + 1) % images.length)}
@@ -181,7 +178,7 @@ export default function ProjectGallery({
         </div>
       </div>
 
-      <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div className="flex snap-x gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {images.map((image, itemIndex) => {
           const active = itemIndex === index
           return (
@@ -190,23 +187,23 @@ export default function ProjectGallery({
               type="button"
               onClick={() => setIndex(itemIndex)}
               className={cn(
-                'relative h-20 min-w-[6rem] overflow-hidden rounded-2xl border transition-all duration-300 md:h-24 md:min-w-[7.5rem]',
+                'relative h-20 min-w-[6rem] snap-start overflow-hidden rounded-2xl border bg-black/35 p-1 transition-all duration-300 md:h-24 md:min-w-[7.5rem]',
                 active ? 'border-cream/60 ring-1 ring-cream/25' : 'border-white/8 opacity-65 hover:opacity-90',
               )}
               aria-label={`Ir para a imagem ${itemIndex + 1} de ${images.length}`}
               aria-current={active ? 'true' : undefined}
             >
-              <PreviewPicture image={image} className="h-full w-full object-cover" />
+              <PreviewPicture image={image} className="h-full w-full object-contain" />
             </button>
           )
         })}
       </div>
 
       <div className="grid gap-2 text-sm text-cream/65 md:grid-cols-[1fr_auto] md:items-center">
-        <p>{current?.caption}</p>
+        <p>{current.caption}</p>
         <div className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-cream/38">
           <ArrowsOutSimple size={13} weight="regular" aria-hidden="true" />
-          {current?.device === 'mobile' ? 'Captura mobile' : 'Captura desktop'}
+          {current.device === 'mobile' ? 'Captura mobile' : 'Captura desktop'}
         </div>
       </div>
 
@@ -220,8 +217,6 @@ export default function ProjectGallery({
           Abrir projeto real
         </button>
       )}
-
-      <p className="sr-only">{current?.alt}</p>
     </div>
   )
 }
