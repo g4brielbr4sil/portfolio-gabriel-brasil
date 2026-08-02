@@ -23,8 +23,8 @@ export default function Contact() {
 
         <FadeUp delay={0.2}>
           <p className="mt-8 max-w-xl text-sm leading-relaxed text-muted md:text-base">
-            Vamos conversar sobre oportunidades, produtos digitais e desafios que envolvam
-            sistemas, automações e desenvolvimento.
+            Vamos conversar sobre oportunidades, produtos digitais e desafios que envolvam sistemas,
+            automações e desenvolvimento.
           </p>
         </FadeUp>
 
@@ -37,18 +37,17 @@ export default function Contact() {
             <ActionButton href={contact.github} variant="secondary" external>
               GitHub
             </ActionButton>
-            <ActionButton href={contact.resume} variant="secondary" download>
-              Baixar currículo
-            </ActionButton>
+            {contact.resume && (
+              <ActionButton href={contact.resume} variant="secondary" download>
+                Baixar currículo
+              </ActionButton>
+            )}
           </div>
         </FadeUp>
 
         <FadeUp delay={0.4}>
           <div className="mt-16 flex flex-wrap items-center gap-x-10 gap-y-4 border-t border-line pt-8 text-sm text-cream/70">
-            <a
-              href={contact.mailto}
-              className="inline-flex items-center gap-2 transition-colors hover:text-cream"
-            >
+            <a href={contact.mailto} className="inline-flex items-center gap-2 transition-colors hover:text-cream">
               <EnvelopeSimple size={16} weight="light" aria-hidden="true" />
               {contact.email}
               <ArrowUpRight size={14} weight="regular" aria-hidden="true" />
