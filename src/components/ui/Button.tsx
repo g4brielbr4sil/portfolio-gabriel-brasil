@@ -17,7 +17,7 @@ export function ActionButton({
   external,
 }: Props) {
   const base =
-    'group inline-flex items-center gap-2 rounded-full text-sm font-medium transition-all duration-500 hover:gap-3 sm:text-base'
+    'group inline-flex min-h-[44px] items-center gap-2 rounded-full text-sm font-medium transition-all duration-500 hover:gap-3 sm:text-base'
 
   if (variant === 'primary') {
     return (
@@ -25,7 +25,7 @@ export function ActionButton({
         href={href}
         download={download}
         target={external ? '_blank' : undefined}
-        rel={external ? 'noreferrer' : undefined}
+        rel={external ? 'noopener noreferrer' : undefined}
         className={`${base} bg-cream py-1.5 pl-6 pr-1.5 text-ink`}
       >
         {children}
@@ -41,7 +41,7 @@ export function ActionButton({
       href={href}
       download={download}
       target={external ? '_blank' : undefined}
-      rel={external ? 'noreferrer' : undefined}
+      rel={external ? 'noopener noreferrer' : undefined}
       className={`${base} border border-line px-6 py-3 text-cream/85 hover:border-cream/40 hover:text-cream`}
     >
       {children}
