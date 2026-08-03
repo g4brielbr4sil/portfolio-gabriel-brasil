@@ -23,18 +23,13 @@ export type SectionId =
 export type NavSection = {
   id: SectionId
   label: string
-  /** Descrição curta usada na navegação rápida. */
   description: string
   icon: Icon
-  /** Aparece na fileira central da navbar desktop. */
   desktop: boolean
-  /** Aparece no dock inferior do celular. */
   dock: boolean
-  /** Recolhido em "Mais" quando o espaço horizontal é limitado. */
   secondary?: boolean
 }
 
-/** Fonte única da navegação — nenhum componente repete esta lista. */
 export const sections: NavSection[] = [
   {
     id: 'inicio',
@@ -107,8 +102,7 @@ export type NavAction = {
   download?: boolean
 }
 
-/** Destinos externos e currículo — usados em "Mais", no Sheet e na navegação rápida. */
-export const externalActions: NavAction[] = [
+const baseActions: NavAction[] = [
   {
     id: 'linkedin',
     label: 'LinkedIn',
@@ -125,20 +119,23 @@ export const externalActions: NavAction[] = [
     href: contact.github,
     external: true,
   },
-  {
-    id: 'curriculo',
-    label: 'Currículo',
-    description: 'Baixe o currículo em PDF.',
-    icon: DownloadSimple,
-    href: contact.resume,
-    download: true,
-  },
 ]
+
+export const externalActions: NavAction[] = contact.resume
+  ? [
+      ...baseActions,
+      {
+        id: 'curriculo',
+        label: 'Currículo',
+        description: 'Baixe o currículo em PDF.',
+        icon: DownloadSimple,
+        href: contact.resume,
+        download: true,
+      },
+    ]
+  : baseActions
 
 export const desktopSections = sections.filter((section) => section.desktop)
 export const dockSections = sections.filter((section) => section.dock)
-
-/** Itens sempre visíveis na navbar desktop, mesmo em notebooks estreitos. */
 export const primaryDesktopSections = desktopSections.filter((section) => !section.secondary)
-/** Itens recolhidos em "Mais" quando não há espaço. */
 export const secondaryDesktopSections = desktopSections.filter((section) => section.secondary)

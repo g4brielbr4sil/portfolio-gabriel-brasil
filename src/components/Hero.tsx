@@ -3,15 +3,11 @@ import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
 import { GitBranch } from '@phosphor-icons/react/dist/csr/GitBranch'
 import { Pulse } from '@phosphor-icons/react/dist/csr/Pulse'
 import { ActionButton } from '@/components/ui/Button'
-import { ImageWithFallback } from '@/components/ui/ImageWithFallback'
 import StatusDot from '@/components/ui/StatusDot'
 import { WordsPullUp } from '@/components/motion/Reveal'
 import { contact } from '@/content/portfolio'
 
 const EASE = [0.16, 1, 0.3, 1] as const
-
-const PORTRAIT =
-  'https://images.unsplash.com/photo-1570216601541-fa11cfaf03e5?w=1600&h=2000&fit=crop&auto=format'
 
 export default function Hero() {
   const reduced = useReducedMotion()
@@ -21,9 +17,8 @@ export default function Hero() {
     offset: ['start start', 'end start'],
   })
 
-  // Deslocamento mínimo dos cards flutuantes — desativado com movimento reduzido.
-  const cardDrift = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : -28])
-  const cardDriftSlow = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : -14])
+  const cardDrift = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : -24])
+  const cardDriftSlow = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : -12])
 
   const fade = (delay: number) => ({
     initial: reduced ? false : { opacity: 0, y: 20 },
@@ -34,43 +29,30 @@ export default function Hero() {
   return (
     <header id="inicio" ref={sectionRef} className="h-[100svh] min-h-[640px] p-3 md:p-6">
       <div className="relative h-full w-full overflow-hidden rounded-2xl bg-surface md:rounded-[2rem]">
-        <ImageWithFallback
-          src={PORTRAIT}
-          alt="Retrato masculino em luz lateral dramática — imagem provisória"
-          width={1600}
-          height={2000}
-          loading="eager"
-          fetchPriority="high"
-          className="absolute inset-0 h-full w-full object-cover object-[65%_center] opacity-70 grayscale md:object-[70%_center]"
-        />
-
-        {/* Composição de sistemas: malha, fluxos e cartões de produto */}
-        <div className="pointer-events-none absolute inset-0 bg-grid opacity-40" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_18%,rgba(74,127,167,0.20),transparent_34%),radial-gradient(circle_at_12%_76%,rgba(205,118,93,0.10),transparent_28%),linear-gradient(135deg,#050505_0%,#11151b_54%,#070707_100%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-grid opacity-50" />
         <SystemLines reduced={Boolean(reduced)} />
-        <div className="pointer-events-none absolute inset-0 noise-overlay opacity-[0.55] mix-blend-overlay" />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/85" />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/85 via-black/25 to-transparent" />
+        <div className="pointer-events-none absolute inset-0 noise-overlay opacity-[0.28] mix-blend-overlay" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black/85" />
 
         <motion.div
           {...fade(0.9)}
           style={{ y: cardDrift }}
-          className="pointer-events-none absolute right-4 top-24 hidden w-60 rounded-2xl border border-line bg-black/45 p-4 backdrop-blur-md lg:block xl:w-72"
+          className="pointer-events-none absolute right-4 top-24 hidden w-64 rounded-2xl border border-line bg-black/45 p-4 backdrop-blur-md lg:block xl:w-72"
         >
           <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-cream/50">
-            <Pulse size={14} weight="light" />
-            Fila de atendimento
+            <Pulse size={14} weight="light" aria-hidden="true" />
+            Projetos em evidência
           </div>
           <div className="mt-4 space-y-3">
             {[
-              { label: 'Integração ERP · webhook', value: 'Resolvido' },
-              { label: 'Homologação módulo fiscal', value: 'Em teste' },
-              { label: 'Automação de relatórios', value: 'Ativa' },
+              { label: 'Barthy Web Studio V2', value: 'Case autoral' },
+              { label: 'Levens Qualifica | PNQC', value: 'Produção' },
+              { label: 'Hermes Command Center', value: 'Protegido' },
             ].map((row) => (
               <div key={row.label} className="flex items-center justify-between gap-3 text-[11px]">
                 <span className="text-cream/70">{row.label}</span>
-                <span className="rounded-full border border-line px-2 py-0.5 text-cream/50">
-                  {row.value}
-                </span>
+                <span className="rounded-full border border-line px-2 py-0.5 text-cream/50">{row.value}</span>
               </div>
             ))}
           </div>
@@ -81,16 +63,14 @@ export default function Hero() {
           style={{ y: cardDriftSlow }}
           className="pointer-events-none absolute right-10 top-[22rem] hidden w-64 rounded-2xl border border-line bg-black/45 p-4 font-mono text-[11px] leading-relaxed text-cream/60 backdrop-blur-md xl:block"
         >
-          <div className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-cream/40">
-            <GitBranch size={14} weight="light" />
-            api/tickets
+          <div className="mb-3 flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-cream/40">
+            <GitBranch size={14} weight="light" aria-hidden="true" />
+            Stack aplicada
           </div>
-          <div>
-            <span className="text-cream/85">POST</span> /v1/tickets
-          </div>
-          <div>&#123; "origem": "operacao",</div>
-          <div>&nbsp;&nbsp;"prioridade": "alta" &#125;</div>
-          <div className="mt-1 text-cream/40">201 · created in 84ms</div>
+          <div>React + TypeScript</div>
+          <div>Python + FastAPI</div>
+          <div>SQLite + PostgreSQL</div>
+          <div className="mt-2 text-cream/40">Cloudflare Pages · Docker · GitHub Actions</div>
         </motion.div>
 
         <div className="absolute inset-x-0 bottom-0 px-5 pb-8 md:px-10 md:pb-12">
@@ -118,23 +98,19 @@ export default function Hero() {
             </h1>
 
             <div className="lg:col-span-4">
-              <motion.p
-                {...fade(0.5)}
-                className="text-xs uppercase tracking-[0.22em] text-cream/60 sm:text-[13px]"
-              >
+              <motion.p {...fade(0.5)} className="text-xs uppercase tracking-[0.22em] text-cream/60 sm:text-[13px]">
                 Analista de Sistemas e Desenvolvedor
               </motion.p>
-              <motion.p
-                {...fade(0.6)}
-                className="mt-4 max-w-md text-sm leading-[1.35] text-primary/70 md:text-base"
-              >
+              <motion.p {...fade(0.6)} className="mt-4 max-w-md text-sm leading-[1.35] text-primary/70 md:text-base">
                 Transformo processos, ideias e problemas reais em produtos digitais funcionais.
               </motion.p>
               <motion.div {...fade(0.75)} className="mt-7 flex flex-wrap items-center gap-3">
                 <ActionButton href="#projetos">Ver projetos</ActionButton>
-                <ActionButton href={contact.resume} variant="secondary" download>
-                  Baixar currículo
-                </ActionButton>
+                {contact.resume && (
+                  <ActionButton href={contact.resume} variant="secondary" download>
+                    Baixar currículo
+                  </ActionButton>
+                )}
               </motion.div>
             </div>
           </div>
@@ -144,7 +120,6 @@ export default function Hero() {
   )
 }
 
-/** Linhas discretas de fluxo — arquitetura, integrações e processos. */
 function SystemLines({ reduced }: { reduced: boolean }) {
   const paths = [
     'M0 210 H180 V420 H340',

@@ -37,6 +37,7 @@ export function DialogContent({ className, children, fullScreenMobile = true, ..
 export function DialogCloseButton({ className, ...props }: ComponentPropsWithoutRef<typeof DialogPrimitive.Close>) {
   return (
     <DialogClose
+      aria-label="Fechar estudo de caso"
       className={cn(
         'inline-flex h-11 w-11 items-center justify-center rounded-full border border-line/80 bg-ink/80 text-cream/80 transition-colors hover:text-cream',
         className,

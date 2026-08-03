@@ -4,6 +4,7 @@ import { CaretLeft } from '@phosphor-icons/react/dist/csr/CaretLeft'
 import { CaretRight } from '@phosphor-icons/react/dist/csr/CaretRight'
 import { Pause } from '@phosphor-icons/react/dist/csr/Pause'
 import { Play } from '@phosphor-icons/react/dist/csr/Play'
+import { useEffect, useState, type KeyboardEvent } from 'react'
 import type { PreviewTheme, ProjectPreviewImage } from '@/content/portfolio'
 import { cn } from '@/lib/utils'
 import { useProjectCarousel } from '@/hooks/useProjectCarousel'
@@ -20,24 +21,20 @@ type Props = {
   className?: string
 }
 
-function pictureProps(image: ProjectPreviewImage, eager: boolean) {
-  return {
-    src: image.webp,
-    alt: image.alt,
-    width: image.width,
-    height: image.height,
-    loading: eager ? ('eager' as const) : ('lazy' as const),
-    fetchPriority: eager ? ('high' as const) : ('auto' as const),
-    decoding: 'async' as const,
-  }
-}
-
-function PreviewPicture({ image, eager, className }: { image: ProjectPreviewImage; eager?: boolean; className?: string }) {
+function PreviewPicture({ image, className }: { image: ProjectPreviewImage; className?: string }) {
   return (
     <picture>
       <source srcSet={image.avif} type="image/avif" />
       <source srcSet={image.webp} type="image/webp" />
-      <img {...pictureProps(image, Boolean(eager))} className={className} />
+      <img
+        src={image.webp}
+        alt={image.alt}
+        width={image.width}
+        height={image.height}
+        loading="lazy"
+        decoding="async"
+        className={className}
+      />
     </picture>
   )
 }
@@ -65,11 +62,60 @@ export default function ProjectCardCarousel({
 }: Props) {
   const reduced = useReducedMotion()
   const carousel = useProjectCarousel({ length: images.length, reducedMotion: Boolean(reduced) })
+  const [announcement, setAnnouncement] = useState('')
   const current = images[carousel.index]
   const nextImage = images[(carousel.index + 1) % images.length]
 
-  if (images.length === 0) {
-    return <FallbackPreview projectName={projectName} />
+  useEffect(() => {
+    carousel.goTo(0, false)
+  }, [theme])
+
+  if (images.length === 0) return <FallbackPreview projectName={projectName} />
+
+  function announce(index: number) {
+    const image = images[index]
+    if (image) setAnnouncement(`Imagem ${index + 1} de ${images.length}: ${image.caption}`)
+  }
+
+  function previous() {
+    const index = (carousel.index - 1 + images.length) % images.length
+    carousel.previous()
+    announce(index)
+  }
+
+  function next() {
+    const index = (carousel.index + 1) % images.length
+    carousel.next()
+    announce(index)
+  }
+
+  function goTo(index: number) {
+    carousel.goTo(index)
+    announce(index)
+  }
+
+  function handleKeyDown(event: KeyboardEvent<HTMLDivElement>) {
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault()
+      previous()
+    }
+    if (event.key === 'ArrowRight') {
+      event.preventDefault()
+      next()
+    }
+    if (event.key === 'Home') {
+      event.preventDefault()
+      goTo(0)
+    }
+    if (event.key === 'End') {
+      event.preventDefault()
+      goTo(images.length - 1)
+    }
+  }
+
+  function changeTheme(nextTheme: PreviewTheme) {
+    onThemeChange(nextTheme)
+    setAnnouncement(`Tema ${nextTheme === 'dark' ? 'escuro' : 'claro'} selecionado.`)
   }
 
   return (
@@ -78,22 +124,22 @@ export default function ProjectCardCarousel({
       role="region"
       aria-roledescription="carrossel"
       aria-label={`Capturas do projeto ${projectName}`}
-      className={cn('relative h-full', className)}
+      tabIndex={0}
+      className={cn('relative h-full outline-none', className)}
+      onKeyDown={handleKeyDown}
       onMouseEnter={carousel.handlers.onMouseEnter}
       onMouseLeave={carousel.handlers.onMouseLeave}
       onFocusCapture={carousel.handlers.onFocusCapture}
       onBlurCapture={carousel.handlers.onBlurCapture}
     >
       <div className="absolute inset-0 overflow-hidden bg-[#101010]">
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),transparent_28%),radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_45%)]" />
-
         <button
           type="button"
           onClick={(event) => onOpenGallery({ theme, index: carousel.index, opener: event.currentTarget })}
-          aria-label="Abrir galeria do projeto"
+          aria-label={`Abrir galeria de ${projectName}`}
           className="group absolute inset-0 z-10 cursor-pointer"
         >
-          <span className="sr-only">Ver todas as telas</span>
+          <span className="sr-only">Explorar projeto</span>
         </button>
 
         <AnimatePresence initial={false} mode="popLayout">
@@ -102,15 +148,14 @@ export default function ProjectCardCarousel({
             initial={reduced ? { opacity: 0 } : { opacity: 0, x: 12 }}
             animate={{ opacity: 1, x: 0 }}
             exit={reduced ? { opacity: 0 } : { opacity: 0, x: -12 }}
-            transition={{ duration: reduced ? 0.12 : 0.3, ease: 'easeOut' }}
-            className="absolute inset-0"
+            transition={{ duration: reduced ? 0.01 : 0.3, ease: 'easeOut' }}
+            className="absolute inset-0 pb-16"
           >
             <PreviewPicture
               image={current}
-              eager={carousel.index === 0}
               className={cn(
                 'h-full w-full object-contain object-top transition-transform duration-500 [@media(hover:hover)]:group-hover:scale-[1.01]',
-                current.device === 'mobile' ? 'mx-auto max-w-[55%] object-contain md:max-w-[45%]' : '',
+                current.device === 'mobile' ? 'mx-auto max-w-[48%] md:max-w-[40%]' : '',
               )}
             />
           </motion.div>
@@ -118,87 +163,58 @@ export default function ProjectCardCarousel({
 
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
 
-        {preload && preload.images[0] && (
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-0">
-            <PreviewPicture image={preload.images[0]} eager={false} className="h-full w-full object-contain" />
-          </div>
-        )}
-
-        <div className="absolute inset-x-0 bottom-0 z-20 border-t border-white/8 bg-[#0a0a0a]/80 p-3 backdrop-blur-md md:p-3.5">
-          <div className="flex items-end gap-2">
+        <div className="absolute inset-x-0 bottom-0 z-20 border-t border-white/8 bg-[#0a0a0a]/88 px-3 py-2.5 backdrop-blur-md">
+          <div className="flex items-center gap-2">
             <button
               type="button"
-              onClick={() => carousel.previous()}
+              onClick={previous}
               aria-label="Imagem anterior"
-              className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-cream transition-colors hover:border-white/20 hover:bg-white/10"
+              className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-cream transition-colors hover:bg-white/10"
             >
               <CaretLeft size={18} weight="regular" aria-hidden="true" />
             </button>
 
             <div className="min-w-0 flex-1">
               <div className="flex items-center justify-between gap-3">
-                <button
-                  type="button"
-                  onClick={(event) => onOpenGallery({ theme, index: carousel.index, opener: event.currentTarget })}
-                  className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 text-xs text-cream/80 transition-colors hover:border-white/20 hover:bg-white/10 hover:text-cream"
-                >
-                  <ArrowsOutSimple size={14} weight="regular" aria-hidden="true" />
-                  Ver todas as telas
-                </button>
-
-                <span className="font-mono text-[11px] tracking-[0.16em] text-cream/55">
-                  {String(carousel.index + 1).padStart(2, '0')} / {String(images.length).padStart(2, '0')}
-                </span>
-              </div>
-
-              <div className="mt-2 flex items-center gap-1.5 overflow-x-auto pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                {images.map((image, itemIndex) => {
-                  const active = itemIndex === carousel.index
-                  return (
+                <div className="flex items-center gap-1.5" aria-label={`Imagem ${carousel.index + 1} de ${images.length}`}>
+                  {images.map((image, index) => (
                     <button
                       key={image.id}
                       type="button"
-                      onClick={() => carousel.goTo(itemIndex)}
-                      aria-label={`Ir para a imagem ${itemIndex + 1} de ${images.length}`}
-                      aria-current={active ? 'true' : undefined}
+                      onClick={() => goTo(index)}
+                      aria-label={`Ir para a imagem ${index + 1} de ${images.length}`}
+                      aria-current={index === carousel.index ? 'true' : undefined}
                       className={cn(
                         'h-2.5 min-w-2.5 rounded-full transition-all duration-300',
-                        active ? 'w-6 bg-cream' : 'bg-cream/25 hover:bg-cream/40',
+                        index === carousel.index ? 'w-6 bg-cream' : 'bg-cream/25 hover:bg-cream/45',
                       )}
                     />
-                  )
-                })}
-              </div>
-
-              <div className="mt-2 flex items-center gap-2 text-[11px] text-cream/50">
-                <span className="truncate">{current.caption}</span>
-                <span className="hidden md:inline">·</span>
-                <span className="hidden md:inline truncate">
-                  {carousel.isPlaying ? 'apresentação em andamento' : 'apresentação pausada'}
+                  ))}
+                </div>
+                <span className="font-mono text-[11px] tracking-[0.14em] text-cream/55">
+                  {String(carousel.index + 1).padStart(2, '0')} / {String(images.length).padStart(2, '0')}
                 </span>
               </div>
             </div>
 
-            <button
-              type="button"
-              onClick={() => carousel.next()}
-              aria-label="Próxima imagem"
-              className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-cream transition-colors hover:border-white/20 hover:bg-white/10"
-            >
-              <CaretRight size={18} weight="regular" aria-hidden="true" />
-            </button>
+            {carousel.canAutoplay && (
+              <button
+                type="button"
+                onClick={carousel.togglePlayback}
+                aria-label={carousel.isPlaying ? 'Pausar apresentação' : 'Reproduzir apresentação'}
+                className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-cream transition-colors hover:bg-white/10"
+              >
+                {carousel.isPlaying ? <Pause size={16} aria-hidden="true" /> : <Play size={16} aria-hidden="true" />}
+              </button>
+            )}
 
             <button
               type="button"
-              onClick={carousel.togglePlayback}
-              aria-label={carousel.isPlaying ? 'Pausar apresentação' : 'Reproduzir apresentação'}
-              className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-cream transition-colors hover:border-white/20 hover:bg-white/10"
+              onClick={next}
+              aria-label="Próxima imagem"
+              className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-cream transition-colors hover:bg-white/10"
             >
-              {carousel.isPlaying ? (
-                <Pause size={16} weight="regular" aria-hidden="true" />
-              ) : (
-                <Play size={16} weight="regular" aria-hidden="true" />
-              )}
+              <CaretRight size={18} weight="regular" aria-hidden="true" />
             </button>
           </div>
         </div>
@@ -206,21 +222,32 @@ export default function ProjectCardCarousel({
         {canToggleTheme && (
           <PreviewThemeToggle
             theme={theme}
-            onChange={onThemeChange}
+            onChange={changeTheme}
             className="absolute left-3 top-3 z-20 shadow-[0_8px_22px_rgba(0,0,0,0.25)]"
           />
         )}
 
-        <div className="pointer-events-none absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-white/5 group-hover:ring-white/10" />
+        <button
+          type="button"
+          onClick={(event) => onOpenGallery({ theme, index: carousel.index, opener: event.currentTarget })}
+          className="absolute right-3 top-3 z-20 inline-flex min-h-[44px] items-center gap-2 rounded-full border border-white/10 bg-black/65 px-3.5 text-xs text-cream/80 backdrop-blur-md transition-colors hover:bg-black/80 hover:text-cream"
+        >
+          <ArrowsOutSimple size={14} weight="regular" aria-hidden="true" />
+          <span className="hidden sm:inline">Galeria</span>
+        </button>
       </div>
 
-      <p aria-live="polite" className="sr-only">
-        {carousel.isPlaying ? `Imagem ${carousel.index + 1} de ${images.length}: ${current.caption}` : `Apresentação pausada. Imagem ${carousel.index + 1} de ${images.length}: ${current.caption}`}
-      </p>
+      <p aria-live="polite" className="sr-only">{announcement}</p>
 
       {nextImage && (
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-0">
-          <PreviewPicture image={nextImage} eager={false} className="h-full w-full object-contain" />
+          <PreviewPicture image={nextImage} className="h-full w-full object-contain" />
+        </div>
+      )}
+
+      {preload?.images[0] && (
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-0">
+          <PreviewPicture image={preload.images[0]} className="h-full w-full object-contain" />
         </div>
       )}
     </div>

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import Navigation from '@/components/navigation/Navigation'
 import Hero from '@/components/Hero'
@@ -8,7 +9,6 @@ import Stack from '@/components/Stack'
 import Experience from '@/components/Experience'
 import Education from '@/components/Education'
 import Contact from '@/components/Contact'
-import { useState } from 'react'
 
 export default function App() {
   const [overlayOpen, setOverlayOpen] = useState(false)
@@ -16,9 +16,12 @@ export default function App() {
   return (
     <TooltipProvider delayDuration={200} skipDelayDuration={300}>
       <div className="min-h-screen bg-ink text-cream">
+        <a href="#conteudo" className="skip-link">
+          Pular para o conteúdo
+        </a>
         <Navigation overlayOpen={overlayOpen} />
         <Hero />
-        <main>
+        <main id="conteudo" tabIndex={-1}>
           <About />
           <Projects onOverlayChange={setOverlayOpen} />
           <Skills />
@@ -27,7 +30,6 @@ export default function App() {
           <Education />
           <Contact />
         </main>
-        {/* Respiro para o dock inferior do celular não cobrir o rodapé. */}
         <div className="h-20 md:hidden" aria-hidden="true" />
       </div>
     </TooltipProvider>
