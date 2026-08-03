@@ -1,41 +1,79 @@
-# Gabriel Brasil | Portfólio profissional
+# Meu portfólio profissional
 
-Portfólio de **Gabriel Brasil**, Analista de Sistemas e Desenvolvedor em Brasília. O projeto apresenta produtos reais, decisões técnicas, responsabilidades assumidas e evidências visuais de entrega.
+Sou **Gabriel Brasil**, Analista de Sistemas e Desenvolvedor em Brasília.
 
-## Site
+Criei este portfólio para apresentar de forma direta o que venho construindo na prática: sistemas, aplicações web, APIs, automações, integrações e produtos digitais voltados a problemas reais.
+
+## Acessar o portfólio
 
 **Produção:** https://portfolio-gabriel-brasil.pages.dev/
 
-## Objetivo
+## O que quero mostrar com este projeto
 
-Este portfólio foi construído para apresentar experiência prática em:
+Meu objetivo aqui não é apenas listar tecnologias. Quero mostrar como penso, como estruturo um problema e como transformo uma necessidade em uma solução funcional.
+
+Neste portfólio apresento experiência prática com:
 
 - análise de sistemas e processos
+- levantamento de requisitos
 - desenvolvimento web Full Stack
 - APIs e integrações
-- automações
+- automação de fluxos
+- testes, homologação e suporte
 - implantação e melhoria contínua
-- acessibilidade e experiência responsiva
+- acessibilidade e responsividade
 
-## Projetos apresentados
+## Projetos em destaque
 
 ### Barthy Web Studio V2
 
-Case autoral com temas claro e escuro reais, progressive enhancement, experiência visual com WebGPU, fallback em CSS, navegação por teclado e formulário com validação.
+Projeto autoral criado para apresentar soluções digitais com identidade própria, temas claro e escuro reais, progressive enhancement, experiência responsiva e recursos visuais com fallback seguro.
+
+**Principais pontos:**
+
+- React, TypeScript, Vite e Tailwind CSS
+- WebGPU com fallback em CSS
+- temas claro e escuro implementados de forma real
+- navegação por teclado
+- suporte a movimento reduzido
+- formulário com validação e tratamento de falhas
+- publicação pela Cloudflare Pages
+
+**Repositório:** https://github.com/g4brielbr4sil/barthy-web-studio-v2
 
 ### Levens Qualifica | PNQC
 
-Plataforma educacional em produção com autenticação, perfis, cursos, módulos, aulas, progresso sequencial, avaliações por funções RPC e nota mínima de 70%.
+Plataforma educacional em produção para organizar cursos, módulos, aulas, progresso sequencial, avaliações e diferentes perfis de acesso.
+
+Minha atuação envolveu a construção e validação dos fluxos da plataforma, incluindo:
+
+- autenticação e perfis
+- cursos, módulos e aulas
+- progresso persistido
+- liberação sequencial de conteúdo
+- avaliações por funções RPC
+- nota mínima de 70%
+- rotas protegidas por perfil
+
+**Aplicação:** https://levens-qualifica-pnqc.pages.dev/
 
 ### Hermes Command Center
 
-Aplicação Full Stack privada para CRM, pipeline, finanças, tarefas, rotina, estudos, relatórios, memória, aprovações e integrações controladas. O portfólio não publica capturas com dados pessoais.
+Aplicação Full Stack autoral criada para centralizar CRM, pipeline, finanças, tarefas, rotina, estudos, relatórios, memória, aprovações e integrações controladas.
+
+O projeto usa React e TypeScript no front-end, FastAPI e SQLAlchemy no back-end, SQLite para persistência e Docker na infraestrutura.
+
+O ambiente é privado e protegido porque trabalha com contexto operacional e dados pessoais. Por isso, não publico capturas sensíveis nem exponho o código completo.
+
+**Interface protegida:** https://hermes-agent-01l.pages.dev/
 
 ### SaaS de Suporte
 
-Produto em desenvolvimento apresentado separadamente dos cases entregues. Nenhuma tela, métrica ou funcionalidade não implementada é tratada como pronta.
+Produto em desenvolvimento voltado a pequenas empresas que precisam organizar clientes, tickets, solicitações, conhecimento e automações de atendimento.
 
-## Stack do portfólio
+Ainda está em fase de arquitetura e validação. Não apresento telas, métricas ou funcionalidades como concluídas antes de realmente existirem.
+
+## Stack deste portfólio
 
 - React 19
 - TypeScript
@@ -46,7 +84,7 @@ Produto em desenvolvimento apresentado separadamente dos cases entregues. Nenhum
 - Phosphor Icons
 - Cloudflare Pages
 
-## Arquitetura
+## Como organizei o projeto
 
 ```text
 src/
@@ -68,9 +106,11 @@ public/
   og-image.svg
 ```
 
-Os conteúdos dos projetos ficam centralizados em `src/content/portfolio.ts`. As capturas reais e suas variantes AVIF/WebP são descritas em `src/content/projectPreviews.ts`.
+Centralizei os conteúdos dos projetos em `src/content/portfolio.ts` e organizei as capturas reais em `src/content/projectPreviews.ts`.
 
-## Execução local
+Os componentes de carrossel, galeria e estudo de caso ficam separados para evitar lógica duplicada e facilitar manutenção.
+
+## Rodar localmente
 
 Requisitos:
 
@@ -82,40 +122,43 @@ pnpm install
 pnpm dev
 ```
 
-## Scripts
+## Comandos disponíveis
 
 ```bash
-pnpm dev        # ambiente local
-pnpm typecheck  # validação TypeScript
-pnpm test       # salvaguardas de produção com node:test
-pnpm build      # build de produção
-pnpm check      # typecheck + testes + build
+pnpm dev        # inicia o ambiente local
+pnpm typecheck  # valida o TypeScript
+pnpm test       # executa os testes de salvaguarda
+pnpm build      # gera o build de produção
+pnpm check      # executa typecheck, testes e build
 ```
 
-## Capturas e performance
+## Imagens e performance
 
-As capturas dos projetos são servidas com:
+Usei capturas reais dos projetos em AVIF, com WebP como fallback.
 
-- AVIF como formato preferencial
-- WebP como fallback
-- dimensões intrínsecas
+Também configurei:
+
+- dimensões intrínsecas para evitar layout shift
 - carregamento sob demanda
 - pré-carregamento limitado à próxima imagem
-- galerias abertas somente após interação
+- galeria carregada somente após interação
+- Dialog de estudo de caso importado com lazy loading
 
 ## Acessibilidade
 
-O projeto inclui:
+Implementei cuidados como:
 
 - link para pular ao conteúdo
-- navegação por teclado
 - foco visível
-- Dialog com retorno de foco
-- controles de carrossel nomeados
+- navegação por teclado
+- retorno de foco ao fechar Dialogs
+- controles de carrossel com nomes acessíveis
 - suporte a `prefers-reduced-motion`
 - áreas de toque adequadas no mobile
 
-## SEO e compartilhamento
+## SEO e publicação
+
+O projeto inclui:
 
 - metadados Open Graph e Twitter
 - JSON-LD do tipo `Person`
@@ -123,6 +166,7 @@ O projeto inclui:
 - favicon e manifest
 - robots.txt
 - sitemap
+- cabeçalhos de segurança e cache para Cloudflare Pages
 
 ## Deploy
 
@@ -134,15 +178,15 @@ Output directory: dist
 Production branch: main
 ```
 
-Branches e pull requests podem gerar previews separados antes do merge.
+As branches e pull requests podem gerar previews separados antes do merge.
 
-## Privacidade
+## Privacidade e segurança
 
-Não publicar neste repositório:
+Não publico neste repositório:
 
 - credenciais
 - variáveis privadas
-- bancos copiados
+- bancos de dados copiados
 - código corporativo proprietário
 - capturas com dados pessoais ou financeiros
 - informações internas de clientes
