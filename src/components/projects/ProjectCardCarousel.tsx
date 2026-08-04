@@ -9,6 +9,8 @@ import type { PreviewTheme, ProjectPreviewImage } from '@/content/portfolio'
 import { cn } from '@/lib/utils'
 import { useProjectCarousel } from '@/hooks/useProjectCarousel'
 import PreviewThemeToggle from '@/components/projects/PreviewThemeToggle'
+import ResponsivePicture from '@/components/projects/ResponsivePicture'
+import ProjectPreviewFrame from '@/components/projects/ProjectPreviewFrame'
 
 type Props = {
   projectName: string
@@ -19,24 +21,6 @@ type Props = {
   onOpenGallery: (payload: { theme: PreviewTheme; index: number; opener: HTMLElement | null }) => void
   preload?: { theme: PreviewTheme; images: ProjectPreviewImage[] }
   className?: string
-}
-
-function PreviewPicture({ image, className }: { image: ProjectPreviewImage; className?: string }) {
-  return (
-    <picture>
-      <source srcSet={image.avif} type="image/avif" />
-      <source srcSet={image.webp} type="image/webp" />
-      <img
-        src={image.webp}
-        alt={image.alt}
-        width={image.width}
-        height={image.height}
-        loading="lazy"
-        decoding="async"
-        className={className}
-      />
-    </picture>
-  )
 }
 
 function FallbackPreview({ projectName }: { projectName: string }) {
@@ -149,15 +133,11 @@ export default function ProjectCardCarousel({
             animate={{ opacity: 1, x: 0 }}
             exit={reduced ? { opacity: 0 } : { opacity: 0, x: -12 }}
             transition={{ duration: reduced ? 0.01 : 0.3, ease: 'easeOut' }}
-            className="absolute inset-0 pb-16"
+            className="absolute inset-0 p-3 pb-[4.75rem]"
           >
-            <PreviewPicture
-              image={current}
-              className={cn(
-                'h-full w-full object-contain object-top transition-transform duration-500 [@media(hover:hover)]:group-hover:scale-[1.01]',
-                current.device === 'mobile' ? 'mx-auto max-w-[48%] md:max-w-[40%]' : '',
-              )}
-            />
+            <ProjectPreviewFrame image={current}>
+              <ResponsivePicture image={current} imgClassName="object-contain object-top transition-transform duration-300 [@media(hover:hover)]:group-hover:scale-[1.01]" />
+            </ProjectPreviewFrame>
           </motion.div>
         </AnimatePresence>
 
@@ -241,13 +221,13 @@ export default function ProjectCardCarousel({
 
       {nextImage && (
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-0">
-          <PreviewPicture image={nextImage} className="h-full w-full object-contain" />
+          <ResponsivePicture image={nextImage} imgClassName="object-contain" />
         </div>
       )}
 
       {preload?.images[0] && (
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-0">
-          <PreviewPicture image={preload.images[0]} className="h-full w-full object-contain" />
+          <ResponsivePicture image={preload.images[0]} imgClassName="object-contain" />
         </div>
       )}
     </div>

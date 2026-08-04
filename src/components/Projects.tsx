@@ -146,7 +146,7 @@ function ProjectCard({ project, delay, className, featured, compact, onOpenProje
             (project.statusTooltip ? (
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <button type="button" className="absolute right-4 top-4 z-30 cursor-help rounded-full">
+                  <button type="button" className="absolute right-4 top-4 z-30 inline-flex min-h-11 items-center rounded-full cursor-help">
                     <Badge variant="solid">{project.status}</Badge>
                   </button>
                 </TooltipTrigger>

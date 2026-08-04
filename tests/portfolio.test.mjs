@@ -67,3 +67,26 @@ test('Hermes project page keeps screenshots private', async () => {
   assert.match(portfolio, /slug: 'hermes-command-center'/)
   assert.equal(portfolio.includes('hermes-screenshot'), false)
 })
+
+test('project previews use real AVIF and WebP assets with an error fallback', async () => {
+  const picture = await source('src/components/projects/ResponsivePicture.tsx')
+  const previews = await source('src/content/projectPreviews.ts')
+  assert.match(picture, /type="image\/avif"/)
+  assert.match(picture, /type="image\/webp"/)
+  assert.match(picture, /onError/)
+  assert.match(picture, /object-contain/)
+  assert.match(previews, /export const barthyPreviews[\s\S]*dark:[\s\S]*light:/)
+  assert.match(previews, /export const pnqcPreviews[\s\S]*dark:/)
+  assert.doesNotMatch(previews.match(/export const pnqcPreviews[\s\S]*/)?.[0] ?? '', /light:/)
+})
+
+test('carousel and dialog retain motion and focus safeguards', async () => {
+  const carousel = await source('src/hooks/useProjectCarousel.ts')
+  const dialog = await source('src/components/projects/ProjectCaseStudyDialog.tsx')
+  assert.match(carousel, /visibilitychange/)
+  assert.match(carousel, /IntersectionObserver/)
+  assert.match(carousel, /reducedMotion/)
+  assert.match(carousel, /onFocusCapture/)
+  assert.match(dialog, /returnFocusRef/)
+  assert.match(dialog, /target\.focus\(\)/)
+})

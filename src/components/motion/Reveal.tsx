@@ -19,7 +19,7 @@ export function FadeUp({ children, delay = 0, className, scale = false }: FadeUp
       initial={reduced ? false : { opacity: 0, y: 24, scale: scale ? 0.97 : 1 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, margin: '-100px' }}
-      transition={{ duration: 1, delay, ease: EASE }}
+      transition={{ duration: 0.65, delay, ease: EASE }}
     >
       {children}
     </motion.div>
@@ -56,7 +56,7 @@ export function WordsPullUp({ segments, className, delay = 0, asterisk }: WordsP
             className={`relative inline-block ${entry.className ?? ''}`}
             initial={reduced ? false : { opacity: 0, y: 24 }}
             animate={inView ? { opacity: 1, y: 0 } : undefined}
-            transition={{ duration: 0.9, delay: delay + index * 0.08, ease: EASE }}
+            transition={{ duration: 0.65, delay: delay + index * 0.06, ease: EASE }}
           >
             {entry.word}
             {asterisk && isLast && (
