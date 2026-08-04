@@ -107,7 +107,7 @@ export default function Hero() {
               <motion.div {...fade(0.75)} className="mt-7 flex flex-wrap items-center gap-3">
                 <ActionButton href="#projetos">Ver projetos</ActionButton>
                 {contact.resume && (
-                  <ActionButton href={contact.resume} variant="secondary" download>
+                  <ActionButton href={contact.resume} variant="secondary" download={contact.resumeDownloadName}>
                     Baixar currículo
                   </ActionButton>
                 )}

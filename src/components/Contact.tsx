@@ -38,7 +38,7 @@ export default function Contact() {
               GitHub
             </ActionButton>
             {contact.resume && (
-              <ActionButton href={contact.resume} variant="secondary" download>
+                <ActionButton href={contact.resume} variant="secondary" download={contact.resumeDownloadName}>
                 Baixar currículo
               </ActionButton>
             )}

@@ -1,13 +1,14 @@
 import { barthyPreviews, pnqcPreviews } from '@/content/projectPreviews'
+import { resumeUrl, site } from '@/config/site'
 
 export const contact = {
-  email: 'g4brielbr4sil@gmail.com',
-  mailto: 'mailto:g4brielbr4sil@gmail.com',
-  linkedin: 'https://www.linkedin.com/in/gabrielbrasildev',
-  github: 'https://github.com/g4brielbr4sil',
-  /** O CTA só deve reaparecer quando o PDF real existir em public/. */
-  resume: null as string | null,
-  location: 'Brasília, Distrito Federal, Brasil',
+  email: site.contact.email,
+  mailto: site.contact.mailto,
+  linkedin: site.urls.linkedin,
+  github: site.urls.github,
+  resume: resumeUrl(),
+  resumeDownloadName: site.resume.downloadName,
+  location: site.location.full,
 }
 
 export type ProjectLink = {
@@ -103,12 +104,12 @@ export const projects: Project[] = [
     links: [
       {
         label: 'Ver repositório V2',
-        href: 'https://github.com/g4brielbr4sil/barthy-web-studio-v2',
+        href: site.urls.barthyV2,
         external: true,
       },
       {
         label: 'Abrir versão pública V1',
-        href: 'https://barthy-web-studio.pages.dev/',
+        href: site.urls.barthyV1,
         external: true,
       },
     ],
@@ -148,12 +149,12 @@ export const projects: Project[] = [
       links: [
         {
           label: 'Ver repositório V2',
-          href: 'https://github.com/g4brielbr4sil/barthy-web-studio-v2',
+          href: site.urls.barthyV2,
           external: true,
         },
         {
           label: 'Abrir versão pública V1',
-          href: 'https://barthy-web-studio.pages.dev/',
+          href: site.urls.barthyV1,
           external: true,
         },
       ],
@@ -180,7 +181,7 @@ export const projects: Project[] = [
     links: [
       {
         label: 'Abrir plataforma',
-        href: 'https://levens-qualifica-pnqc.pages.dev/',
+        href: site.urls.pnqc,
         external: true,
       },
     ],
@@ -220,7 +221,7 @@ export const projects: Project[] = [
       links: [
         {
           label: 'Abrir plataforma',
-          href: 'https://levens-qualifica-pnqc.pages.dev/',
+          href: site.urls.pnqc,
           external: true,
         },
       ],
@@ -247,7 +248,7 @@ export const projects: Project[] = [
     links: [
       {
         label: 'Abrir interface protegida',
-        href: 'https://hermes-agent-01l.pages.dev/',
+        href: site.urls.hermes,
         external: true,
       },
     ],
@@ -287,7 +288,7 @@ export const projects: Project[] = [
       links: [
         {
           label: 'Abrir interface protegida',
-          href: 'https://hermes-agent-01l.pages.dev/',
+          href: site.urls.hermes,
           external: true,
         },
       ],

@@ -5,7 +5,7 @@ type Props = {
   href: string
   children: ReactNode
   variant?: 'primary' | 'secondary'
-  download?: boolean
+  download?: boolean | string
   external?: boolean
 }
 

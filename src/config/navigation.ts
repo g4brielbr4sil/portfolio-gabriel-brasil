@@ -9,7 +9,7 @@ import { House } from '@phosphor-icons/react/dist/csr/House'
 import { LinkedinLogo } from '@phosphor-icons/react/dist/csr/LinkedinLogo'
 import { SquaresFour } from '@phosphor-icons/react/dist/csr/SquaresFour'
 import { User } from '@phosphor-icons/react/dist/csr/User'
-import { contact } from '@/content/portfolio'
+import { resumeUrl, site } from '@/config/site'
 
 export type SectionId =
   | 'inicio'
@@ -108,7 +108,7 @@ const baseActions: NavAction[] = [
     label: 'LinkedIn',
     description: 'Abra o perfil profissional completo.',
     icon: LinkedinLogo,
-    href: contact.linkedin,
+    href: site.urls.linkedin,
     external: true,
   },
   {
@@ -116,12 +116,14 @@ const baseActions: NavAction[] = [
     label: 'GitHub',
     description: 'Veja repositórios e atividade de desenvolvimento.',
     icon: GithubLogo,
-    href: contact.github,
+    href: site.urls.github,
     external: true,
   },
 ]
 
-export const externalActions: NavAction[] = contact.resume
+const publishedResume = resumeUrl()
+
+export const externalActions: NavAction[] = publishedResume
   ? [
       ...baseActions,
       {
@@ -129,7 +131,7 @@ export const externalActions: NavAction[] = contact.resume
         label: 'Currículo',
         description: 'Baixe o currículo em PDF.',
         icon: DownloadSimple,
-        href: contact.resume,
+        href: publishedResume,
         download: true,
       },
     ]
