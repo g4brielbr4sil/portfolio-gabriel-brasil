@@ -28,13 +28,42 @@ test('real project links have one configuration source', async () => {
   assert.equal(portfolio.includes('https://'), false)
 })
 
-test('production metadata and Cloudflare controls exist', async () => {
-  const html = await source('index.html')
+test('production metadata and Cloudflare controls are generated from route data', async () => {
+  const metadata = await source('src/seo/metadata.ts')
   const headers = await source('public/_headers')
-  const robots = await source('public/robots.txt')
+  const prerender = await source('scripts/prerender.mjs')
 
-  assert.match(html, /rel="canonical"/)
-  assert.match(html, /property="og:image"/)
+  assert.match(metadata, /rel=\"canonical\"/)
+  assert.match(metadata, /property=\"og:image\"/)
+  assert.match(metadata, /BreadcrumbList/)
   assert.match(headers, /Content-Security-Policy/)
-  assert.match(robots, /Allow: \//)
+  assert.match(prerender, /User-agent: OAI-SearchBot/)
+  assert.match(prerender, /llms\.txt/)
+  assert.match(prerender, /sitemap\.xml/)
+})
+
+test('all required public routes are declared and dynamically loaded', async () => {
+  const routes = await source('src/config/routes.ts')
+  const main = await source('src/main.tsx')
+  for (const path of [
+    "path: '/'",
+    "path: '/sobre/'",
+    "path: '/projetos/'",
+    "path: '/contato/'",
+    "pagePath: '/projetos/barthy-web-studio-v2/'",
+    "pagePath: '/projetos/pnqc/'",
+    "pagePath: '/projetos/hermes-command-center/'",
+  ]) {
+    assert.match(`${routes}\n${await source('src/content/portfolio.ts')}`, new RegExp(path.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')))
+  }
+  assert.match(main, /import\('@\/pages\/HomePage'\)/)
+  assert.match(main, /import\('@\/pages\/ProjectPage'\)/)
+})
+
+test('Hermes project page keeps screenshots private', async () => {
+  const projectPage = await source('src/pages/ProjectPage.tsx')
+  const portfolio = await source('src/content/portfolio.ts')
+  assert.match(projectPage, /Nenhuma captura real/)
+  assert.match(portfolio, /slug: 'hermes-command-center'/)
+  assert.equal(portfolio.includes('hermes-screenshot'), false)
 })

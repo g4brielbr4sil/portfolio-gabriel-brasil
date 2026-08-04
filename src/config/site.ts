@@ -2,6 +2,8 @@ declare const __PORTFOLIO_HAS_RESUME__: boolean
 
 const canonicalUrl = 'https://portfolio-gabriel-brasil.pages.dev/'
 const email = 'g4brielbr4sil@gmail.com'
+const linkedin = 'https://www.linkedin.com/in/gabrielbrasildev'
+const github = 'https://github.com/g4brielbr4sil'
 
 function readOptionalPublicUrl(value: string | undefined, variableName: string) {
   const candidate = value?.trim()
@@ -42,8 +44,8 @@ export const site = {
     endpoint: readOptionalPublicUrl(import.meta.env.VITE_CONTACT_ENDPOINT, 'VITE_CONTACT_ENDPOINT'),
   },
   urls: {
-    linkedin: 'https://www.linkedin.com/in/gabrielbrasildev',
-    github: 'https://github.com/g4brielbr4sil',
+    linkedin,
+    github,
     hermes: 'https://hermes-agent-01l.pages.dev/',
     pnqc: 'https://levens-qualifica-pnqc.pages.dev/',
     barthyV2: 'https://github.com/g4brielbr4sil/barthy-web-studio-v2',
@@ -57,10 +59,7 @@ export const site = {
   },
   futureDomain: null as string | null,
   socialImage: '/og-image.svg',
-  sameAs: [
-    'https://www.linkedin.com/in/gabrielbrasildev',
-    'https://github.com/g4brielbr4sil',
-  ],
+  sameAs: [linkedin, github],
   verification: {
     google: import.meta.env.VITE_GOOGLE_SITE_VERIFICATION?.trim() || null,
     bing: import.meta.env.VITE_BING_SITE_VERIFICATION?.trim() || null,

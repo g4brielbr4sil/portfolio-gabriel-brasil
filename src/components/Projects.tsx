@@ -169,6 +169,15 @@ function ProjectCard({ project, delay, className, featured, compact, onOpenProje
 
           <div className="mt-6 flex flex-wrap items-center gap-3">
             <ProjectCaseStudyButton label="Explorar projeto" onClick={(event) => openCurrentProject(event.currentTarget)} />
+            {project.pagePath && (
+              <a
+                href={project.pagePath}
+                className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full border border-line bg-white/5 px-4 text-xs text-cream/75 transition-colors hover:bg-white/10 hover:text-cream"
+              >
+                Ver estudo de caso
+                <ArrowUpRight size={14} weight="regular" aria-hidden="true" />
+              </a>
+            )}
             {project.links
               .filter((link) => Boolean(link.href))
               .slice(0, 1)

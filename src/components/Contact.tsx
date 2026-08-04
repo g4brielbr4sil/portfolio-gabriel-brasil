@@ -5,7 +5,7 @@ import { FadeUp, WordsPullUp } from '@/components/motion/Reveal'
 import { ActionButton } from '@/components/ui/Button'
 import { contact } from '@/content/portfolio'
 
-export default function Contact() {
+export default function Contact({ showFooter = true }: { showFooter?: boolean }) {
   return (
     <section id="contato" className="relative scroll-mt-28 bg-ink px-3 pb-8 pt-20 md:px-6 md:pt-28">
       <div className="pointer-events-none absolute inset-0 bg-noise opacity-[0.12]" />
@@ -60,10 +60,12 @@ export default function Contact() {
         </FadeUp>
       </div>
 
-      <footer className="mx-auto mt-8 flex max-w-7xl flex-wrap items-center justify-between gap-3 px-2 pb-8 text-[11px] uppercase tracking-[0.18em] text-cream/30">
-        <span>Gabriel Brasil · Analista de Sistemas e Desenvolvedor</span>
-        <span>Brasília · DF</span>
-      </footer>
+      {showFooter && (
+        <footer className="mx-auto mt-8 flex max-w-7xl flex-wrap items-center justify-between gap-3 px-2 pb-8 text-[11px] uppercase tracking-[0.18em] text-cream/30">
+          <span>Gabriel Brasil · Analista de Sistemas e Desenvolvedor</span>
+          <span>Brasília · DF</span>
+        </footer>
+      )}
     </section>
   )
 }

@@ -66,6 +66,8 @@ export type ProjectCaseStudy = {
 
 export type Project = {
   number: string
+  slug: string
+  pagePath?: string
   name: string
   status?: string
   statusTooltip?: string
@@ -85,6 +87,8 @@ export type Project = {
 export const projects: Project[] = [
   {
     number: '01',
+    slug: 'barthy-web-studio-v2',
+    pagePath: '/projetos/barthy-web-studio-v2/',
     name: 'Barthy Web Studio V2',
     status: 'Case autoral',
     previewThemes: barthyPreviews,
@@ -162,6 +166,8 @@ export const projects: Project[] = [
   },
   {
     number: '02',
+    slug: 'pnqc',
+    pagePath: '/projetos/pnqc/',
     name: 'Levens Qualifica | PNQC',
     status: 'Em produção',
     previewThemes: pnqcPreviews,
@@ -229,6 +235,8 @@ export const projects: Project[] = [
   },
   {
     number: '03',
+    slug: 'hermes-command-center',
+    pagePath: '/projetos/hermes-command-center/',
     name: 'Hermes Command Center',
     status: 'Ambiente protegido',
     statusTooltip: 'Aplicação autoral privada. Nenhuma captura com dados pessoais é publicada nesta versão.',
@@ -296,6 +304,7 @@ export const projects: Project[] = [
   },
   {
     number: '04',
+    slug: 'saas-de-suporte',
     name: 'SaaS de Suporte',
     status: 'Produto em desenvolvimento',
     statusTooltip: 'Arquitetura e escopo em definição. Ainda não existe aplicação pública.',

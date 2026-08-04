@@ -29,9 +29,13 @@ export default function MobileDock({ active, onNavigate, visible }: Props) {
               const isActive = active === section.id
               return (
                 <li key={section.id} className="flex-1">
-                  <button
-                    type="button"
-                    onClick={() => onNavigate(section.id)}
+                  <a
+                    href={section.href}
+                    onClick={(event) => {
+                      if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return
+                      event.preventDefault()
+                      onNavigate(section.id)
+                    }}
                     aria-label={section.label}
                     aria-current={isActive ? 'location' : undefined}
                     className={cn(
@@ -51,7 +55,7 @@ export default function MobileDock({ active, onNavigate, visible }: Props) {
                       aria-hidden="true"
                     />
                     <span className="text-[10px] tracking-[0.04em]">{section.label}</span>
-                  </button>
+                  </a>
                 </li>
               )
             })}

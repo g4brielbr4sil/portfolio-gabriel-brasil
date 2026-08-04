@@ -10,3 +10,7 @@
 
 /*.svg
   Cache-Control: public, max-age=604800
+
+/curriculo-gabriel-brasil.pdf
+  Cache-Control: public, max-age=86400
+  Content-Disposition: inline; filename="Gabriel-Brasil-Curriculo.pdf"
