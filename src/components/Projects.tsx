@@ -34,8 +34,12 @@ export default function Projects({ onOverlayChange }: Props) {
 
   function handleOpenChange(open: boolean) {
     if (!open) {
+      const target = openerRef.current
       setActiveProject(null)
       onOverlayChange?.(false)
+      window.setTimeout(() => {
+        if (target?.isConnected) target.focus({ preventScroll: true })
+      }, 0)
     }
   }
 
@@ -92,7 +96,6 @@ export default function Projects({ onOverlayChange }: Props) {
             initialTheme={activeTheme}
             initialIndex={activeIndex}
             onOpenChange={handleOpenChange}
-            returnFocusRef={openerRef}
           />
         </Suspense>
       )}

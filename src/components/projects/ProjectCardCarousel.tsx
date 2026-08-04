@@ -156,7 +156,7 @@ export default function ProjectCardCarousel({
 
             <div className="min-w-0 flex-1">
               <div className="flex items-center justify-between gap-3">
-                <div className="flex items-center gap-1.5" aria-label={`Imagem ${carousel.index + 1} de ${images.length}`}>
+                <div className="flex items-center" aria-label={`Imagem ${carousel.index + 1} de ${images.length}`}>
                   {images.map((image, index) => (
                     <button
                       key={image.id}
@@ -164,25 +164,32 @@ export default function ProjectCardCarousel({
                       onClick={() => goTo(index)}
                       aria-label={`Ir para a imagem ${index + 1} de ${images.length}`}
                       aria-current={index === carousel.index ? 'true' : undefined}
-                      className={cn(
-                        'h-2.5 min-w-2.5 rounded-full transition-all duration-300',
-                        index === carousel.index ? 'w-6 bg-cream' : 'bg-cream/25 hover:bg-cream/45',
-                      )}
-                    />
+                      className="group inline-flex h-6 w-6 items-center justify-center rounded-full"
+                    >
+                      <span
+                        aria-hidden="true"
+                        className={cn(
+                          'h-2.5 rounded-full transition-all duration-300',
+                          index === carousel.index
+                            ? 'w-6 bg-cream'
+                            : 'w-2.5 bg-cream/25 group-hover:bg-cream/45',
+                        )}
+                      />
+                    </button>
                   ))}
                 </div>
-                <span className="font-mono text-[11px] tracking-[0.14em] text-cream/55">
+                <span className="hidden font-mono text-[11px] tracking-[0.14em] text-cream/55 sm:inline">
                   {String(carousel.index + 1).padStart(2, '0')} / {String(images.length).padStart(2, '0')}
                 </span>
               </div>
             </div>
 
-            {carousel.canAutoplay && (
+            {images.length > 1 && (
               <button
                 type="button"
                 onClick={carousel.togglePlayback}
                 aria-label={carousel.isPlaying ? 'Pausar apresentação' : 'Reproduzir apresentação'}
-                className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-cream transition-colors hover:bg-white/10"
+                className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-cream transition-colors hover:bg-white/10 motion-reduce:hidden"
               >
                 {carousel.isPlaying ? <Pause size={16} aria-hidden="true" /> : <Play size={16} aria-hidden="true" />}
               </button>

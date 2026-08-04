@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode, type RefObject } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { Dialog, DialogCloseButton, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog'
 import type { PreviewTheme, Project } from '@/content/portfolio'
 import ProjectGallery from '@/components/projects/ProjectGallery'
@@ -9,7 +9,6 @@ type Props = {
   initialTheme: PreviewTheme
   initialIndex: number
   onOpenChange: (open: boolean) => void
-  returnFocusRef: RefObject<HTMLElement | null>
 }
 
 function Section({ title, children }: { title: string; children: ReactNode }) {
@@ -40,27 +39,13 @@ export default function ProjectCaseStudyDialog({
   initialTheme,
   initialIndex,
   onOpenChange,
-  returnFocusRef,
 }: Props) {
   const [galleryTheme, setGalleryTheme] = useState<PreviewTheme>(initialTheme)
-  const closeFocus = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
     if (!open) return
     setGalleryTheme(initialTheme)
   }, [initialTheme, open])
-
-  useEffect(() => {
-    if (open) {
-      closeFocus.current = returnFocusRef.current
-      return
-    }
-
-    const target = closeFocus.current
-    if (!target) return
-    const timeout = window.setTimeout(() => target.focus(), 0)
-    return () => window.clearTimeout(timeout)
-  }, [open, returnFocusRef])
 
   if (!project) return null
 

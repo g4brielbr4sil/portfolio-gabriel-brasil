@@ -23,7 +23,10 @@ async function writeRoute(route) {
   const result = render(route.path)
   const html = template
     .replace('<!--app-head-->', result.headHtml)
-    .replace('<div id="root"></div>', `<div id="root" data-prerendered="true">${result.appHtml}</div>`)
+    .replace(
+      '<div id="root"></div>',
+      `<div id="root" data-prerendered="true" data-route-path="${route.path}">${result.appHtml}</div>`,
+    )
   const destination = outputPath(route.path)
   await mkdir(path.dirname(destination), { recursive: true })
   await writeFile(destination, html)
@@ -34,7 +37,10 @@ for (const route of data.routes) await writeRoute(route)
 const notFound = render(data.notFoundRoute.path)
 const notFoundHtml = template
   .replace('<!--app-head-->', notFound.headHtml)
-  .replace('<div id="root"></div>', `<div id="root" data-prerendered="true">${notFound.appHtml}</div>`)
+  .replace(
+    '<div id="root"></div>',
+    `<div id="root" data-prerendered="true" data-route-path="${data.notFoundRoute.path}">${notFound.appHtml}</div>`,
+  )
 await writeFile(path.join(dist, '404.html'), notFoundHtml)
 
 let lastModified = null

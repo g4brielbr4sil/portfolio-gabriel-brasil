@@ -58,6 +58,9 @@ test('all required public routes are declared and dynamically loaded', async () 
   }
   assert.match(main, /import\('@\/pages\/HomePage'\)/)
   assert.match(main, /import\('@\/pages\/ProjectPage'\)/)
+  assert.match(main, /prerenderedRoute === route\.path/)
+  assert.match(main, /applyFallbackMetadata\(route\)/)
+  assert.match(await source('scripts/prerender.mjs'), /data-route-path/)
 })
 
 test('Hermes project page keeps screenshots private', async () => {
@@ -83,12 +86,18 @@ test('project previews use real AVIF and WebP assets with an error fallback', as
 test('carousel and dialog retain motion and focus safeguards', async () => {
   const carousel = await source('src/hooks/useProjectCarousel.ts')
   const dialog = await source('src/components/projects/ProjectCaseStudyDialog.tsx')
+  const projects = await source('src/components/Projects.tsx')
+  const ticker = await source('src/components/stack/StackTicker.tsx')
+  const reveal = await source('src/components/motion/Reveal.tsx')
   assert.match(carousel, /visibilitychange/)
   assert.match(carousel, /IntersectionObserver/)
   assert.match(carousel, /reducedMotion/)
   assert.match(carousel, /onFocusCapture/)
-  assert.match(dialog, /returnFocusRef/)
-  assert.match(dialog, /target\.focus\(\)/)
+  assert.doesNotMatch(dialog, /returnFocusRef/)
+  assert.match(projects, /target\.focus\(\{ preventScroll: true \}\)/)
+  assert.match(ticker, /motion-reduce:flex/)
+  assert.match(ticker, /motion-reduce:hidden/)
+  assert.match(reveal, /motion-reduce:!opacity-100/)
 })
 
 test('external links opened in a new tab use noopener and noreferrer', async () => {
