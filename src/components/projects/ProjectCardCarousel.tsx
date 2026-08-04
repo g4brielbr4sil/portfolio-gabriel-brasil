@@ -156,7 +156,7 @@ export default function ProjectCardCarousel({
 
             <div className="min-w-0 flex-1">
               <div className="flex items-center justify-between gap-3">
-                <div className="flex items-center" aria-label={`Imagem ${carousel.index + 1} de ${images.length}`}>
+                <div className="hidden items-center sm:flex" aria-label={`Imagem ${carousel.index + 1} de ${images.length}`}>
                   {images.map((image, index) => (
                     <button
                       key={image.id}
@@ -164,7 +164,7 @@ export default function ProjectCardCarousel({
                       onClick={() => goTo(index)}
                       aria-label={`Ir para a imagem ${index + 1} de ${images.length}`}
                       aria-current={index === carousel.index ? 'true' : undefined}
-                      className="group inline-flex h-6 w-6 items-center justify-center rounded-full"
+                      className="group inline-flex h-11 w-11 items-center justify-center rounded-full"
                     >
                       <span
                         aria-hidden="true"

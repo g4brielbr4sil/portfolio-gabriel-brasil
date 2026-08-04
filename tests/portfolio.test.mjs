@@ -85,6 +85,7 @@ test('project previews use real AVIF and WebP assets with an error fallback', as
 
 test('carousel and dialog retain motion and focus safeguards', async () => {
   const carousel = await source('src/hooks/useProjectCarousel.ts')
+  const carouselView = await source('src/components/projects/ProjectCardCarousel.tsx')
   const dialog = await source('src/components/projects/ProjectCaseStudyDialog.tsx')
   const projects = await source('src/components/Projects.tsx')
   const ticker = await source('src/components/stack/StackTicker.tsx')
@@ -93,6 +94,8 @@ test('carousel and dialog retain motion and focus safeguards', async () => {
   assert.match(carousel, /IntersectionObserver/)
   assert.match(carousel, /reducedMotion/)
   assert.match(carousel, /onFocusCapture/)
+  assert.match(carouselView, /hidden items-center sm:flex/)
+  assert.match(carouselView, /inline-flex h-11 w-11/)
   assert.doesNotMatch(dialog, /returnFocusRef/)
   assert.match(projects, /target\.focus\(\{ preventScroll: true \}\)/)
   assert.match(ticker, /motion-reduce:flex/)

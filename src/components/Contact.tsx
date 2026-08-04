@@ -48,7 +48,7 @@ export default function Contact({ showFooter = true }: { showFooter?: boolean })
 
         <FadeUp delay={0.4}>
           <div className="mt-16 flex flex-wrap items-center gap-x-10 gap-y-4 border-t border-line pt-8 text-sm text-cream/70">
-            <a href={contact.mailto} className="inline-flex items-center gap-2 transition-colors hover:text-cream">
+            <a href={contact.mailto} className="inline-flex min-h-11 items-center gap-2 transition-colors hover:text-cream">
               <EnvelopeSimple size={16} weight="light" aria-hidden="true" />
               {contact.email}
               <ArrowUpRight size={14} weight="regular" aria-hidden="true" />

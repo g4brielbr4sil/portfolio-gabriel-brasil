@@ -76,9 +76,9 @@ export default function PageLayout({
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4">
           <span>Gabriel Brasil · {site.role}</span>
           <div className="flex flex-wrap gap-5">
-            <a href={site.urls.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-cream">LinkedIn</a>
-            <a href={site.urls.github} target="_blank" rel="noopener noreferrer" className="hover:text-cream">GitHub</a>
-            <a href={site.contact.mailto} className="hover:text-cream">E-mail</a>
+            <a href={site.urls.linkedin} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center hover:text-cream">LinkedIn</a>
+            <a href={site.urls.github} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center hover:text-cream">GitHub</a>
+            <a href={site.contact.mailto} className="inline-flex min-h-11 items-center hover:text-cream">E-mail</a>
           </div>
         </div>
       </footer>
