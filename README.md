@@ -147,6 +147,12 @@ Não publicar neste repositório:
 - capturas com dados pessoais ou financeiros
 - informações internas de clientes
 
+## Padrão de contribuição
+
+A documentação, os commits e as Pull Requests deste repositório usam português do Brasil, com linguagem técnica, clara e direta. Os commits seguem Conventional Commits com o prefixo técnico em inglês e a descrição em português, como `docs: atualizar apresentação dos projetos`.
+
+O padrão completo está disponível em [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
 ## Contato
 
 - LinkedIn: https://www.linkedin.com/in/gabrielbrasildev
