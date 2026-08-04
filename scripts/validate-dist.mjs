@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { readdir, readFile, stat } from 'node:fs/promises'
 import path from 'node:path'
-import { gunzipSync, gzipSync } from 'node:zlib'
+import { gzipSync } from 'node:zlib'
 import { pathToFileURL } from 'node:url'
 
 const root = process.cwd()

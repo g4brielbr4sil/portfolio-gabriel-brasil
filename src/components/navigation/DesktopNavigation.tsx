@@ -209,7 +209,7 @@ function MoreMenu({
                 href={action.href}
                 download={action.download}
                 target={action.external ? '_blank' : undefined}
-                rel={action.external ? 'noreferrer' : undefined}
+                rel={action.external ? 'noopener noreferrer' : undefined}
                 className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-cream/60 transition-colors duration-200 hover:bg-cream/[0.07] hover:text-cream"
               >
                 <action.icon size={16} weight="light" aria-hidden="true" />

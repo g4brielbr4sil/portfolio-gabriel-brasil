@@ -29,7 +29,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v6
         with:
-          version: 10
+          version: 10.34.3
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
@@ -48,3 +48,6 @@ jobs:
 
       - name: Production build
         run: pnpm build
+
+      - name: Validate static output
+        run: pnpm validate:dist

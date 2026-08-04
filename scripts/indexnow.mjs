@@ -13,21 +13,15 @@ if (!/^[a-zA-Z0-9-]{8,128}$/.test(key)) {
 }
 
 const { buildData } = await import(pathToFileURL(path.join(process.cwd(), '.prerender', 'entry-server.js')).href)
-const hostUrl = new URL(process.env.DEPLOY_URL?.trim() || buildData().site.canonicalUrl)
-const paths = [
-  '/',
-  '/sobre/',
-  '/projetos/',
-  '/projetos/barthy-web-studio-v2/',
-  '/projetos/pnqc/',
-  '/projetos/hermes-command-center/',
-  '/contato/',
-]
+const data = buildData()
+const hostUrl = new URL(process.env.DEPLOY_URL?.trim() || data.site.canonicalUrl)
 const body = {
   host: hostUrl.host,
   key,
   keyLocation: new URL(`${key}.txt`, hostUrl).toString(),
-  urlList: paths.map((pathname) => new URL(pathname.replace(/^\//, ''), hostUrl).toString()),
+  urlList: data.routes
+    .filter((route) => route.indexable)
+    .map((route) => new URL(route.path.replace(/^\//, ''), hostUrl).toString()),
 }
 
 const response = await fetch('https://api.indexnow.org/indexnow', {

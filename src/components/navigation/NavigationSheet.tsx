@@ -108,7 +108,7 @@ export default function NavigationSheet({
                 href={action.href}
                 download={action.download}
                 target={action.external ? '_blank' : undefined}
-                rel={action.external ? 'noreferrer' : undefined}
+                rel={action.external ? 'noopener noreferrer' : undefined}
                 onClick={() => onOpenChange(false)}
                 className="flex min-h-[44px] items-center gap-3 text-sm text-cream/60 transition-colors hover:text-cream"
               >

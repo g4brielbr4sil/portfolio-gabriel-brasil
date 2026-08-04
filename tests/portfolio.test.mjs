@@ -90,3 +90,18 @@ test('carousel and dialog retain motion and focus safeguards', async () => {
   assert.match(dialog, /returnFocusRef/)
   assert.match(dialog, /target\.focus\(\)/)
 })
+
+test('external links opened in a new tab use noopener and noreferrer', async () => {
+  const files = [
+    'src/components/Projects.tsx',
+    'src/components/projects/ProjectCaseStudyDialog.tsx',
+    'src/components/navigation/DesktopNavigation.tsx',
+    'src/components/navigation/NavigationSheet.tsx',
+    'src/components/ui/Button.tsx',
+    'src/components/layout/PageLayout.tsx',
+    'src/pages/ProjectPage.tsx',
+  ]
+  const combined = (await Promise.all(files.map(source))).join('\n')
+  assert.equal(combined.includes("? 'noreferrer'"), false)
+  assert.match(combined, /noopener noreferrer/)
+})
