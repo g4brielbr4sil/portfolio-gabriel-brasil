@@ -1,27 +1,26 @@
 # Gabriel Brasil | Portfólio profissional
 
-Portfólio de **Gabriel Brasil**, Analista de Sistemas e Desenvolvedor em Brasília. O projeto apresenta produtos reais, decisões técnicas, responsabilidades assumidas e evidências visuais de entrega.
+Este é meu portfólio profissional. Reuni aqui projetos reais, decisões técnicas, responsabilidades e exemplos do que já desenvolvi.
 
 ## Site
 
 **Produção:** https://portfolio-gabriel-brasil.pages.dev/
 
-## Objetivo
-
-Este portfólio foi construído para apresentar experiência prática em:
+## O que este portfólio mostra
 
 - análise de sistemas e processos
 - desenvolvimento web Full Stack
 - APIs e integrações
 - automações
-- implantação e melhoria contínua
-- acessibilidade e experiência responsiva
+- publicação e melhoria contínua
+- acessibilidade
+- responsividade
 
 ## Projetos apresentados
 
 ### Barthy Web Studio V2
 
-Case autoral com temas claro e escuro reais, progressive enhancement, experiência visual com WebGPU, fallback em CSS, navegação por teclado e formulário com validação.
+Projeto autoral com temas claro e escuro, progressive enhancement, recurso visual com WebGPU, alternativa em CSS, navegação por teclado e formulário com validação.
 
 ### Levens Qualifica | PNQC
 
@@ -29,11 +28,11 @@ Plataforma educacional em produção com autenticação, perfis, cursos, módulo
 
 ### Hermes Command Center
 
-Aplicação Full Stack privada para CRM, pipeline, finanças, tarefas, rotina, estudos, relatórios, memória, aprovações e integrações controladas. O portfólio não publica capturas com dados pessoais.
+Aplicação Full Stack privada para CRM, pipeline, finanças, tarefas, rotina, estudos, relatórios, memória, aprovações e integrações controladas. As imagens usadas no portfólio não expõem dados pessoais ou financeiros.
 
 ### SaaS de Suporte
 
-Produto em desenvolvimento apresentado separadamente dos cases entregues. Nenhuma tela, métrica ou funcionalidade não implementada é tratada como pronta.
+Produto em desenvolvimento. Ele aparece separado dos projetos entregues para não passar a impressão de que algo ainda em construção já está pronto.
 
 ## Stack do portfólio
 
@@ -68,11 +67,11 @@ public/
   og-image.svg
 ```
 
-Os conteúdos dos projetos ficam centralizados em `src/content/portfolio.ts`. As capturas reais e suas variantes AVIF/WebP são descritas em `src/content/projectPreviews.ts`.
+Os textos dos projetos ficam em `src/content/portfolio.ts`. As imagens e suas versões AVIF e WebP ficam organizadas em `src/content/projectPreviews.ts`.
 
 ## Execução local
 
-Requisitos:
+### Requisitos
 
 - Node.js 22 ou compatível
 - pnpm
@@ -92,16 +91,16 @@ pnpm build      # build de produção
 pnpm check      # typecheck + testes + build
 ```
 
-## Capturas e performance
+## Imagens e performance
 
-As capturas dos projetos são servidas com:
+As imagens dos projetos usam:
 
-- AVIF como formato preferencial
-- WebP como fallback
-- dimensões intrínsecas
+- AVIF como formato principal
+- WebP como alternativa
+- dimensões definidas
 - carregamento sob demanda
 - pré-carregamento limitado à próxima imagem
-- galerias abertas somente após interação
+- galerias abertas somente depois da interação
 
 ## Acessibilidade
 
@@ -111,9 +110,9 @@ O projeto inclui:
 - navegação por teclado
 - foco visível
 - Dialog com retorno de foco
-- controles de carrossel nomeados
+- controles de carrossel identificados
 - suporte a `prefers-reduced-motion`
-- áreas de toque adequadas no mobile
+- áreas de toque adequadas no celular
 
 ## SEO e compartilhamento
 
@@ -134,24 +133,18 @@ Output directory: dist
 Production branch: main
 ```
 
-Branches e pull requests podem gerar previews separados antes do merge.
+Branches e Pull Requests podem gerar previews antes do merge.
 
 ## Privacidade
 
-Não publicar neste repositório:
+Não devem ser publicados neste repositório:
 
 - credenciais
 - variáveis privadas
-- bancos copiados
+- cópias de bancos
 - código corporativo proprietário
-- capturas com dados pessoais ou financeiros
+- imagens com dados pessoais ou financeiros
 - informações internas de clientes
-
-## Padrão de contribuição
-
-A documentação, os commits e as Pull Requests deste repositório usam português do Brasil, com linguagem técnica, clara e direta. Os commits seguem Conventional Commits com o prefixo técnico em inglês e a descrição em português, como `docs: atualizar apresentação dos projetos`.
-
-O padrão completo está disponível em [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Contato
 
