@@ -4,6 +4,7 @@ import { MapPin } from '@phosphor-icons/react/dist/csr/MapPin'
 import { FadeUp, WordsPullUp } from '@/components/motion/Reveal'
 import { ActionButton } from '@/components/ui/Button'
 import { contact } from '@/content/portfolio'
+import ContactForm from '@/components/contact/ContactForm'
 
 export default function Contact({ showFooter = true }: { showFooter?: boolean }) {
   return (
@@ -57,6 +58,10 @@ export default function Contact({ showFooter = true }: { showFooter?: boolean })
               {contact.location}
             </span>
           </div>
+        </FadeUp>
+
+        <FadeUp delay={0.45}>
+          <ContactForm />
         </FadeUp>
       </div>
 
