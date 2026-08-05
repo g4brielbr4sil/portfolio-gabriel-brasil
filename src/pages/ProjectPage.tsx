@@ -39,7 +39,7 @@ export default function ProjectPage({ route }: { route: PortfolioRoute }) {
 
   return (
     <PageLayout current="project">
-      <main id="conteudo" tabIndex={-1} className="px-3 py-12 md:px-6 md:py-20">
+      <main id="conteudo" tabIndex={-1} className="px-3 pb-12 pt-24 md:px-6 md:pb-20 md:pt-32">
         <article className="mx-auto max-w-7xl">
           <Breadcrumbs items={[{ label: 'Início', href: '/' }, { label: 'Projetos', href: '/projetos/' }, { label: project.name }]} />
 

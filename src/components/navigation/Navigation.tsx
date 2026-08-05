@@ -45,6 +45,7 @@ export default function Navigation({ overlayOpen = false }: Props) {
   const [scrolled, setScrolled] = useState(false)
   const [dockHidden, setDockHidden] = useState(false)
   const [overlay, setOverlay] = useState<NavigationOverlay>(null)
+  const [dialogOpen, setDialogOpen] = useState(false)
   const [keyboardOpen, setKeyboardOpen] = useState(false)
   const [shortcutLabel, setShortcutLabel] = useState('Ctrl K')
 
@@ -185,6 +186,14 @@ export default function Navigation({ overlayOpen = false }: Props) {
     if (overlayOpen && overlayRef.current) closeOverlay(false)
   }, [closeOverlay, overlayOpen])
 
+  useEffect(() => {
+    const update = () => setDialogOpen(Boolean(document.querySelector('[role="dialog"]')))
+    const observer = new MutationObserver(update)
+    observer.observe(document.body, { childList: true, subtree: true })
+    update()
+    return () => observer.disconnect()
+  }, [])
+
   const go = useCallback<NavigationHandler>(
     (id, options) => {
       if (overlayRef.current) closeOverlay(false)
@@ -201,7 +210,7 @@ export default function Navigation({ overlayOpen = false }: Props) {
   )
 
   const dockVisible =
-    !desktop && !dockHidden && !overlay && !keyboardOpen && !overlayOpen
+    !desktop && !dockHidden && !overlay && !keyboardOpen && !overlayOpen && !dialogOpen
 
   return (
     <>

@@ -39,7 +39,7 @@ function scrollToSection(id: SectionId, behavior: ScrollBehavior, focus: boolean
     ? 0
     : Math.max(0, window.scrollY + element.getBoundingClientRect().top - readTopbarOffset())
 
-  window.scrollTo({ top, behavior })
+  window.scrollTo({ top, behavior: behavior === 'auto' ? ('instant' as ScrollBehavior) : behavior })
   if (focus) focusSection(element)
   return true
 }
@@ -57,6 +57,7 @@ export function useActiveSection() {
     const elements = sections
       .map(({ id }) => document.getElementById(id))
       .filter((element): element is HTMLElement => element !== null)
+      .sort((a, b) => a.offsetTop - b.offsetTop)
 
     if (elements.length === 0) return
 
@@ -78,15 +79,57 @@ export function useActiveSection() {
       })
     }
 
-    const syncHash = () => {
+    const syncHash = (event?: Event) => {
       const hashSection = sectionFromHash(window.location.hash)
       if (hashSection && shouldNavigateInPage(window.location.pathname, hashSection)) {
         setActive(hashSection)
         requestAnimationFrame(() => scrollToSection(hashSection, 'auto', false))
-      } else if (!window.location.hash) {
+      } else if (!window.location.hash && (event?.type === 'popstate' || event?.type === 'hashchange')) {
         window.scrollTo({ top: 0, behavior: 'auto' })
         setActive('inicio')
       }
+    }
+
+    let stopInitialAlignment: () => void = () => {}
+
+    const alignInitialHash = (hashSection: SectionId) => {
+      let active = true
+      let alignFrame = 0
+      const align = () => {
+        cancelAnimationFrame(alignFrame)
+        alignFrame = requestAnimationFrame(() => {
+          if (active) scrollToSection(hashSection, 'auto', false)
+        })
+      }
+      const observer = new ResizeObserver(align)
+      observer.observe(document.body)
+      const interval = window.setInterval(align, 180)
+      const timeout = window.setTimeout(() => stop(), 2400)
+
+      function stop() {
+        if (!active) return
+        active = false
+        cancelAnimationFrame(alignFrame)
+        window.clearInterval(interval)
+        window.clearTimeout(timeout)
+        observer.disconnect()
+        window.removeEventListener('load', align)
+        window.removeEventListener('pointerdown', stop)
+        window.removeEventListener('touchstart', stop)
+        window.removeEventListener('wheel', stop)
+        window.removeEventListener('keydown', stop)
+      }
+
+      window.addEventListener('load', align)
+      window.addEventListener('pointerdown', stop, { once: true })
+      window.addEventListener('touchstart', stop, { once: true })
+      window.addEventListener('wheel', stop, { once: true })
+      window.addEventListener('keydown', stop, { once: true })
+      document.fonts?.ready.then(() => {
+        if (active) align()
+      })
+      align()
+      stopInitialAlignment = stop
     }
 
     window.addEventListener('scroll', updateFromScroll, { passive: true })
@@ -97,13 +140,14 @@ export function useActiveSection() {
 
     const initialHash = sectionFromHash(window.location.hash)
     if (initialHash && shouldNavigateInPage(window.location.pathname, initialHash)) {
-      requestAnimationFrame(() => requestAnimationFrame(syncHash))
+      alignInitialHash(initialHash)
     } else {
       updateFromScroll()
     }
 
     return () => {
       cancelAnimationFrame(frame)
+      stopInitialAlignment()
       window.removeEventListener('scroll', updateFromScroll)
       window.removeEventListener('resize', updateFromScroll)
       window.removeEventListener('hashchange', syncHash)
