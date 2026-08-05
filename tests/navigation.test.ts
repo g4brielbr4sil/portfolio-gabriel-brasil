@@ -4,6 +4,7 @@ import {
   DOCK_TOGGLE_COOLDOWN,
   initialDockScrollState,
   isCommandShortcut,
+  isModifiedNavigationEvent,
   isVirtualKeyboardOccluding,
   nextTopbarScrolled,
   normalizePathname,
@@ -31,6 +32,14 @@ test('route and hash resolution keep internal pages as the route source', () => 
   assert.equal(shouldNavigateInPage('/', 'atuacao'), true)
   assert.equal(shouldNavigateInPage('/', 'sobre'), false)
   assert.equal(shouldNavigateInPage('/sobre/', 'atuacao'), false)
+})
+
+test('modified and non-primary link activations keep native browser behavior', () => {
+  const plain = { button: 0, ctrlKey: false, metaKey: false, shiftKey: false, altKey: false }
+  assert.equal(isModifiedNavigationEvent(plain), false)
+  assert.equal(isModifiedNavigationEvent({ ...plain, ctrlKey: true }), true)
+  assert.equal(isModifiedNavigationEvent({ ...plain, metaKey: true }), true)
+  assert.equal(isModifiedNavigationEvent({ ...plain, button: 1 }), true)
 })
 
 test('dock requires deliberate direction and respects the toggle cooldown', () => {

@@ -65,6 +65,7 @@ export default function DesktopNavigation({
         href="/"
         onClick={(event) => handleSectionClick(event, { id: 'inicio' }, onNavigate)}
         aria-label="Ir para o início"
+        aria-current={active === 'inicio' ? 'location' : undefined}
         className="rounded-full px-3 py-1.5 text-sm tracking-[-0.01em] text-cream transition-colors duration-200 hover:text-cream/70"
       >
         <span className="font-medium">GB</span>
@@ -149,6 +150,7 @@ function MoreMenu({ active, onNavigate }: { active: SectionId; onNavigate: Navig
     <li className="lg:hidden">
       <Popover.Root open={open} onOpenChange={setOpen}>
         <Popover.Trigger
+          aria-current={hasActive ? 'location' : undefined}
           className={cn(
             'group inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm transition-colors duration-200',
             hasActive ? 'text-cream' : 'text-cream/55 hover:text-cream/90',
