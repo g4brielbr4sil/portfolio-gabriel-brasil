@@ -27,6 +27,14 @@ export type DockScrollState = {
   lastToggleAt: number
 }
 
+export type NavigateOptions = {
+  behavior?: ScrollBehavior
+  focus?: boolean
+  history?: 'push' | 'replace' | 'none'
+}
+
+export type NavigationHandler = (id: SectionId, options?: NavigateOptions) => void
+
 export const initialDockScrollState: DockScrollState = {
   hidden: false,
   lastY: 0,
@@ -55,6 +63,22 @@ export function sectionFromHash(hash: string): SectionId | null {
 
 export function shouldNavigateInPage(pathname: string, id: SectionId) {
   return normalizePathname(pathname) === '/' && localHomeSections.has(id)
+}
+
+export function isModifiedNavigationEvent(event: {
+  button: number
+  ctrlKey: boolean
+  metaKey: boolean
+  shiftKey: boolean
+  altKey: boolean
+}) {
+  return (
+    event.button !== 0 ||
+    event.ctrlKey ||
+    event.metaKey ||
+    event.shiftKey ||
+    event.altKey
+  )
 }
 
 export function nextTopbarScrolled(current: boolean, scrollY: number) {

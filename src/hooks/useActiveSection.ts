@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { sections, type SectionId } from '@/config/navigation'
 import {
+  type NavigateOptions,
   sectionFromHash,
   sectionFromPathname,
   shouldNavigateInPage,
@@ -9,13 +10,6 @@ import {
 function prefersReducedMotion() {
   if (typeof window === 'undefined') return false
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches
-}
-
-/** Mantém a seção ativa sincronizada com rota, hash, histórico e scroll. */
-type NavigateOptions = {
-  behavior?: ScrollBehavior
-  focus?: boolean
-  history?: 'push' | 'replace' | 'none'
 }
 
 function readLocationSection() {
