@@ -1,6 +1,5 @@
 import { MagnifyingGlass } from '@phosphor-icons/react/dist/csr/MagnifyingGlass'
 import { X } from '@phosphor-icons/react/dist/csr/X'
-import BsbClock from '@/components/navigation/BsbClock'
 import StatusDot from '@/components/ui/StatusDot'
 import {
   Sheet,
@@ -10,14 +9,21 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet'
 import { externalActions, sections, type SectionId } from '@/config/navigation'
+import {
+  isModifiedNavigationEvent,
+  shouldNavigateInPage,
+  type NavigationHandler,
+} from '@/lib/navigation-state'
 import { cn } from '@/lib/utils'
 
 type Props = {
   open: boolean
   onOpenChange: (open: boolean) => void
   active: SectionId
-  onNavigate: (id: SectionId) => void
+  currentAria: 'page' | 'location'
+  onNavigate: NavigationHandler
   onOpenCommand: () => void
+  onCloseAutoFocus: () => void
 }
 
 /** Navegação completa do celular. O Radix cuida de foco, Escape e rolagem. */
@@ -25,18 +31,23 @@ export default function NavigationSheet({
   open,
   onOpenChange,
   active,
+  currentAria,
   onNavigate,
   onOpenCommand,
+  onCloseAutoFocus,
 }: Props) {
-  function go(id: SectionId) {
-    onOpenChange(false)
-    window.setTimeout(() => onNavigate(id), 0)
+  function go(id: SectionId, focus: boolean) {
+    onNavigate(id, { focus })
   }
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="right"
+        onCloseAutoFocus={(event) => {
+          event.preventDefault()
+          onCloseAutoFocus()
+        }}
         className="flex flex-col gap-0 overflow-y-auto overscroll-contain p-6 pb-[calc(1.5rem+env(safe-area-inset-bottom))]"
       >
         <div className="flex items-start justify-between gap-4">
@@ -72,11 +83,12 @@ export default function NavigationSheet({
                 <a
                   href={section.href}
                   onClick={(event) => {
-                    if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return
+                    if (isModifiedNavigationEvent(event)) return
+                    if (!shouldNavigateInPage(window.location.pathname, section.id)) return
                     event.preventDefault()
-                    go(section.id)
+                    go(section.id, event.detail === 0)
                   }}
-                  aria-current={isActive ? 'location' : undefined}
+                  aria-current={isActive ? currentAria : undefined}
                   className={cn(
                     'flex min-h-[52px] w-full items-center gap-3 py-3.5 text-left text-lg transition-colors duration-200',
                     isActive ? 'text-cream' : 'text-cream/60',
@@ -122,7 +134,7 @@ export default function NavigationSheet({
         <div className="mt-auto flex flex-col gap-2 border-t border-line pt-6 text-[11px] uppercase tracking-[0.18em] text-cream/35">
           <span className="flex items-center justify-between gap-3">
             Brasília, Distrito Federal
-            <BsbClock />
+            <span aria-hidden="true">BSB</span>
           </span>
           <span className="inline-flex items-center gap-2.5">
             <StatusDot />

@@ -26,10 +26,10 @@ export function SheetContent({
 }: SheetContentProps) {
   return (
     <SheetPrimitive.Portal>
-      <SheetPrimitive.Overlay className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm data-[state=closed]:animate-[fade-out_240ms_ease] data-[state=open]:animate-[fade-in_320ms_ease]" />
+      <SheetPrimitive.Overlay className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm data-[state=closed]:animate-[fade-out_240ms_ease] data-[state=open]:animate-[fade-in_320ms_ease] motion-reduce:animate-none motion-reduce:transition-none" />
       <SheetPrimitive.Content
         className={cn(
-          'fixed z-50 border border-line bg-ink p-6 shadow-[0_24px_80px_rgba(0,0,0,0.6)]',
+          'fixed z-50 border border-line bg-ink p-6 shadow-[0_24px_80px_rgba(0,0,0,0.6)] motion-reduce:animate-none motion-reduce:transition-none',
           sides[side],
           className,
         )}

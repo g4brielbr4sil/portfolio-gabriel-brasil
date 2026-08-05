@@ -6,44 +6,94 @@ import MobileDock from '@/components/navigation/MobileDock'
 import MobileHeader from '@/components/navigation/MobileHeader'
 import NavigationSheet from '@/components/navigation/NavigationSheet'
 import type { SectionId } from '@/config/navigation'
+import type { RouteKind } from '@/config/routes'
 import { useActiveSection } from '@/hooks/useActiveSection'
+import {
+  initialDockScrollState,
+  isCommandShortcut,
+  isEditableTarget,
+  isVirtualKeyboardOccluding,
+  nextTopbarScrolled,
+  reduceDockScroll,
+  type NavigationHandler,
+} from '@/lib/navigation-state'
 
 type Props = {
+  current?: RouteKind
   overlayOpen?: boolean
 }
 
-/** Distância a partir da qual a navbar deixa de estar integrada ao Hero. */
-const SCROLL_THRESHOLD = 120
+type NavigationOverlay = 'menu' | 'command' | null
 
-export default function Navigation({ overlayOpen = false }: Props) {
+const DESKTOP_QUERY = '(min-width: 56rem)'
+
+function useDesktopNavigation() {
+  const [desktop, setDesktop] = useState(false)
+
+  useEffect(() => {
+    const media = window.matchMedia(DESKTOP_QUERY)
+    const update = () => setDesktop(media.matches)
+    update()
+    media.addEventListener('change', update)
+    return () => media.removeEventListener('change', update)
+  }, [])
+
+  return desktop
+}
+
+export default function Navigation({ current, overlayOpen = false }: Props) {
   const { active, navigate } = useActiveSection()
+  const desktop = useDesktopNavigation()
   const [scrolled, setScrolled] = useState(false)
   const [dockHidden, setDockHidden] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [commandOpen, setCommandOpen] = useState(false)
+  const [overlay, setOverlay] = useState<NavigationOverlay>(null)
+  const [dialogOpen, setDialogOpen] = useState(false)
   const [keyboardOpen, setKeyboardOpen] = useState(false)
   const [shortcutLabel, setShortcutLabel] = useState('Ctrl K')
 
-  const lastScroll = useRef(0)
+  const overlayRef = useRef<NavigationOverlay>(null)
+  const returnFocusRef = useRef<HTMLElement | null>(null)
   const usingKeyboard = useRef(false)
+  const keyboardBaseline = useRef(0)
+  const { scrollY, scrollYProgress } = useScroll()
+  const dockScroll = useRef({ ...initialDockScrollState, lastY: scrollY.get() })
 
-  const { scrollY } = useScroll()
+  const restoreFocus = useCallback(() => {
+    const target = returnFocusRef.current
+    returnFocusRef.current = null
+    window.requestAnimationFrame(() => {
+      if (target?.isConnected) target.focus({ preventScroll: true })
+    })
+  }, [])
+
+  const closeOverlay = useCallback(
+    (shouldRestoreFocus = true) => {
+      overlayRef.current = null
+      setOverlay(null)
+      if (shouldRestoreFocus) restoreFocus()
+      else returnFocusRef.current = null
+    },
+    [restoreFocus],
+  )
+
+  const openOverlay = useCallback((next: Exclude<NavigationOverlay, null>) => {
+    if (!overlayRef.current) {
+      const current = document.activeElement
+      returnFocusRef.current = current instanceof HTMLElement ? current : null
+    }
+    overlayRef.current = next
+    setOverlay(next)
+  }, [])
 
   useMotionValueEvent(scrollY, 'change', (value) => {
-    // Só troca de estado ao cruzar o limiar — nada de setState por pixel.
-    setScrolled((current) => {
-      const next = value > SCROLL_THRESHOLD
-      return next === current ? current : next
-    })
+    setScrolled((current) => nextTopbarScrolled(current, value))
 
-    const delta = value - lastScroll.current
-    if (Math.abs(delta) > 24) {
-      if (!usingKeyboard.current) setDockHidden(delta > 0 && value > 200)
-      lastScroll.current = value
-    }
+    if (usingKeyboard.current) return
+    const nextDock = reduceDockScroll(dockScroll.current, value, performance.now())
+    dockScroll.current = nextDock
+    setDockHidden((current) => (current === nextDock.hidden ? current : nextDock.hidden))
   })
 
-  // Atalho de navegação rápida: Ctrl + K e Command + K.
   useEffect(() => {
     const isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent)
     setShortcutLabel(isMac ? '⌘ K' : 'Ctrl K')
@@ -51,12 +101,14 @@ export default function Navigation({ overlayOpen = false }: Props) {
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === 'Tab') {
         usingKeyboard.current = true
+        dockScroll.current = { ...dockScroll.current, hidden: false, distance: 0 }
         setDockHidden(false)
       }
-      if (event.key.toLowerCase() === 'k' && (event.metaKey || event.ctrlKey)) {
-        event.preventDefault()
-        setCommandOpen((open) => !open)
-      }
+      if (!isCommandShortcut(event)) return
+
+      event.preventDefault()
+      if (overlayRef.current === 'command') closeOverlay()
+      else openOverlay('command')
     }
 
     function onPointerDown() {
@@ -69,63 +121,152 @@ export default function Navigation({ overlayOpen = false }: Props) {
       window.removeEventListener('keydown', onKeyDown)
       window.removeEventListener('pointerdown', onPointerDown)
     }
-  }, [])
+  }, [closeOverlay, openOverlay])
 
-  // Teclado virtual: esconde o dock para não cobrir campos de formulário.
   useEffect(() => {
     const viewport = window.visualViewport
-    if (!viewport) return
+    keyboardBaseline.current = Math.max(window.innerHeight, viewport?.height ?? 0)
 
-    function onResize() {
-      if (!viewport) return
-      setKeyboardOpen(viewport.height < window.innerHeight * 0.75)
+    function updateKeyboard() {
+      const focusedEditable = isEditableTarget(document.activeElement)
+      if (!focusedEditable) {
+        keyboardBaseline.current = Math.max(window.innerHeight, viewport?.height ?? 0)
+        setKeyboardOpen(false)
+        return
+      }
+
+      setKeyboardOpen(
+        isVirtualKeyboardOccluding({
+          focusedEditable,
+          baselineHeight: keyboardBaseline.current,
+          layoutHeight: window.innerHeight,
+          viewportHeight: viewport?.height ?? window.innerHeight,
+          viewportOffsetTop: viewport?.offsetTop ?? 0,
+        }),
+      )
     }
 
-    viewport.addEventListener('resize', onResize)
-    return () => viewport.removeEventListener('resize', onResize)
+    function onFocusOut() {
+      window.requestAnimationFrame(updateKeyboard)
+    }
+
+    function onOrientationChange() {
+      setKeyboardOpen(false)
+      window.setTimeout(() => {
+        keyboardBaseline.current = Math.max(window.innerHeight, viewport?.height ?? 0)
+        updateKeyboard()
+      }, 250)
+    }
+
+    window.addEventListener('focusin', updateKeyboard)
+    window.addEventListener('focusout', onFocusOut)
+    window.addEventListener('resize', updateKeyboard)
+    window.addEventListener('orientationchange', onOrientationChange)
+    viewport?.addEventListener('resize', updateKeyboard)
+    viewport?.addEventListener('scroll', updateKeyboard)
+    return () => {
+      window.removeEventListener('focusin', updateKeyboard)
+      window.removeEventListener('focusout', onFocusOut)
+      window.removeEventListener('resize', updateKeyboard)
+      window.removeEventListener('orientationchange', onOrientationChange)
+      viewport?.removeEventListener('resize', updateKeyboard)
+      viewport?.removeEventListener('scroll', updateKeyboard)
+    }
   }, [])
 
-  const go = useCallback(
-    (id: SectionId) => {
-      navigate(id)
+  useEffect(() => {
+    const closeForNavigation = () => closeOverlay(false)
+    window.addEventListener('hashchange', closeForNavigation)
+    window.addEventListener('popstate', closeForNavigation)
+    return () => {
+      window.removeEventListener('hashchange', closeForNavigation)
+      window.removeEventListener('popstate', closeForNavigation)
+    }
+  }, [closeOverlay])
+
+  useEffect(() => {
+    if (overlayOpen && overlayRef.current) closeOverlay(false)
+  }, [closeOverlay, overlayOpen])
+
+  useEffect(() => {
+    const update = () => setDialogOpen(Boolean(document.querySelector('[role="dialog"]')))
+    const observer = new MutationObserver(update)
+    observer.observe(document.body, { childList: true, subtree: true })
+    update()
+    return () => observer.disconnect()
+  }, [])
+
+  const go = useCallback<NavigationHandler>(
+    (id, options) => {
+      if (overlayRef.current) closeOverlay(false)
+      navigate(id, options)
     },
-    [navigate],
+    [closeOverlay, navigate],
   )
 
-  const dockVisible = !dockHidden && !menuOpen && !commandOpen && !keyboardOpen && !overlayOpen
+  const handleOverlayChange = useCallback(
+    (open: boolean) => {
+      if (!open) closeOverlay()
+    },
+    [closeOverlay],
+  )
+
+  const dockVisible =
+    !desktop && !dockHidden && !overlay && !keyboardOpen && !overlayOpen && !dialogOpen
+  const currentAria = current && current !== 'home' ? 'page' : 'location'
 
   return (
     <>
       <nav
         aria-label="Navegação principal"
-        className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-3 md:px-6 md:pt-6"
+        className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-3 min-[56rem]:px-6 min-[56rem]:pt-6"
       >
-        <div className="pointer-events-none w-full md:w-auto">
-          <MobileHeader scrolled={scrolled} onNavigate={go} onOpenMenu={() => setMenuOpen(true)} />
-          <DesktopNavigation
-            active={active}
-            scrolled={scrolled}
-            onNavigate={go}
-            onOpenCommand={() => setCommandOpen(true)}
-            shortcutLabel={shortcutLabel}
-          />
+        <div className="pointer-events-none w-full min-[56rem]:w-auto">
+          {desktop ? (
+            <DesktopNavigation
+              active={active}
+              currentAria={currentAria}
+              scrolled={scrolled}
+              onNavigate={go}
+              onOpenCommand={() => openOverlay('command')}
+              shortcutLabel={shortcutLabel}
+              scrollProgress={scrollYProgress}
+            />
+          ) : (
+            <MobileHeader
+              active={active}
+              currentAria={currentAria}
+              scrolled={scrolled}
+              onNavigate={go}
+              onOpenMenu={() => openOverlay('menu')}
+              scrollProgress={scrollYProgress}
+            />
+          )}
         </div>
       </nav>
 
-      <MobileDock active={active} onNavigate={go} visible={dockVisible} />
+      <MobileDock active={active} currentAria={currentAria} onNavigate={go} visible={dockVisible} />
 
-      <NavigationSheet
-        open={menuOpen}
-        onOpenChange={setMenuOpen}
-        active={active}
-        onNavigate={go}
-        onOpenCommand={() => {
-          setMenuOpen(false)
-          window.setTimeout(() => setCommandOpen(true), 120)
-        }}
-      />
+      {overlay === 'menu' && (
+        <NavigationSheet
+          open
+          onOpenChange={handleOverlayChange}
+          active={active}
+          currentAria={currentAria}
+          onNavigate={go}
+          onOpenCommand={() => openOverlay('command')}
+          onCloseAutoFocus={() => undefined}
+        />
+      )}
 
-      <CommandNavigation open={commandOpen} onOpenChange={setCommandOpen} onNavigate={go} />
+      {overlay === 'command' && (
+        <CommandNavigation
+          open
+          onOpenChange={handleOverlayChange}
+          onNavigate={go}
+          onCloseAutoFocus={() => undefined}
+        />
+      )}
     </>
   )
 }
