@@ -9,6 +9,8 @@ import type { PreviewTheme, ProjectPreviewImage } from '@/content/portfolio'
 import { cn } from '@/lib/utils'
 import { useProjectCarousel } from '@/hooks/useProjectCarousel'
 import PreviewThemeToggle from '@/components/projects/PreviewThemeToggle'
+import ResponsivePicture from '@/components/projects/ResponsivePicture'
+import ProjectPreviewFrame from '@/components/projects/ProjectPreviewFrame'
 
 type Props = {
   projectName: string
@@ -19,24 +21,6 @@ type Props = {
   onOpenGallery: (payload: { theme: PreviewTheme; index: number; opener: HTMLElement | null }) => void
   preload?: { theme: PreviewTheme; images: ProjectPreviewImage[] }
   className?: string
-}
-
-function PreviewPicture({ image, className }: { image: ProjectPreviewImage; className?: string }) {
-  return (
-    <picture>
-      <source srcSet={image.avif} type="image/avif" />
-      <source srcSet={image.webp} type="image/webp" />
-      <img
-        src={image.webp}
-        alt={image.alt}
-        width={image.width}
-        height={image.height}
-        loading="lazy"
-        decoding="async"
-        className={className}
-      />
-    </picture>
-  )
 }
 
 function FallbackPreview({ projectName }: { projectName: string }) {
@@ -149,15 +133,11 @@ export default function ProjectCardCarousel({
             animate={{ opacity: 1, x: 0 }}
             exit={reduced ? { opacity: 0 } : { opacity: 0, x: -12 }}
             transition={{ duration: reduced ? 0.01 : 0.3, ease: 'easeOut' }}
-            className="absolute inset-0 pb-16"
+            className="absolute inset-0 p-3 pb-[4.75rem]"
           >
-            <PreviewPicture
-              image={current}
-              className={cn(
-                'h-full w-full object-contain object-top transition-transform duration-500 [@media(hover:hover)]:group-hover:scale-[1.01]',
-                current.device === 'mobile' ? 'mx-auto max-w-[48%] md:max-w-[40%]' : '',
-              )}
-            />
+            <ProjectPreviewFrame image={current}>
+              <ResponsivePicture image={current} imgClassName="object-contain object-top transition-transform duration-300 [@media(hover:hover)]:group-hover:scale-[1.01]" />
+            </ProjectPreviewFrame>
           </motion.div>
         </AnimatePresence>
 
@@ -176,7 +156,7 @@ export default function ProjectCardCarousel({
 
             <div className="min-w-0 flex-1">
               <div className="flex items-center justify-between gap-3">
-                <div className="flex items-center gap-1.5" aria-label={`Imagem ${carousel.index + 1} de ${images.length}`}>
+                <div className="hidden items-center sm:flex" aria-label={`Imagem ${carousel.index + 1} de ${images.length}`}>
                   {images.map((image, index) => (
                     <button
                       key={image.id}
@@ -184,25 +164,32 @@ export default function ProjectCardCarousel({
                       onClick={() => goTo(index)}
                       aria-label={`Ir para a imagem ${index + 1} de ${images.length}`}
                       aria-current={index === carousel.index ? 'true' : undefined}
-                      className={cn(
-                        'h-2.5 min-w-2.5 rounded-full transition-all duration-300',
-                        index === carousel.index ? 'w-6 bg-cream' : 'bg-cream/25 hover:bg-cream/45',
-                      )}
-                    />
+                      className="group inline-flex h-11 w-11 items-center justify-center rounded-full"
+                    >
+                      <span
+                        aria-hidden="true"
+                        className={cn(
+                          'h-2.5 rounded-full transition-all duration-300',
+                          index === carousel.index
+                            ? 'w-6 bg-cream'
+                            : 'w-2.5 bg-cream/25 group-hover:bg-cream/45',
+                        )}
+                      />
+                    </button>
                   ))}
                 </div>
-                <span className="font-mono text-[11px] tracking-[0.14em] text-cream/55">
+                <span className="hidden font-mono text-[11px] tracking-[0.14em] text-cream/55 sm:inline">
                   {String(carousel.index + 1).padStart(2, '0')} / {String(images.length).padStart(2, '0')}
                 </span>
               </div>
             </div>
 
-            {carousel.canAutoplay && (
+            {images.length > 1 && (
               <button
                 type="button"
                 onClick={carousel.togglePlayback}
                 aria-label={carousel.isPlaying ? 'Pausar apresentação' : 'Reproduzir apresentação'}
-                className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-cream transition-colors hover:bg-white/10"
+                className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-cream transition-colors hover:bg-white/10 motion-reduce:hidden"
               >
                 {carousel.isPlaying ? <Pause size={16} aria-hidden="true" /> : <Play size={16} aria-hidden="true" />}
               </button>
@@ -241,13 +228,13 @@ export default function ProjectCardCarousel({
 
       {nextImage && (
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-0">
-          <PreviewPicture image={nextImage} className="h-full w-full object-contain" />
+          <ResponsivePicture image={nextImage} imgClassName="object-contain" />
         </div>
       )}
 
       {preload?.images[0] && (
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-0">
-          <PreviewPicture image={preload.images[0]} className="h-full w-full object-contain" />
+          <ResponsivePicture image={preload.images[0]} imgClassName="object-contain" />
         </div>
       )}
     </div>

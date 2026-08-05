@@ -1,1 +1,7 @@
-/* /index.html 200
+/sobre /sobre/ 301
+/projetos /projetos/ 301
+/projetos/barthy-web-studio-v2 /projetos/barthy-web-studio-v2/ 301
+/projetos/pnqc /projetos/pnqc/ 301
+/projetos/hermes-command-center /projetos/hermes-command-center/ 301
+/contato /contato/ 301
+/* /404.html 404

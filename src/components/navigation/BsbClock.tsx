@@ -34,7 +34,7 @@ function readClock(date = new Date()) {
  */
 export default function BsbClock({ className }: { className?: string }) {
   const reduced = useReducedMotion()
-  const [clock, setClock] = useState(() => readClock())
+  const [clock, setClock] = useState({ label: '--:--', dateTime: '' })
 
   useEffect(() => {
     let timeout: number
@@ -65,7 +65,7 @@ export default function BsbClock({ className }: { className?: string }) {
       )}
     >
       <Clock size={13} weight="light" aria-hidden="true" className="text-cream/35" />
-      <time dateTime={clock.dateTime} aria-label={`Horário em Brasília: ${clock.label}`}>
+      <time dateTime={clock.dateTime || undefined} aria-label={clock.dateTime ? `Horário em Brasília: ${clock.label}` : 'Carregando horário de Brasília'}>
         {clock.label}
       </time>
       <span aria-hidden="true" className="text-cream/30">

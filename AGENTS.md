@@ -1,41 +1,175 @@
-# figma-make-app
+# Instruções para agentes
 
-React + Vite + Tailwind CSS project running inside Figma Make.
+Este repositório contém o portfólio profissional de Gabriel Brasil.
 
-## Development Server
+## Tarefa ativa
 
-A Vite development server is **already running** on `$PORT` (default 8443). You don't need to start it manually.
+Trabalhe na issue #10:
 
-- Preview URL: The user can access the running app through the preview panel
-- Hot reload: Changes to source files are reflected immediately
+`feat: rodada completa de evolução do portfólio, SEO, IA, currículo e contato`
 
-## Project Structure
+Branch obrigatória:
 
-This is the canonical project structure. Start with task-relevant files below. Only follow imports or inspect other files when required, when a documented path is missing, or when the repository contradicts this guide.
+`feat/portfolio-polish-round-2`
 
-- `src/main.tsx` - React entrypoint; imports `src/index.css` and mounts `src/App.tsx` into the `#root` element
-- `src/App.tsx` - Primary application component and the usual starting point for UI work
-- `src/index.css` - Global CSS entrypoint and Tailwind CSS v4 import
-- `index.html` - Vite HTML shell containing the `#root` element and loading `src/main.tsx`
-- `package.json` - Project dependencies and the Vite build, development, preview, and formatting scripts
-- `vite.config.ts` - Vite configuration with React, Tailwind CSS v4, and Figma Make plugins plus the `@` alias for `src`
-- `.mise.toml` - Toolchain versions for Node.js and pnpm
+Não faça commits diretamente na `main` e não faça merge automático.
 
-## Dependencies
+## Posicionamento
 
-- Runtime: React 19 and React DOM 19
-- Styling: Tailwind CSS v4 with the `@tailwindcss/vite` plugin
-- Build tooling: Vite 8, TypeScript 5.7, and `@vitejs/plugin-react`
-- Formatting: oxfmt
+Apresentar Gabriel Brasil como:
 
-## Styling
+**Analista de Sistemas e Desenvolvedor**
 
-This project uses **Tailwind CSS v4** through the `@tailwindcss/vite` plugin configured in `vite.config.ts`. `src/index.css` imports Tailwind with `@import 'tailwindcss';`. Use Tailwind utility classes directly in JSX and put global CSS or Tailwind v4 theme customization in `src/index.css`. This scaffold does not need a Tailwind config file or PostCSS config.
+Não usar “estudante” como título principal. A formação acadêmica deve permanecer apenas na seção de formação.
 
-`src/main.tsx` imports `src/index.css`, so global font wiring belongs in `src/index.css`. Keep CSS `@import` statements first, then add any `@font-face` rules and font-family defaults there.
+## Regras de verdade
 
-## Code quality
+- Não inventar experiências, métricas, usuários, clientes, resultados ou certificações.
+- Não inventar URLs, capturas, endpoints ou funcionalidades concluídas.
+- Não publicar capturas reais do Hermes nesta rodada.
+- Não publicar dados pessoais, financeiros, bancos, tokens ou arquivos `.env`.
+- Não criar PDF de currículo vazio ou fictício.
+- Quando faltar um arquivo, domínio, segredo ou conta, implementar o comportamento seguro e registrar a pendência.
 
-- Use double quotes for strings containing apostrophes (`"We're here to help"`), or escape them in single-quoted strings. An unescaped apostrophe in a single-quoted string breaks the build.
-- Ensure JSX tags are closed and braces are balanced.
-- Export components as default exports.
+## Identidade visual
+
+Preservar a direção atual:
+
+- editorial escuro
+- preto e creme
+- tipografia forte
+- movimentos discretos
+- cards arredondados
+- capturas reais como evidência
+
+Não redesenhar o produto do zero.
+
+## Stack
+
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Motion
+- Radix UI
+- Phosphor Icons
+- pnpm
+- Cloudflare Pages
+
+Não adicionar framework pesado sem justificar tecnicamente.
+
+## Dados e links atuais
+
+- Site: `https://portfolio-gabriel-brasil.pages.dev/`
+- LinkedIn: `https://www.linkedin.com/in/gabrielbrasildev`
+- GitHub: `https://github.com/g4brielbr4sil`
+- E-mail: `g4brielbr4sil@gmail.com`
+- Hermes: `https://hermes-agent-01l.pages.dev/`
+- PNQC: `https://levens-qualifica-pnqc.pages.dev/`
+- Barthy V2: `https://github.com/g4brielbr4sil/barthy-web-studio-v2`
+- Barthy V1: `https://barthy-web-studio.pages.dev/`
+- Barthy V1 GitHub: `https://github.com/g4brielbr4sil/barthy-web-studio`
+
+Centralize essas informações em uma única configuração. Não replique strings de URL pelo projeto.
+
+## Currículo
+
+O caminho reservado é:
+
+`public/curriculo-gabriel-brasil.pdf`
+
+Enquanto o arquivo não existir, os CTAs devem permanecer ocultos e nenhum link pode retornar 404.
+
+## Contato
+
+O formulário deve funcionar com fallback por e-mail quando nenhum endpoint estiver configurado.
+
+- `VITE_CONTACT_ENDPOINT` pode conter somente uma URL pública.
+- Segredos de provedor devem existir apenas no servidor ou no ambiente da Cloudflare.
+- Não escolha nem simule um provedor sem configuração real.
+
+## Capturas
+
+Barthy V2 e PNQC usam capturas reais.
+
+- Não reconstruir as interfaces.
+- Não usar inversão de cores.
+- Não criar pares de tema inexistentes.
+- Preservar proporção e legibilidade.
+- Usar AVIF com WebP fallback.
+
+Hermes deve continuar com apresentação abstrata e estudo de caso textual.
+
+## SEO e descoberta
+
+O conteúdo importante deve possuir URLs públicas estáveis e HTML rastreável.
+
+Priorizar:
+
+- títulos e descrições exclusivos
+- canonical
+- sitemap
+- robots
+- links internos com `<a href>`
+- páginas públicas dos projetos
+- JSON-LD factual
+- breadcrumbs
+- Open Graph
+- Twitter Card
+- OAI-SearchBot permitido
+- `llms.txt` complementar
+
+`llms.txt` não substitui sitemap, HTML semântico, links internos ou conteúdo público.
+
+Não alterar a política de GPTBot sem registrar a decisão.
+
+## Qualidade
+
+Antes de começar:
+
+```bash
+pnpm install --frozen-lockfile
+pnpm typecheck
+pnpm test
+pnpm build
+```
+
+Antes de entregar:
+
+```bash
+pnpm typecheck
+pnpm test
+pnpm build
+pnpm check
+```
+
+Corrigir erros e warnings relevantes. Não silenciar TypeScript com `any`, `@ts-ignore` ou casts inseguros sem justificativa.
+
+## Acessibilidade
+
+Garantir:
+
+- navegação por teclado
+- foco visível
+- landmarks
+- skip link
+- headings corretos
+- Dialog com retorno de foco
+- `prefers-reduced-motion`
+- áreas de toque de pelo menos 44px
+- formulário com labels e mensagens acessíveis
+- ausência de overflow horizontal em 320px
+
+## Entrega
+
+Abrir uma PR para `main` e manter o merge manual.
+
+O relatório deve separar claramente:
+
+- o que foi implementado
+- o que foi validado
+- o que depende de arquivo ou credencial do usuário
+- o que permaneceu fora do escopo
+- resultados dos testes e build
+- mudanças de bundle e performance
+- URL do preview da Cloudflare, quando disponível

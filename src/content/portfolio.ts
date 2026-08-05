@@ -1,13 +1,14 @@
 import { barthyPreviews, pnqcPreviews } from '@/content/projectPreviews'
+import { resumeUrl, site } from '@/config/site'
 
 export const contact = {
-  email: 'g4brielbr4sil@gmail.com',
-  mailto: 'mailto:g4brielbr4sil@gmail.com',
-  linkedin: 'https://www.linkedin.com/in/gabrielbrasildev',
-  github: 'https://github.com/g4brielbr4sil',
-  /** O CTA só deve reaparecer quando o PDF real existir em public/. */
-  resume: null as string | null,
-  location: 'Brasília, Distrito Federal, Brasil',
+  email: site.contact.email,
+  mailto: site.contact.mailto,
+  linkedin: site.urls.linkedin,
+  github: site.urls.github,
+  resume: resumeUrl(),
+  resumeDownloadName: site.resume.downloadName,
+  location: site.location.full,
 }
 
 export type ProjectLink = {
@@ -65,6 +66,8 @@ export type ProjectCaseStudy = {
 
 export type Project = {
   number: string
+  slug: string
+  pagePath?: string
   name: string
   status?: string
   statusTooltip?: string
@@ -84,6 +87,8 @@ export type Project = {
 export const projects: Project[] = [
   {
     number: '01',
+    slug: 'barthy-web-studio-v2',
+    pagePath: '/projetos/barthy-web-studio-v2/',
     name: 'Barthy Web Studio V2',
     status: 'Case autoral',
     previewThemes: barthyPreviews,
@@ -103,12 +108,12 @@ export const projects: Project[] = [
     links: [
       {
         label: 'Ver repositório V2',
-        href: 'https://github.com/g4brielbr4sil/barthy-web-studio-v2',
+        href: site.urls.barthyV2,
         external: true,
       },
       {
         label: 'Abrir versão pública V1',
-        href: 'https://barthy-web-studio.pages.dev/',
+        href: site.urls.barthyV1,
         external: true,
       },
     ],
@@ -148,12 +153,12 @@ export const projects: Project[] = [
       links: [
         {
           label: 'Ver repositório V2',
-          href: 'https://github.com/g4brielbr4sil/barthy-web-studio-v2',
+          href: site.urls.barthyV2,
           external: true,
         },
         {
           label: 'Abrir versão pública V1',
-          href: 'https://barthy-web-studio.pages.dev/',
+          href: site.urls.barthyV1,
           external: true,
         },
       ],
@@ -161,6 +166,8 @@ export const projects: Project[] = [
   },
   {
     number: '02',
+    slug: 'pnqc',
+    pagePath: '/projetos/pnqc/',
     name: 'Levens Qualifica | PNQC',
     status: 'Em produção',
     previewThemes: pnqcPreviews,
@@ -180,7 +187,7 @@ export const projects: Project[] = [
     links: [
       {
         label: 'Abrir plataforma',
-        href: 'https://levens-qualifica-pnqc.pages.dev/',
+        href: site.urls.pnqc,
         external: true,
       },
     ],
@@ -220,7 +227,7 @@ export const projects: Project[] = [
       links: [
         {
           label: 'Abrir plataforma',
-          href: 'https://levens-qualifica-pnqc.pages.dev/',
+          href: site.urls.pnqc,
           external: true,
         },
       ],
@@ -228,6 +235,8 @@ export const projects: Project[] = [
   },
   {
     number: '03',
+    slug: 'hermes-command-center',
+    pagePath: '/projetos/hermes-command-center/',
     name: 'Hermes Command Center',
     status: 'Ambiente protegido',
     statusTooltip: 'Aplicação autoral privada. Nenhuma captura com dados pessoais é publicada nesta versão.',
@@ -247,7 +256,7 @@ export const projects: Project[] = [
     links: [
       {
         label: 'Abrir interface protegida',
-        href: 'https://hermes-agent-01l.pages.dev/',
+        href: site.urls.hermes,
         external: true,
       },
     ],
@@ -287,7 +296,7 @@ export const projects: Project[] = [
       links: [
         {
           label: 'Abrir interface protegida',
-          href: 'https://hermes-agent-01l.pages.dev/',
+          href: site.urls.hermes,
           external: true,
         },
       ],
@@ -295,6 +304,7 @@ export const projects: Project[] = [
   },
   {
     number: '04',
+    slug: 'saas-de-suporte',
     name: 'SaaS de Suporte',
     status: 'Produto em desenvolvimento',
     statusTooltip: 'Arquitetura e escopo em definição. Ainda não existe aplicação pública.',

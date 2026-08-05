@@ -23,7 +23,7 @@ export default function Hero() {
   const fade = (delay: number) => ({
     initial: reduced ? false : { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 1, delay, ease: EASE },
+    transition: { duration: 0.72, delay, ease: EASE },
   })
 
   return (
@@ -107,7 +107,7 @@ export default function Hero() {
               <motion.div {...fade(0.75)} className="mt-7 flex flex-wrap items-center gap-3">
                 <ActionButton href="#projetos">Ver projetos</ActionButton>
                 {contact.resume && (
-                  <ActionButton href={contact.resume} variant="secondary" download>
+                  <ActionButton href={contact.resume} variant="secondary" download={contact.resumeDownloadName}>
                     Baixar currículo
                   </ActionButton>
                 )}
@@ -150,7 +150,7 @@ function SystemLines({ reduced }: { reduced: boolean }) {
             d={d}
             initial={reduced ? false : { pathLength: 0 }}
             animate={{ pathLength: 1 }}
-            transition={{ duration: 2.4, delay: 0.6 + index * 0.18, ease: EASE }}
+            transition={{ duration: 1.6, delay: 0.45 + index * 0.14, ease: EASE }}
           />
         ))}
       </g>

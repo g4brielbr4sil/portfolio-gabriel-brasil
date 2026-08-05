@@ -1,5 +1,3 @@
-import { useReducedMotion } from 'motion/react'
-
 type Props = {
   items: string[]
   /** Segundos para percorrer um ciclo completo — quanto maior, mais lento. */
@@ -11,41 +9,36 @@ type Props = {
  * metade da própria largura, o que fecha o loop sem tranco no reinício.
  */
 export default function StackTicker({ items, duration = 38 }: Props) {
-  const reduced = useReducedMotion()
-
-  // Movimento reduzido: grade estática, com o mesmo conteúdo.
-  if (reduced) {
-    return (
-      <ul className="flex flex-wrap gap-2.5">
+  return (
+    <>
+      <ul aria-label="Stack principal" className="hidden flex-wrap gap-2.5 motion-reduce:flex">
         {items.map((item) => (
           <li key={item}>
             <Chip>{item}</Chip>
           </li>
         ))}
       </ul>
-    )
-  }
 
-  return (
-    <div className="group relative -mx-7 overflow-hidden md:-mx-10">
-      {/* Bordas esfumadas para o letreiro nascer e morrer dentro do card. */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-surface to-transparent md:w-16" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-surface to-transparent md:w-16" />
+      <div className="group relative -mx-7 overflow-hidden motion-reduce:hidden md:-mx-10">
+        {/* Bordas esfumadas para o letreiro nascer e morrer dentro do card. */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-surface to-transparent md:w-16" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-surface to-transparent md:w-16" />
 
-      <ul
-        aria-label="Stack principal"
-        style={{ animationDuration: `${duration}s` }}
-        className="flex w-max animate-[ticker_linear_infinite] [@media(hover:hover)]:group-hover:[animation-play-state:paused]"
-      >
-        {/* Sem `gap`: o espaçamento vive no item, então metade da trilha é
-            exatamente a lista original e o loop fecha sem emenda. */}
-        {[...items, ...items].map((item, index) => (
-          <li key={`${item}-${index}`} aria-hidden={index >= items.length} className="pr-2.5 md:pr-3">
-            <Chip>{item}</Chip>
-          </li>
-        ))}
-      </ul>
-    </div>
+        <ul
+          aria-label="Stack principal"
+          style={{ animationDuration: `${duration}s` }}
+          className="flex w-max animate-[ticker_linear_infinite] [@media(hover:hover)]:group-hover:[animation-play-state:paused]"
+        >
+          {/* Sem `gap`: o espaçamento vive no item, então metade da trilha é
+              exatamente a lista original e o loop fecha sem emenda. */}
+          {[...items, ...items].map((item, index) => (
+            <li key={`${item}-${index}`} aria-hidden={index >= items.length} className="pr-2.5 md:pr-3">
+              <Chip>{item}</Chip>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
   )
 }
 

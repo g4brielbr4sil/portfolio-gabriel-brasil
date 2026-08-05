@@ -5,6 +5,8 @@ import { CaretRight } from '@phosphor-icons/react/dist/csr/CaretRight'
 import type { PreviewTheme, ProjectPreviewImage, ProjectPreviewThemes } from '@/content/portfolio'
 import { cn } from '@/lib/utils'
 import PreviewThemeToggle from '@/components/projects/PreviewThemeToggle'
+import ResponsivePicture from '@/components/projects/ResponsivePicture'
+import ProjectPreviewFrame from '@/components/projects/ProjectPreviewFrame'
 
 type Props = {
   projectName: string
@@ -13,25 +15,6 @@ type Props = {
   initialIndex: number
   onThemeChange?: (theme: PreviewTheme) => void
   onOpenProject?: () => void
-}
-
-function PreviewPicture({ image, eager, className }: { image: ProjectPreviewImage; eager?: boolean; className?: string }) {
-  return (
-    <picture>
-      <source srcSet={image.avif} type="image/avif" />
-      <source srcSet={image.webp} type="image/webp" />
-      <img
-        src={image.webp}
-        alt={image.alt}
-        width={image.width}
-        height={image.height}
-        loading={eager ? 'eager' : 'lazy'}
-        fetchPriority={eager ? 'high' : 'auto'}
-        decoding="async"
-        className={className}
-      />
-    </picture>
-  )
 }
 
 export default function ProjectGallery({
@@ -153,8 +136,10 @@ export default function ProjectGallery({
         {...swipeHandlers}
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.05),transparent_55%)]" />
-        <div className="flex min-h-[min(58vh,680px)] items-center justify-center p-4 md:min-h-[min(64vh,740px)]">
-          <PreviewPicture image={current} eager className="h-full max-h-[min(58vh,680px)] w-full object-contain md:max-h-[min(64vh,740px)]" />
+        <div className="flex min-h-[min(58vh,680px)] items-center justify-center p-4 pb-20 md:min-h-[min(64vh,740px)]">
+          <ProjectPreviewFrame image={current} className="max-h-[min(58vh,680px)] md:max-h-[min(64vh,740px)]">
+            <ResponsivePicture image={current} eager imgClassName="object-contain" />
+          </ProjectPreviewFrame>
         </div>
 
         <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-2 border-t border-white/8 bg-[#0a0a0a]/88 p-3 backdrop-blur-md">
@@ -193,7 +178,7 @@ export default function ProjectGallery({
               aria-label={`Ir para a imagem ${itemIndex + 1} de ${images.length}`}
               aria-current={active ? 'true' : undefined}
             >
-              <PreviewPicture image={image} className="h-full w-full object-contain" />
+              <ResponsivePicture image={image} imgClassName="object-contain" />
             </button>
           )
         })}

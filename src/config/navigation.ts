@@ -9,7 +9,7 @@ import { House } from '@phosphor-icons/react/dist/csr/House'
 import { LinkedinLogo } from '@phosphor-icons/react/dist/csr/LinkedinLogo'
 import { SquaresFour } from '@phosphor-icons/react/dist/csr/SquaresFour'
 import { User } from '@phosphor-icons/react/dist/csr/User'
-import { contact } from '@/content/portfolio'
+import { resumeUrl, site } from '@/config/site'
 
 export type SectionId =
   | 'inicio'
@@ -22,6 +22,7 @@ export type SectionId =
 
 export type NavSection = {
   id: SectionId
+  href: string
   label: string
   description: string
   icon: Icon
@@ -33,6 +34,7 @@ export type NavSection = {
 export const sections: NavSection[] = [
   {
     id: 'inicio',
+    href: '/',
     label: 'Início',
     description: 'Volte ao topo e à apresentação principal.',
     icon: House,
@@ -41,6 +43,7 @@ export const sections: NavSection[] = [
   },
   {
     id: 'sobre',
+    href: '/sobre/',
     label: 'Sobre',
     description: 'Entenda o perfil profissional e a forma de trabalho.',
     icon: User,
@@ -49,6 +52,7 @@ export const sections: NavSection[] = [
   },
   {
     id: 'projetos',
+    href: '/projetos/',
     label: 'Projetos',
     description: 'Conheça os produtos e sistemas desenvolvidos.',
     icon: SquaresFour,
@@ -57,6 +61,7 @@ export const sections: NavSection[] = [
   },
   {
     id: 'atuacao',
+    href: '/#atuacao',
     label: 'Atuação',
     description: 'Veja como a análise vira entrega na prática.',
     icon: Briefcase,
@@ -65,6 +70,7 @@ export const sections: NavSection[] = [
   },
   {
     id: 'tecnologias',
+    href: '/#tecnologias',
     label: 'Tecnologias',
     description: 'Veja o ecossistema técnico aplicado aos projetos.',
     icon: Code,
@@ -73,6 +79,7 @@ export const sections: NavSection[] = [
   },
   {
     id: 'formacao',
+    href: '/#formacao',
     label: 'Formação',
     description: 'Acompanhe a formação acadêmica e o estudo contínuo.',
     icon: GraduationCap,
@@ -82,6 +89,7 @@ export const sections: NavSection[] = [
   },
   {
     id: 'contato',
+    href: '/contato/',
     label: 'Contato',
     description: 'Abra os canais profissionais de contato.',
     icon: EnvelopeSimple,
@@ -108,7 +116,7 @@ const baseActions: NavAction[] = [
     label: 'LinkedIn',
     description: 'Abra o perfil profissional completo.',
     icon: LinkedinLogo,
-    href: contact.linkedin,
+    href: site.urls.linkedin,
     external: true,
   },
   {
@@ -116,12 +124,14 @@ const baseActions: NavAction[] = [
     label: 'GitHub',
     description: 'Veja repositórios e atividade de desenvolvimento.',
     icon: GithubLogo,
-    href: contact.github,
+    href: site.urls.github,
     external: true,
   },
 ]
 
-export const externalActions: NavAction[] = contact.resume
+const publishedResume = resumeUrl()
+
+export const externalActions: NavAction[] = publishedResume
   ? [
       ...baseActions,
       {
@@ -129,7 +139,7 @@ export const externalActions: NavAction[] = contact.resume
         label: 'Currículo',
         description: 'Baixe o currículo em PDF.',
         icon: DownloadSimple,
-        href: contact.resume,
+        href: publishedResume,
         download: true,
       },
     ]

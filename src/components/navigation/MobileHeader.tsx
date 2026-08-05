@@ -27,7 +27,7 @@ export default function MobileHeader({ onNavigate, onOpenMenu, scrolled }: Props
       )}
     >
       <motion.a
-        href="#inicio"
+        href="/"
         whileTap={tap}
         onClick={(event) => {
           event.preventDefault()

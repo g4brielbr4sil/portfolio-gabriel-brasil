@@ -69,9 +69,13 @@ export default function NavigationSheet({
             const isActive = active === section.id
             return (
               <li key={section.id} className="border-b border-line/70 last:border-b-0">
-                <button
-                  type="button"
-                  onClick={() => go(section.id)}
+                <a
+                  href={section.href}
+                  onClick={(event) => {
+                    if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return
+                    event.preventDefault()
+                    go(section.id)
+                  }}
                   aria-current={isActive ? 'location' : undefined}
                   className={cn(
                     'flex min-h-[52px] w-full items-center gap-3 py-3.5 text-left text-lg transition-colors duration-200',
@@ -88,7 +92,7 @@ export default function NavigationSheet({
                   {isActive && (
                     <span className="ml-auto h-1.5 w-1.5 rounded-full bg-cream/70" aria-hidden="true" />
                   )}
-                </button>
+                </a>
               </li>
             )
           })}
@@ -104,7 +108,7 @@ export default function NavigationSheet({
                 href={action.href}
                 download={action.download}
                 target={action.external ? '_blank' : undefined}
-                rel={action.external ? 'noreferrer' : undefined}
+                rel={action.external ? 'noopener noreferrer' : undefined}
                 onClick={() => onOpenChange(false)}
                 className="flex min-h-[44px] items-center gap-3 text-sm text-cream/60 transition-colors hover:text-cream"
               >

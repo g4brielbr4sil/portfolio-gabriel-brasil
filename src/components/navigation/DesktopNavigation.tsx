@@ -70,9 +70,13 @@ function NavShell({
         className,
       )}
     >
-      <button
-        type="button"
-        onClick={() => onNavigate('inicio')}
+      <a
+        href="/"
+        onClick={(event) => {
+          if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return
+          event.preventDefault()
+          onNavigate('inicio')
+        }}
         aria-label="Ir para o início"
         className="rounded-full px-3 py-1.5 text-sm tracking-[-0.01em] text-cream transition-colors duration-200 hover:text-cream/70"
       >
@@ -80,7 +84,7 @@ function NavShell({
         <span className="ml-2 hidden text-[10px] uppercase tracking-[0.24em] text-cream/35 xl:inline">
           Gabriel Brasil
         </span>
-      </button>
+      </a>
 
       <span className="mx-1 h-5 w-px bg-line" aria-hidden="true" />
 
@@ -89,9 +93,13 @@ function NavShell({
           const isActive = active === section.id
           return (
             <li key={section.id}>
-              <button
-                type="button"
-                onClick={() => onNavigate(section.id)}
+              <a
+                href={section.href}
+                onClick={(event) => {
+                  if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return
+                  event.preventDefault()
+                  onNavigate(section.id)
+                }}
                 aria-current={isActive ? 'location' : undefined}
                 className={cn(
                   'relative isolate rounded-full px-3.5 py-1.5 text-sm transition-colors duration-200',
@@ -100,7 +108,7 @@ function NavShell({
               >
                 {isActive && <ActiveNavigationIndicator layoutId={indicatorId} />}
                 {section.label}
-              </button>
+              </a>
             </li>
           )
         })}
@@ -124,15 +132,19 @@ function NavShell({
         </kbd>
       </button>
 
-      <button
-        type="button"
-        onClick={() => onNavigate('contato')}
+      <a
+        href="/contato/"
+        onClick={(event) => {
+          if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return
+          event.preventDefault()
+          onNavigate('contato')
+        }}
         aria-current={active === 'contato' ? 'location' : undefined}
         className="ml-1 inline-flex items-center gap-1.5 rounded-full bg-cream px-4 py-1.5 text-sm text-ink transition-all duration-200 hover:gap-2.5"
       >
         Contato
         <ArrowUpRight size={14} weight="regular" aria-hidden="true" />
-      </button>
+      </a>
 
       <ScrollProgress />
     </div>
@@ -173,15 +185,19 @@ function MoreMenu({
           >
             {secondaryDesktopSections.map((section) => (
               <Popover.Close asChild key={section.id}>
-                <button
-                  type="button"
-                  onClick={() => onNavigate(section.id)}
+                <a
+                  href={section.href}
+                  onClick={(event) => {
+                    if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return
+                    event.preventDefault()
+                    onNavigate(section.id)
+                  }}
                   aria-current={active === section.id ? 'location' : undefined}
                   className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-sm text-cream/75 transition-colors duration-200 hover:bg-cream/[0.07] hover:text-cream"
                 >
                   <section.icon size={16} weight="light" aria-hidden="true" />
                   {section.label}
-                </button>
+                </a>
               </Popover.Close>
             ))}
 
@@ -193,7 +209,7 @@ function MoreMenu({
                 href={action.href}
                 download={action.download}
                 target={action.external ? '_blank' : undefined}
-                rel={action.external ? 'noreferrer' : undefined}
+                rel={action.external ? 'noopener noreferrer' : undefined}
                 className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-cream/60 transition-colors duration-200 hover:bg-cream/[0.07] hover:text-cream"
               >
                 <action.icon size={16} weight="light" aria-hidden="true" />

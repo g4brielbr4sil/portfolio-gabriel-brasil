@@ -34,8 +34,12 @@ export default function Projects({ onOverlayChange }: Props) {
 
   function handleOpenChange(open: boolean) {
     if (!open) {
+      const target = openerRef.current
       setActiveProject(null)
       onOverlayChange?.(false)
+      window.setTimeout(() => {
+        if (target?.isConnected) target.focus({ preventScroll: true })
+      }, 0)
     }
   }
 
@@ -92,7 +96,6 @@ export default function Projects({ onOverlayChange }: Props) {
             initialTheme={activeTheme}
             initialIndex={activeIndex}
             onOpenChange={handleOpenChange}
-            returnFocusRef={openerRef}
           />
         </Suspense>
       )}
@@ -146,7 +149,7 @@ function ProjectCard({ project, delay, className, featured, compact, onOpenProje
             (project.statusTooltip ? (
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <button type="button" className="absolute right-4 top-4 z-30 cursor-help rounded-full">
+                  <button type="button" className="absolute right-4 top-4 z-30 inline-flex min-h-11 items-center rounded-full cursor-help">
                     <Badge variant="solid">{project.status}</Badge>
                   </button>
                 </TooltipTrigger>
@@ -169,6 +172,15 @@ function ProjectCard({ project, delay, className, featured, compact, onOpenProje
 
           <div className="mt-6 flex flex-wrap items-center gap-3">
             <ProjectCaseStudyButton label="Explorar projeto" onClick={(event) => openCurrentProject(event.currentTarget)} />
+            {project.pagePath && (
+              <a
+                href={project.pagePath}
+                className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full border border-line bg-white/5 px-4 text-xs text-cream/75 transition-colors hover:bg-white/10 hover:text-cream"
+              >
+                Ver estudo de caso
+                <ArrowUpRight size={14} weight="regular" aria-hidden="true" />
+              </a>
+            )}
             {project.links
               .filter((link) => Boolean(link.href))
               .slice(0, 1)

@@ -19,7 +19,7 @@ export function FadeUp({ children, delay = 0, className, scale = false }: FadeUp
       initial={reduced ? false : { opacity: 0, y: 24, scale: scale ? 0.97 : 1 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, margin: '-100px' }}
-      transition={{ duration: 1, delay, ease: EASE }}
+      transition={{ duration: 0.65, delay, ease: EASE }}
     >
       {children}
     </motion.div>
@@ -56,7 +56,7 @@ export function WordsPullUp({ segments, className, delay = 0, asterisk }: WordsP
             className={`relative inline-block ${entry.className ?? ''}`}
             initial={reduced ? false : { opacity: 0, y: 24 }}
             animate={inView ? { opacity: 1, y: 0 } : undefined}
-            transition={{ duration: 0.9, delay: delay + index * 0.08, ease: EASE }}
+            transition={{ duration: 0.65, delay: delay + index * 0.06, ease: EASE }}
           >
             {entry.word}
             {asterisk && isLast && (
@@ -78,17 +78,8 @@ export function WordsPullUp({ segments, className, delay = 0, asterisk }: WordsP
 /** Revelação progressiva: cada caractere ganha opacidade conforme o scroll avança. */
 export function ScrollRevealText({ text, className }: { text: string; className?: string }) {
   const ref = useRef<HTMLParagraphElement>(null)
-  const reduced = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.85', 'end 0.35'] })
   const chars = text.split('')
-
-  if (reduced) {
-    return (
-      <p ref={ref} className={className}>
-        {text}
-      </p>
-    )
-  }
 
   return (
     <p ref={ref} className={className}>
@@ -118,5 +109,5 @@ function AnimatedChar({
 }) {
   const opacity = useTransform(progress, [start, end], [0.2, 1])
 
-  return <motion.span style={{ opacity }}>{char}</motion.span>
+  return <motion.span className="motion-reduce:!opacity-100" style={{ opacity }}>{char}</motion.span>
 }
