@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { sections, type SectionId } from '@/config/navigation'
 import {
+  canResolveHashInPage,
   type NavigateOptions,
   sectionFromHash,
   sectionFromPathname,
@@ -81,7 +82,7 @@ export function useActiveSection() {
 
     const syncHash = (event?: Event) => {
       const hashSection = sectionFromHash(window.location.hash)
-      if (hashSection && shouldNavigateInPage(window.location.pathname, hashSection)) {
+      if (hashSection && canResolveHashInPage(window.location.pathname, hashSection)) {
         setActive(hashSection)
         requestAnimationFrame(() => scrollToSection(hashSection, 'auto', false))
       } else if (!window.location.hash && (event?.type === 'popstate' || event?.type === 'hashchange')) {
@@ -139,7 +140,7 @@ export function useActiveSection() {
     window.addEventListener('pageshow', syncHash)
 
     const initialHash = sectionFromHash(window.location.hash)
-    if (initialHash && shouldNavigateInPage(window.location.pathname, initialHash)) {
+    if (initialHash && canResolveHashInPage(window.location.pathname, initialHash)) {
       alignInitialHash(initialHash)
     } else {
       updateFromScroll()

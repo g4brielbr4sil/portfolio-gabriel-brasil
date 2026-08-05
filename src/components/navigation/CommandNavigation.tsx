@@ -104,14 +104,14 @@ export default function CommandNavigation({ open, onOpenChange, onNavigate, onCl
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-[60] bg-black/75 backdrop-blur-[2px] data-[state=closed]:animate-[fade-out_180ms_ease] data-[state=open]:animate-[fade-in_220ms_ease]" />
+        <Dialog.Overlay className="fixed inset-0 z-[60] bg-black/75 backdrop-blur-[2px] data-[state=closed]:animate-[fade-out_180ms_ease] data-[state=open]:animate-[fade-in_220ms_ease] motion-reduce:animate-none motion-reduce:transition-none" />
         <Dialog.Content
           onKeyDown={onKeyDown}
           onCloseAutoFocus={(event) => {
             event.preventDefault()
             onCloseAutoFocus()
           }}
-          className="fixed left-1/2 top-[12vh] z-[70] w-[min(94vw,34rem)] -translate-x-1/2 overflow-hidden rounded-2xl border border-line bg-ink shadow-[0_28px_90px_rgba(0,0,0,0.7)] data-[state=closed]:animate-[fade-out_180ms_ease] data-[state=open]:animate-[sheet-in_260ms_cubic-bezier(0.16,1,0.3,1)]"
+          className="fixed left-1/2 top-[12vh] z-[70] w-[min(94vw,34rem)] -translate-x-1/2 overflow-hidden rounded-2xl border border-line bg-ink shadow-[0_28px_90px_rgba(0,0,0,0.7)] data-[state=closed]:animate-[fade-out_180ms_ease] data-[state=open]:animate-[sheet-in_260ms_cubic-bezier(0.16,1,0.3,1)] motion-reduce:animate-none motion-reduce:transition-none"
         >
           <Dialog.Title className="sr-only">Navegação rápida</Dialog.Title>
           <Dialog.Description className="sr-only">

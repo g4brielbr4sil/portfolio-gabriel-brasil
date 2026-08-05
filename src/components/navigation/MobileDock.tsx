@@ -28,7 +28,7 @@ export default function MobileDock({ active, currentAria, onNavigate, visible }:
           animate={reduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
           exit={reduced ? { opacity: 0 } : { opacity: 0, y: 24 }}
           transition={reduced ? { duration: 0 } : { duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed inset-x-0 bottom-0 z-40 flex justify-center px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] min-[56rem]:hidden"
+          className="fixed inset-x-0 bottom-0 z-40 flex justify-center px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] motion-reduce:transition-none min-[56rem]:hidden"
         >
           <ul className="flex w-full max-w-sm items-center justify-between gap-1 rounded-[1.75rem] border border-line bg-ink/85 px-2 py-1.5 shadow-[0_12px_36px_rgba(0,0,0,0.55)] backdrop-blur-md">
             {dockSections.map((section) => {

@@ -1,6 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import {
+  canResolveHashInPage,
   DOCK_TOGGLE_COOLDOWN,
   initialDockScrollState,
   isCommandShortcut,
@@ -32,6 +33,9 @@ test('route and hash resolution keep internal pages as the route source', () => 
   assert.equal(shouldNavigateInPage('/', 'atuacao'), true)
   assert.equal(shouldNavigateInPage('/', 'sobre'), false)
   assert.equal(shouldNavigateInPage('/sobre/', 'atuacao'), false)
+  assert.equal(canResolveHashInPage('/', 'sobre'), true)
+  assert.equal(canResolveHashInPage('/', 'projetos'), true)
+  assert.equal(canResolveHashInPage('/sobre/', 'atuacao'), false)
 })
 
 test('modified and non-primary link activations keep native browser behavior', () => {

@@ -65,6 +65,10 @@ export function shouldNavigateInPage(pathname: string, id: SectionId) {
   return normalizePathname(pathname) === '/' && localHomeSections.has(id)
 }
 
+export function canResolveHashInPage(pathname: string, id: SectionId) {
+  return normalizePathname(pathname) === '/' && sectionIds.has(id)
+}
+
 export function isModifiedNavigationEvent(event: {
   button: number
   ctrlKey: boolean

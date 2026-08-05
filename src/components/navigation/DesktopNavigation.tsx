@@ -57,7 +57,7 @@ export default function DesktopNavigation({
       data-navigation-bar
       className={cn(
         'pointer-events-auto relative hidden w-fit max-w-[calc(100vw-3rem)] items-center gap-1.5 whitespace-nowrap rounded-2xl border px-2.5 py-2 min-[56rem]:flex',
-        'transition-[background-color,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]',
+        'transition-[background-color,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none',
         scrolled
           ? 'border-line bg-ink/85 shadow-[0_12px_32px_rgba(0,0,0,0.55)] backdrop-blur-md'
           : 'border-line/70 bg-ink shadow-none',
@@ -171,14 +171,14 @@ function MoreMenu({
             size={12}
             weight="regular"
             aria-hidden="true"
-            className="transition-transform duration-200 group-data-[state=open]:rotate-180"
+            className="transition-transform duration-200 group-data-[state=open]:rotate-180 motion-reduce:transition-none"
           />
         </Popover.Trigger>
         <Popover.Portal>
           <Popover.Content
             align="end"
             sideOffset={10}
-            className="z-[55] w-56 rounded-2xl border border-line bg-ink p-2 shadow-[0_20px_60px_rgba(0,0,0,0.6)] data-[state=closed]:animate-[fade-out_180ms_ease] data-[state=open]:animate-[sheet-in_240ms_cubic-bezier(0.16,1,0.3,1)]"
+            className="z-[55] w-56 rounded-2xl border border-line bg-ink p-2 shadow-[0_20px_60px_rgba(0,0,0,0.6)] data-[state=closed]:animate-[fade-out_180ms_ease] data-[state=open]:animate-[sheet-in_240ms_cubic-bezier(0.16,1,0.3,1)] motion-reduce:animate-none motion-reduce:transition-none"
           >
             {secondaryDesktopSections.map((section) => (
               <a

@@ -30,7 +30,7 @@ export default function MobileHeader({ active, currentAria, onNavigate, onOpenMe
       data-navigation-bar
       className={cn(
         'pointer-events-auto relative flex items-center justify-between gap-2 rounded-2xl border border-line px-1.5 py-1 min-[56rem]:hidden',
-        'transition-[background-color,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]',
+        'transition-[background-color,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none',
         scrolled
           ? 'bg-ink/85 shadow-[0_10px_28px_rgba(0,0,0,0.5)] backdrop-blur-md'
           : 'bg-ink shadow-none',
