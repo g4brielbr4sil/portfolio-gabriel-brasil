@@ -23,6 +23,7 @@ import { cn } from '@/lib/utils'
 
 type Props = {
   active: SectionId
+  currentAria: 'page' | 'location'
   onNavigate: NavigationHandler
   onOpenCommand: () => void
   shortcutLabel: string
@@ -44,6 +45,7 @@ function handleSectionClick(
 /** Uma única topbar responsiva para tablet e desktop. */
 export default function DesktopNavigation({
   active,
+  currentAria,
   onNavigate,
   onOpenCommand,
   shortcutLabel,
@@ -65,7 +67,7 @@ export default function DesktopNavigation({
         href="/"
         onClick={(event) => handleSectionClick(event, { id: 'inicio' }, onNavigate)}
         aria-label="Ir para o início"
-        aria-current={active === 'inicio' ? 'location' : undefined}
+        aria-current={active === 'inicio' ? currentAria : undefined}
         className="rounded-full px-3 py-1.5 text-sm tracking-[-0.01em] text-cream transition-colors duration-200 hover:text-cream/70"
       >
         <span className="font-medium">GB</span>
@@ -84,7 +86,7 @@ export default function DesktopNavigation({
               <a
                 href={section.href}
                 onClick={(event) => handleSectionClick(event, section, onNavigate)}
-                aria-current={isActive ? 'location' : undefined}
+                aria-current={isActive ? currentAria : undefined}
                 className={cn(
                   'relative isolate rounded-full px-3 py-1.5 text-sm transition-colors duration-200',
                   isActive ? 'text-cream' : 'text-cream/55 hover:text-cream/90',
@@ -97,7 +99,7 @@ export default function DesktopNavigation({
           )
         })}
 
-        <MoreMenu active={active} onNavigate={onNavigate} />
+        <MoreMenu active={active} currentAria={currentAria} onNavigate={onNavigate} />
       </ul>
 
       <span className="mx-0.5 h-5 w-px bg-line" aria-hidden="true" />
@@ -118,7 +120,7 @@ export default function DesktopNavigation({
 
       <a
         href="/contato/"
-        aria-current={active === 'contato' ? 'location' : undefined}
+        aria-current={active === 'contato' ? currentAria : undefined}
         className="ml-0.5 inline-flex items-center gap-1.5 rounded-full bg-cream px-3.5 py-1.5 text-sm text-ink transition-all duration-200 hover:gap-2.5"
       >
         Contato
@@ -130,7 +132,15 @@ export default function DesktopNavigation({
   )
 }
 
-function MoreMenu({ active, onNavigate }: { active: SectionId; onNavigate: NavigationHandler }) {
+function MoreMenu({
+  active,
+  currentAria,
+  onNavigate,
+}: {
+  active: SectionId
+  currentAria: 'page' | 'location'
+  onNavigate: NavigationHandler
+}) {
   const [open, setOpen] = useState(false)
   const hasActive = secondaryDesktopSections.some((section) => section.id === active)
 
@@ -150,7 +160,7 @@ function MoreMenu({ active, onNavigate }: { active: SectionId; onNavigate: Navig
     <li className="lg:hidden">
       <Popover.Root open={open} onOpenChange={setOpen}>
         <Popover.Trigger
-          aria-current={hasActive ? 'location' : undefined}
+          aria-current={hasActive ? currentAria : undefined}
           className={cn(
             'group inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm transition-colors duration-200',
             hasActive ? 'text-cream' : 'text-cream/55 hover:text-cream/90',
@@ -178,7 +188,7 @@ function MoreMenu({ active, onNavigate }: { active: SectionId; onNavigate: Navig
                   setOpen(false)
                   handleSectionClick(event, section, onNavigate)
                 }}
-                aria-current={active === section.id ? 'location' : undefined}
+                aria-current={active === section.id ? currentAria : undefined}
                 className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-sm text-cream/75 transition-colors duration-200 hover:bg-cream/[0.07] hover:text-cream"
               >
                 <section.icon size={16} weight="light" aria-hidden="true" />

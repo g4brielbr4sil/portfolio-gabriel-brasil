@@ -10,12 +10,13 @@ import { cn } from '@/lib/utils'
 
 type Props = {
   active: SectionId
+  currentAria: 'page' | 'location'
   onNavigate: NavigationHandler
   visible: boolean
 }
 
 /** Dock inferior exclusivo de celular, com os quatro destinos principais. */
-export default function MobileDock({ active, onNavigate, visible }: Props) {
+export default function MobileDock({ active, currentAria, onNavigate, visible }: Props) {
   const reduced = useReducedMotion()
 
   return (
@@ -43,7 +44,7 @@ export default function MobileDock({ active, onNavigate, visible }: Props) {
                       onNavigate(section.id, { focus: event.detail === 0 })
                     }}
                     aria-label={section.label}
-                    aria-current={isActive ? 'location' : undefined}
+                    aria-current={isActive ? currentAria : undefined}
                     className={cn(
                       'relative isolate flex min-h-[44px] w-full flex-col items-center justify-center gap-0.5 rounded-[1.4rem] px-2 py-1.5 transition-colors duration-200',
                       isActive ? 'text-cream' : 'text-cream/50',

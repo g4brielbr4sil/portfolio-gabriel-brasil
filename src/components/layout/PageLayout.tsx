@@ -5,13 +5,14 @@ import type { RouteKind } from '@/config/routes'
 
 export default function PageLayout({
   children,
+  current,
 }: {
   children: ReactNode
   current: RouteKind
 }) {
   return (
     <>
-      <Navigation />
+      <Navigation current={current} />
 
       {children}
 

@@ -12,6 +12,8 @@ import {
 import { cn } from '@/lib/utils'
 
 type Props = {
+  active: SectionId
+  currentAria: 'page' | 'location'
   onNavigate: NavigationHandler
   onOpenMenu: () => void
   scrolled: boolean
@@ -19,7 +21,7 @@ type Props = {
 }
 
 /** Barra superior compacta do celular: GB, relógio de Brasília e menu. */
-export default function MobileHeader({ onNavigate, onOpenMenu, scrolled, scrollProgress }: Props) {
+export default function MobileHeader({ active, currentAria, onNavigate, onOpenMenu, scrolled, scrollProgress }: Props) {
   const reduced = useReducedMotion()
   const tap = reduced ? undefined : { scale: 0.94 }
 
@@ -44,6 +46,7 @@ export default function MobileHeader({ onNavigate, onOpenMenu, scrolled, scrollP
           onNavigate('inicio', { focus: event.detail === 0 })
         }}
         aria-label="Ir para o início"
+        aria-current={active === 'inicio' ? currentAria : undefined}
         className="inline-flex h-11 min-w-11 items-center justify-center rounded-full px-3 text-sm font-medium text-cream"
       >
         GB

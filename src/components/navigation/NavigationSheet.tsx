@@ -20,6 +20,7 @@ type Props = {
   open: boolean
   onOpenChange: (open: boolean) => void
   active: SectionId
+  currentAria: 'page' | 'location'
   onNavigate: NavigationHandler
   onOpenCommand: () => void
   onCloseAutoFocus: () => void
@@ -30,6 +31,7 @@ export default function NavigationSheet({
   open,
   onOpenChange,
   active,
+  currentAria,
   onNavigate,
   onOpenCommand,
   onCloseAutoFocus,
@@ -86,7 +88,7 @@ export default function NavigationSheet({
                     event.preventDefault()
                     go(section.id, event.detail === 0)
                   }}
-                  aria-current={isActive ? 'location' : undefined}
+                  aria-current={isActive ? currentAria : undefined}
                   className={cn(
                     'flex min-h-[52px] w-full items-center gap-3 py-3.5 text-left text-lg transition-colors duration-200',
                     isActive ? 'text-cream' : 'text-cream/60',

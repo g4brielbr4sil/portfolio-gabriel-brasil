@@ -54,6 +54,6 @@ test('menu, command palette and project dialogs cannot expose the dock together'
 test('internal pages use the same navigation system as the home page', async () => {
   const pageLayout = await source('src/components/layout/PageLayout.tsx')
   assert.match(pageLayout, /import Navigation/)
-  assert.match(pageLayout, /<Navigation \/>/)
+  assert.match(pageLayout, /<Navigation current=\{current\} \/>/)
   assert.equal(pageLayout.includes('<details'), false)
 })

@@ -6,6 +6,7 @@ import MobileDock from '@/components/navigation/MobileDock'
 import MobileHeader from '@/components/navigation/MobileHeader'
 import NavigationSheet from '@/components/navigation/NavigationSheet'
 import type { SectionId } from '@/config/navigation'
+import type { RouteKind } from '@/config/routes'
 import { useActiveSection } from '@/hooks/useActiveSection'
 import {
   initialDockScrollState,
@@ -18,6 +19,7 @@ import {
 } from '@/lib/navigation-state'
 
 type Props = {
+  current?: RouteKind
   overlayOpen?: boolean
 }
 
@@ -39,7 +41,7 @@ function useDesktopNavigation() {
   return desktop
 }
 
-export default function Navigation({ overlayOpen = false }: Props) {
+export default function Navigation({ current, overlayOpen = false }: Props) {
   const { active, navigate } = useActiveSection()
   const desktop = useDesktopNavigation()
   const [scrolled, setScrolled] = useState(false)
@@ -211,6 +213,7 @@ export default function Navigation({ overlayOpen = false }: Props) {
 
   const dockVisible =
     !desktop && !dockHidden && !overlay && !keyboardOpen && !overlayOpen && !dialogOpen
+  const currentAria = current && current !== 'home' ? 'page' : 'location'
 
   return (
     <>
@@ -222,6 +225,7 @@ export default function Navigation({ overlayOpen = false }: Props) {
           {desktop ? (
             <DesktopNavigation
               active={active}
+              currentAria={currentAria}
               scrolled={scrolled}
               onNavigate={go}
               onOpenCommand={() => openOverlay('command')}
@@ -230,6 +234,8 @@ export default function Navigation({ overlayOpen = false }: Props) {
             />
           ) : (
             <MobileHeader
+              active={active}
+              currentAria={currentAria}
               scrolled={scrolled}
               onNavigate={go}
               onOpenMenu={() => openOverlay('menu')}
@@ -239,13 +245,14 @@ export default function Navigation({ overlayOpen = false }: Props) {
         </div>
       </nav>
 
-      <MobileDock active={active} onNavigate={go} visible={dockVisible} />
+      <MobileDock active={active} currentAria={currentAria} onNavigate={go} visible={dockVisible} />
 
       {overlay === 'menu' && (
         <NavigationSheet
           open
           onOpenChange={handleOverlayChange}
           active={active}
+          currentAria={currentAria}
           onNavigate={go}
           onOpenCommand={() => openOverlay('command')}
           onCloseAutoFocus={() => undefined}
