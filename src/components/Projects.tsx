@@ -6,7 +6,8 @@ import { Badge } from '@/components/ui/badge'
 import { usePreviewTheme } from '@/components/projects/usePreviewTheme'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
-import { projects, type Project, type ProjectLink } from '@/content/portfolio'
+import { displayProjects } from '@/content/displayProjects'
+import type { Project, ProjectLink } from '@/content/portfolio'
 import ProjectCardCarousel from '@/components/projects/ProjectCardCarousel'
 import ProjectCaseStudyButton from '@/components/projects/ProjectCaseStudyButton'
 
@@ -22,7 +23,7 @@ export default function Projects({ onOverlayChange }: Props) {
   const [activeIndex, setActiveIndex] = useState(0)
   const openerRef = useRef<HTMLElement | null>(null)
 
-  const [barthy, pnqc, hermes, supportSaas] = projects
+  const [barthy, pnqc, hermes, supportSaas] = displayProjects
 
   function openProject(project: Project, theme: 'dark' | 'light', index: number, opener: HTMLElement | null) {
     openerRef.current = opener
@@ -71,11 +72,16 @@ export default function Projects({ onOverlayChange }: Props) {
         <div className="mt-16 border-t border-line pt-10">
           <div className="grid gap-5 md:grid-cols-12 md:items-start">
             <div className="md:col-span-4">
-              <p className="text-[10px] uppercase tracking-[0.26em] text-cream/35">Em desenvolvimento</p>
-              <h3 className="mt-3 text-xl text-cream md:text-2xl">Produtos em validação</h3>
+              <p className="text-[10px] uppercase tracking-[0.26em] text-cream/35">Em validação</p>
+              <h3 className="mt-3 text-xl text-cream md:text-2xl">Uma base operacional, vários módulos.</h3>
               <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted">
-                Ideias em construção aparecem separadas dos cases entregues, sem telas, métricas ou funcionalidades inventadas.
+                A próxima tese de produto conecta relacionamento, WhatsApp, check-ins e operação em módulos que podem crescer conforme a realidade de cada negócio.
               </p>
+              <div className="mt-6 flex flex-wrap gap-2 text-[10px] uppercase tracking-[0.12em] text-cream/45">
+                {['CRM', 'WhatsApp', 'Check-in', 'Rotina', 'Operação', 'Suporte'].map((item) => (
+                  <span key={item} className="rounded-full border border-line px-3 py-1">{item}</span>
+                ))}
+              </div>
             </div>
             <ProjectCard
               project={supportSaas}
