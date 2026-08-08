@@ -10,12 +10,13 @@ type PreviewThemeState = {
 }
 
 /**
- * Mantém a seleção do conjunto real de capturas. O tema inativo não é
- * pré-carregado automaticamente: ele entra no cache somente após interação.
+ * Mantém a seleção do conjunto real de capturas. Quando existem os dois temas,
+ * a prévia começa pelo claro para dar contraste ao restante da seção escura.
  */
 export function usePreviewTheme(previews?: ProjectPreviewThemes): PreviewThemeState {
   const canToggle = Boolean(previews?.dark && previews?.light)
-  const [theme, setTheme] = useState<PreviewTheme>(previews?.default ?? 'dark')
+  const initialTheme: PreviewTheme = canToggle ? 'light' : previews?.default ?? 'dark'
+  const [theme, setTheme] = useState<PreviewTheme>(initialTheme)
 
   if (!previews) return { theme, setTheme, canToggle: false }
 
