@@ -30,11 +30,14 @@ test('route and hash resolution keep internal pages as the route source', () => 
   assert.equal(sectionFromHash('#tecnologias'), 'tecnologias')
   assert.equal(sectionFromHash('#desconhecida'), null)
 
-  assert.equal(shouldNavigateInPage('/', 'atuacao'), true)
-  assert.equal(shouldNavigateInPage('/', 'sobre'), false)
+  for (const section of ['inicio', 'sobre', 'projetos', 'atuacao', 'tecnologias', 'formacao', 'contato'] as const) {
+    assert.equal(shouldNavigateInPage('/', section), true)
+  }
   assert.equal(shouldNavigateInPage('/sobre/', 'atuacao'), false)
+  assert.equal(shouldNavigateInPage('/projetos/', 'projetos'), false)
   assert.equal(canResolveHashInPage('/', 'sobre'), true)
   assert.equal(canResolveHashInPage('/', 'projetos'), true)
+  assert.equal(canResolveHashInPage('/', 'contato'), true)
   assert.equal(canResolveHashInPage('/sobre/', 'atuacao'), false)
 })
 

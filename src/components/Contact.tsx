@@ -24,8 +24,7 @@ export default function Contact({ showFooter = true }: { showFooter?: boolean })
 
         <FadeUp delay={0.2}>
           <p className="mt-8 max-w-xl text-sm leading-relaxed text-muted md:text-base">
-            Vamos conversar sobre oportunidades, produtos digitais e desafios que envolvam sistemas,
-            automações e desenvolvimento.
+            Vamos conversar sobre oportunidades, sistemas, automações, produtos digitais e desafios que precisem sair da ideia e virar operação.
           </p>
         </FadeUp>
 
@@ -39,7 +38,7 @@ export default function Contact({ showFooter = true }: { showFooter?: boolean })
               GitHub
             </ActionButton>
             {contact.resume && (
-                <ActionButton href={contact.resume} variant="secondary" download={contact.resumeDownloadName}>
+              <ActionButton href={contact.resume} variant="secondary" download={contact.resumeDownloadName}>
                 Baixar currículo
               </ActionButton>
             )}

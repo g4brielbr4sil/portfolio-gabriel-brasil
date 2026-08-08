@@ -20,8 +20,8 @@ export default function HomePage() {
         <About />
         <Projects onOverlayChange={setOverlayOpen} />
         <Skills />
-        <Stack />
         <Experience />
+        <Stack />
         <Education />
         <Contact />
       </main>

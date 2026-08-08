@@ -133,13 +133,13 @@ export default function NavigationSheet({
 
         <div className="mt-auto flex flex-col gap-2 border-t border-line pt-6 text-[11px] uppercase tracking-[0.18em] text-cream/35">
           <span className="flex items-center justify-between gap-3">
-            Brasília, Distrito Federal
+            <span className="inline-flex items-center gap-2.5 text-cream/55">
+              <StatusDot />
+              Brasília, DF
+            </span>
             <span aria-hidden="true">BSB</span>
           </span>
-          <span className="inline-flex items-center gap-2.5">
-            <StatusDot />
-            Aberto a novos desafios
-          </span>
+          <span>Sistemas, automações e produtos digitais</span>
         </div>
       </SheetContent>
     </Sheet>

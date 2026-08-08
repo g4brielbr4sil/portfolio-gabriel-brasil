@@ -12,11 +12,25 @@ test('hero does not depend on a provisional third-party portrait', async () => {
   assert.equal(hero.includes('imagem provisória'), false)
 })
 
+test('final hero keeps the Brasília positioning without the old availability copy', async () => {
+  const hero = await source('src/components/Hero.tsx')
+  assert.match(hero, /Brasília, DF/)
+  assert.match(hero, /BSB/)
+  assert.equal(hero.includes('Aberto a novos desafios'), false)
+  assert.equal(hero.includes('asterisk'), false)
+})
+
 test('resume CTAs point to the published real PDF and retain an absent-file fallback', async () => {
   const site = await source('src/config/site.ts')
   await access(new URL('../public/curriculo-gabriel-brasil.pdf', import.meta.url))
   assert.match(site, /path:\s*'\/curriculo-gabriel-brasil\.pdf'/)
   assert.match(site, /return available \? site\.resume\.path : null/)
+})
+
+test('public contact uses the institutional Barthy address', async () => {
+  const site = await source('src/config/site.ts')
+  assert.match(site, /contato\.barthywebstudio@gmail\.com/)
+  assert.equal(site.includes('g4brielbr4sil@gmail.com'), false)
 })
 
 test('real project links have one configuration source', async () => {
@@ -81,6 +95,33 @@ test('project previews use real AVIF and WebP assets with an error fallback', as
   assert.match(previews, /export const barthyPreviews[\s\S]*dark:[\s\S]*light:/)
   assert.match(previews, /export const pnqcPreviews[\s\S]*dark:/)
   assert.doesNotMatch(previews.match(/export const pnqcPreviews[\s\S]*/)?.[0] ?? '', /light:/)
+})
+
+test('Barthy opens in the light preview while PNQC remains dark-only', async () => {
+  const theme = await source('src/components/projects/usePreviewTheme.ts')
+  const frame = await source('src/components/projects/ProjectPreviewFrame.tsx')
+  assert.match(theme, /canToggle \? 'light'/)
+  assert.match(frame, /image\.theme === 'light'/)
+})
+
+test('education exposes the requested Cisco certifications', async () => {
+  const education = await source('src/components/Education.tsx')
+  assert.match(education, /Cisco IT Essentials 1/)
+  assert.match(education, /Cisco IT Essentials 2/)
+  assert.match(education, /lg:grid-cols-3/)
+})
+
+test('home section order matches the desktop navigation sequence', async () => {
+  const home = await source('src/pages/HomePage.tsx')
+  assert.ok(home.indexOf('<Experience />') < home.indexOf('<Stack />'))
+})
+
+test('validation product remains explicit about its modular and non-final state', async () => {
+  const editorial = await source('src/content/displayProjects.ts')
+  for (const term of ['CRM e relacionamento', 'Atendimento por WhatsApp', 'Check-ins e rotinas', 'Oficina e operação']) {
+    assert.match(editorial, new RegExp(term))
+  }
+  assert.match(editorial, /sem aplicação pública/)
 })
 
 test('carousel and dialog retain motion and focus safeguards', async () => {

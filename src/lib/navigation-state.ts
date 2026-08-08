@@ -8,7 +8,6 @@ export const DOCK_HIDE_START = 240
 export const DOCK_DIRECTION_DISTANCE = 48
 export const DOCK_TOGGLE_COOLDOWN = 220
 
-const localHomeSections = new Set<SectionId>(['inicio', 'atuacao', 'tecnologias', 'formacao'])
 const sectionIds = new Set<SectionId>([
   'inicio',
   'sobre',
@@ -62,7 +61,7 @@ export function sectionFromHash(hash: string): SectionId | null {
 }
 
 export function shouldNavigateInPage(pathname: string, id: SectionId) {
-  return normalizePathname(pathname) === '/' && localHomeSections.has(id)
+  return normalizePathname(pathname) === '/' && sectionIds.has(id)
 }
 
 export function canResolveHashInPage(pathname: string, id: SectionId) {
