@@ -3,7 +3,7 @@ import * as Popover from '@radix-ui/react-popover'
 import { ArrowUpRight } from '@phosphor-icons/react/dist/csr/ArrowUpRight'
 import { CaretDown } from '@phosphor-icons/react/dist/csr/CaretDown'
 import { MagnifyingGlass } from '@phosphor-icons/react/dist/csr/MagnifyingGlass'
-import type { MotionValue } from 'motion/react'
+import { motion, useReducedMotion, type MotionValue } from 'motion/react'
 import ActiveNavigationIndicator from '@/components/navigation/ActiveNavigationIndicator'
 import BsbClock from '@/components/navigation/BsbClock'
 import ScrollProgress from '@/components/navigation/ScrollProgress'
@@ -52,9 +52,21 @@ export default function DesktopNavigation({
   scrolled,
   scrollProgress,
 }: Props) {
+  const reduced = useReducedMotion()
+
   return (
-    <div
+    <motion.div
       data-navigation-bar
+      initial={false}
+      animate={
+        reduced
+          ? undefined
+          : {
+              y: scrolled ? 8 : 0,
+              scale: scrolled ? 0.985 : 1,
+            }
+      }
+      transition={{ duration: 0.34, ease: [0.16, 1, 0.3, 1] }}
       className={cn(
         'pointer-events-auto relative hidden w-fit max-w-[calc(100vw-3rem)] items-center gap-1.5 whitespace-nowrap rounded-2xl border px-2.5 py-2 min-[56rem]:flex',
         'transition-[background-color,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none',
@@ -128,7 +140,7 @@ export default function DesktopNavigation({
       </a>
 
       <ScrollProgress progress={scrollProgress} />
-    </div>
+    </motion.div>
   )
 }
 
