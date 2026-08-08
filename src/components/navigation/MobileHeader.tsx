@@ -26,8 +26,18 @@ export default function MobileHeader({ active, currentAria, onNavigate, onOpenMe
   const tap = reduced ? undefined : { scale: 0.94 }
 
   return (
-    <div
+    <motion.div
       data-navigation-bar
+      initial={false}
+      animate={
+        reduced
+          ? undefined
+          : {
+              y: scrolled ? 4 : 0,
+              scale: scrolled ? 0.992 : 1,
+            }
+      }
+      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
       className={cn(
         'pointer-events-auto relative flex items-center justify-between gap-2 rounded-2xl border border-line px-1.5 py-1 min-[56rem]:hidden',
         'transition-[background-color,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none',
@@ -66,6 +76,6 @@ export default function MobileHeader({ active, currentAria, onNavigate, onOpenMe
       </motion.button>
 
       <ScrollProgress className="inset-x-3" progress={scrollProgress} />
-    </div>
+    </motion.div>
   )
 }
