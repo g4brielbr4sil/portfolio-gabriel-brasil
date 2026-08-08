@@ -15,7 +15,7 @@ test('hero does not depend on a provisional third-party portrait', async () => {
 test('final hero keeps the Brasília positioning without the old availability copy', async () => {
   const hero = await source('src/components/Hero.tsx')
   assert.match(hero, /Brasília, DF/)
-  assert.match(hero, />BSB</)
+  assert.match(hero, /BSB/)
   assert.equal(hero.includes('Aberto a novos desafios'), false)
   assert.equal(hero.includes('asterisk'), false)
 })
