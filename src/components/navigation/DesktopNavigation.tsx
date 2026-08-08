@@ -132,6 +132,7 @@ export default function DesktopNavigation({
 
       <a
         href="/contato/"
+        onClick={(event) => handleSectionClick(event, { id: 'contato' }, onNavigate)}
         aria-current={active === 'contato' ? currentAria : undefined}
         className="ml-0.5 inline-flex items-center gap-1.5 rounded-full bg-cream px-3.5 py-1.5 text-sm text-ink transition-all duration-200 hover:gap-2.5"
       >
