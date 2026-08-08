@@ -6,6 +6,8 @@ import { ActionButton } from '@/components/ui/Button'
 import { contact } from '@/content/portfolio'
 
 export default function Contact() {
+  const hasEmail = Boolean(contact.email && contact.mailto)
+
   return (
     <section id="contato" className="relative scroll-mt-28 bg-ink px-3 pb-8 pt-20 md:px-6 md:pt-28">
       <div className="pointer-events-none absolute inset-0 bg-noise opacity-[0.12]" />
@@ -23,14 +25,16 @@ export default function Contact() {
 
         <FadeUp delay={0.2}>
           <p className="mt-8 max-w-xl text-sm leading-relaxed text-muted md:text-base">
-            Vamos conversar sobre oportunidades, produtos digitais e desafios que envolvam
-            sistemas, automações e desenvolvimento.
+            Vamos conversar sobre oportunidades, produtos digitais, sistemas, automações e
+            desenvolvimento com foco em contexto real e entrega prática.
           </p>
         </FadeUp>
 
         <FadeUp delay={0.3}>
           <div className="mt-10 flex flex-wrap items-center gap-3">
-            <ActionButton href={contact.mailto}>Entrar em contato</ActionButton>
+            {hasEmail ? (
+              <ActionButton href={contact.mailto}>Enviar e-mail</ActionButton>
+            ) : null}
             <ActionButton href={contact.linkedin} variant="secondary" external>
               LinkedIn
             </ActionButton>
@@ -45,14 +49,21 @@ export default function Contact() {
 
         <FadeUp delay={0.4}>
           <div className="mt-16 flex flex-wrap items-center gap-x-10 gap-y-4 border-t border-line pt-8 text-sm text-cream/70">
-            <a
-              href={contact.mailto}
-              className="inline-flex items-center gap-2 transition-colors hover:text-cream"
-            >
-              <EnvelopeSimple size={16} weight="light" aria-hidden="true" />
-              {contact.email}
-              <ArrowUpRight size={14} weight="regular" aria-hidden="true" />
-            </a>
+            {hasEmail ? (
+              <a
+                href={contact.mailto}
+                className="inline-flex items-center gap-2 transition-colors hover:text-cream"
+              >
+                <EnvelopeSimple size={16} weight="light" aria-hidden="true" />
+                {contact.email}
+                <ArrowUpRight size={14} weight="regular" aria-hidden="true" />
+              </a>
+            ) : (
+              <span className="inline-flex items-center gap-2 text-cream/50">
+                <EnvelopeSimple size={16} weight="light" aria-hidden="true" />
+                E-mail disponível mediante solicitação
+              </span>
+            )}
             <span className="inline-flex items-center gap-2 text-cream/50">
               <MapPin size={16} weight="light" aria-hidden="true" />
               {contact.location}

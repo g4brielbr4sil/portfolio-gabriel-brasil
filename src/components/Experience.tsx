@@ -14,8 +14,8 @@ export default function Experience() {
           </h2>
           <FadeUp delay={0.15} className="md:col-span-5">
             <p className="text-sm text-muted md:text-base">
-              Três frentes de atuação que se completam: entender a operação, construir o produto e
-              sustentar a evolução depois da entrega.
+              Três frentes de atuação que se completam: compreender a operação, construir soluções
+              funcionais e sustentar a evolução após a entrega.
             </p>
           </FadeUp>
         </div>
@@ -25,7 +25,7 @@ export default function Experience() {
             <FadeUp key={item.role} delay={index * 0.1}>
               <li className="relative pb-12 last:pb-0">
                 <span className="absolute -left-[1.6rem] top-2 h-2 w-2 rounded-full bg-cream/50 md:-left-[2.6rem]" />
-                <div className="grid gap-4 md:grid-cols-12 md:gap-8">
+                <div className="grid gap-4 rounded-[1.25rem] border border-line/70 bg-white/[0.03] p-5 md:grid-cols-12 md:gap-8 md:p-7">
                   <h3 className="text-base text-cream md:col-span-4 md:text-lg">{item.role}</h3>
                   <div className="md:col-span-8">
                     <p className="text-sm leading-relaxed text-muted">{item.description}</p>

@@ -84,8 +84,8 @@ export default function ProjectCardCarousel({
       onFocusCapture={carousel.handlers.onFocusCapture}
       onBlurCapture={carousel.handlers.onBlurCapture}
     >
-      <div className="absolute inset-0 overflow-hidden bg-[#101010]">
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),transparent_28%),radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_45%)]" />
+      <div className="absolute inset-0 overflow-hidden bg-[#f3efe8]">
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.05),transparent_26%),radial-gradient(circle_at_top,rgba(43,74,112,0.14),transparent_45%)]" />
 
         <button
           type="button"
@@ -116,7 +116,7 @@ export default function ProjectCardCarousel({
           </motion.div>
         </AnimatePresence>
 
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#ece6db]/70 via-transparent to-transparent" />
 
         {preload && preload.images[0] && (
           <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-0">
@@ -124,13 +124,13 @@ export default function ProjectCardCarousel({
           </div>
         )}
 
-        <div className="absolute inset-x-0 bottom-0 z-20 border-t border-white/8 bg-[#0a0a0a]/80 p-3 backdrop-blur-md md:p-3.5">
+        <div className="absolute inset-x-0 bottom-0 z-20 border-t border-black/10 bg-[#f7f2e9]/90 p-3 backdrop-blur-md md:p-3.5">
           <div className="flex items-end gap-2">
             <button
               type="button"
               onClick={() => carousel.previous()}
               aria-label="Imagem anterior"
-              className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-cream transition-colors hover:border-white/20 hover:bg-white/10"
+              className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-black/10 bg-white/80 text-[#111111] shadow-[0_8px_20px_rgba(0,0,0,0.08)] transition-colors hover:border-black/20 hover:bg-white"
             >
               <CaretLeft size={18} weight="regular" aria-hidden="true" />
             </button>
@@ -140,13 +140,13 @@ export default function ProjectCardCarousel({
                 <button
                   type="button"
                   onClick={(event) => onOpenGallery({ theme, index: carousel.index, opener: event.currentTarget })}
-                  className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 text-xs text-cream/80 transition-colors hover:border-white/20 hover:bg-white/10 hover:text-cream"
+                  className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-black/10 bg-white/90 px-3.5 text-xs text-[#111111] shadow-[0_8px_20px_rgba(0,0,0,0.08)] transition-colors hover:border-black/20 hover:bg-white"
                 >
                   <ArrowsOutSimple size={14} weight="regular" aria-hidden="true" />
                   Ver todas as telas
                 </button>
 
-                <span className="font-mono text-[11px] tracking-[0.16em] text-cream/55">
+                <span className="font-mono text-[11px] tracking-[0.16em] text-[#111111]/70">
                   {String(carousel.index + 1).padStart(2, '0')} / {String(images.length).padStart(2, '0')}
                 </span>
               </div>
@@ -163,14 +163,14 @@ export default function ProjectCardCarousel({
                       aria-current={active ? 'true' : undefined}
                       className={cn(
                         'h-2.5 min-w-2.5 rounded-full transition-all duration-300',
-                        active ? 'w-6 bg-cream' : 'bg-cream/25 hover:bg-cream/40',
+                        active ? 'w-6 bg-[#111111]' : 'bg-[#111111]/20 hover:bg-[#111111]/35',
                       )}
                     />
                   )
                 })}
               </div>
 
-              <div className="mt-2 flex items-center gap-2 text-[11px] text-cream/50">
+              <div className="mt-2 flex items-center gap-2 text-[11px] text-[#111111]/70">
                 <span className="truncate">{current.caption}</span>
                 <span className="hidden md:inline">·</span>
                 <span className="hidden md:inline truncate">
@@ -183,7 +183,7 @@ export default function ProjectCardCarousel({
               type="button"
               onClick={() => carousel.next()}
               aria-label="Próxima imagem"
-              className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-cream transition-colors hover:border-white/20 hover:bg-white/10"
+              className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-black/10 bg-white/80 text-[#111111] shadow-[0_8px_20px_rgba(0,0,0,0.08)] transition-colors hover:border-black/20 hover:bg-white"
             >
               <CaretRight size={18} weight="regular" aria-hidden="true" />
             </button>
@@ -192,7 +192,7 @@ export default function ProjectCardCarousel({
               type="button"
               onClick={carousel.togglePlayback}
               aria-label={carousel.isPlaying ? 'Pausar apresentação' : 'Reproduzir apresentação'}
-              className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-cream transition-colors hover:border-white/20 hover:bg-white/10"
+              className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-black/10 bg-white/80 text-[#111111] shadow-[0_8px_20px_rgba(0,0,0,0.08)] transition-colors hover:border-black/20 hover:bg-white"
             >
               {carousel.isPlaying ? (
                 <Pause size={16} weight="regular" aria-hidden="true" />
@@ -211,7 +211,7 @@ export default function ProjectCardCarousel({
           />
         )}
 
-        <div className="pointer-events-none absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-white/5 group-hover:ring-white/10" />
+        <div className="pointer-events-none absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-black/10 group-hover:ring-black/20" />
       </div>
 
       <p aria-live="polite" className="sr-only">

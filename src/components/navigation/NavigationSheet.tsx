@@ -1,7 +1,6 @@
 import { MagnifyingGlass } from '@phosphor-icons/react/dist/csr/MagnifyingGlass'
 import { X } from '@phosphor-icons/react/dist/csr/X'
 import BsbClock from '@/components/navigation/BsbClock'
-import StatusDot from '@/components/ui/StatusDot'
 import {
   Sheet,
   SheetClose,
@@ -120,10 +119,7 @@ export default function NavigationSheet({
             Brasília, Distrito Federal
             <BsbClock />
           </span>
-          <span className="inline-flex items-center gap-2.5">
-            <StatusDot />
-            Aberto a novos desafios
-          </span>
+          <span className="text-cream/50">Sistemas, automações e produtos digitais</span>
         </div>
       </SheetContent>
     </Sheet>

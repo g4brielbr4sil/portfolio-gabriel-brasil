@@ -4,7 +4,7 @@ import { FadeUp, WordsPullUp } from '@/components/motion/Reveal'
 import { education } from '@/content/portfolio'
 
 export default function Education() {
-  const { degree, ecosystem } = education
+  const { degree, ecosystem, certifications } = education
 
   return (
     <section id="formacao" className="scroll-mt-28 bg-ink px-3 py-20 md:px-6 md:py-28">
@@ -16,8 +16,8 @@ export default function Education() {
           />
         </h2>
 
-        <div className="mt-12 grid gap-4 lg:grid-cols-5">
-          <FadeUp scale className="lg:col-span-2">
+        <div className="mt-12 grid gap-4 lg:grid-cols-3">
+          <FadeUp scale className="lg:col-span-1">
             <div className="h-full rounded-[1.5rem] border border-line bg-surface p-7 md:p-9">
               <GraduationCap size={22} weight="light" aria-hidden="true" className="text-cream/60" />
               <h3 className="mt-6 text-lg leading-snug text-cream md:text-xl">{degree.title}</h3>
@@ -30,7 +30,7 @@ export default function Education() {
             </div>
           </FadeUp>
 
-          <FadeUp delay={0.12} scale className="lg:col-span-3">
+          <FadeUp delay={0.12} scale className="lg:col-span-1">
             <div className="h-full rounded-[1.5rem] border border-line bg-surface p-7 md:p-9">
               <Sparkle size={22} weight="light" aria-hidden="true" className="text-cream/60" />
               <h3 className="mt-6 text-lg leading-snug text-cream md:text-xl">{ecosystem.title}</h3>
@@ -39,6 +39,24 @@ export default function Education() {
               </p>
               <ul className="mt-8 flex flex-wrap gap-2 border-t border-line pt-6">
                 {ecosystem.items.map((item) => (
+                  <li
+                    key={item}
+                    className="rounded-full border border-line px-3 py-1 text-[10px] uppercase tracking-[0.12em] text-cream/55"
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </FadeUp>
+
+          <FadeUp delay={0.18} scale className="lg:col-span-1">
+            <div className="h-full rounded-[1.5rem] border border-line bg-surface p-7 md:p-9">
+              <GraduationCap size={22} weight="light" aria-hidden="true" className="text-cream/60" />
+              <h3 className="mt-6 text-lg leading-snug text-cream md:text-xl">{certifications.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted">{certifications.description}</p>
+              <ul className="mt-8 flex flex-wrap gap-2 border-t border-line pt-6">
+                {certifications.items.map((item) => (
                   <li
                     key={item}
                     className="rounded-full border border-line px-3 py-1 text-[10px] uppercase tracking-[0.12em] text-cream/55"

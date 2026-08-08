@@ -58,9 +58,11 @@ export function useActiveSection() {
     const element = document.getElementById(id)
     if (!element) return
 
-    element.scrollIntoView({
+    const navOffset = window.innerWidth < 768 ? 84 : 104
+    const top = element.getBoundingClientRect().top + window.scrollY - navOffset
+    window.scrollTo({
+      top,
       behavior: prefersReducedMotion() ? 'auto' : 'smooth',
-      block: 'start',
     })
 
     if (window.location.hash !== `#${id}`) {

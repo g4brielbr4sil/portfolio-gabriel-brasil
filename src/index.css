@@ -19,7 +19,12 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: clamp(6rem, 8vw, 7.5rem);
     -webkit-font-smoothing: antialiased;
+  }
+
+  section[id] {
+    scroll-margin-top: clamp(6rem, 8vw, 7.5rem);
   }
 
   body {

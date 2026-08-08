@@ -1,4 +1,5 @@
 import * as Popover from '@radix-ui/react-popover'
+import { motion, useReducedMotion } from 'motion/react'
 import { ArrowUpRight } from '@phosphor-icons/react/dist/csr/ArrowUpRight'
 import { CaretDown } from '@phosphor-icons/react/dist/csr/CaretDown'
 import { MagnifyingGlass } from '@phosphor-icons/react/dist/csr/MagnifyingGlass'
@@ -56,17 +57,21 @@ function NavShell({
   className,
 }: ShellProps) {
   const indicatorId = more ? 'nav-indicator-compact' : 'nav-indicator-wide'
+  const reduced = useReducedMotion()
 
   return (
-    <div
+    <motion.div
+      initial={false}
+      animate={reduced ? { opacity: 1, y: 0 } : { opacity: 1, y: scrolled ? 12 : 0 }}
+      transition={{ duration: 0.34, ease: [0.16, 1, 0.3, 1] }}
       className={cn(
-        'pointer-events-auto relative w-fit max-w-[min(96vw,68rem)] items-center gap-2 whitespace-nowrap border border-line px-3 py-2',
+        'pointer-events-auto relative w-fit max-w-[min(96vw,68rem)] items-center gap-2 whitespace-nowrap border border-line px-3 py-2 will-change-transform',
         'transition-[background-color,box-shadow,border-radius,border-color,transform,opacity] duration-[380ms] ease-[cubic-bezier(0.16,1,0.3,1)]',
         scrolled
           ? // Barra compacta destacada do topo, com desfoque discreto.
-            'translate-y-3 rounded-full bg-ink/80 opacity-100 shadow-[0_12px_32px_rgba(0,0,0,0.55)] backdrop-blur-md'
+            'rounded-full bg-ink/80 opacity-100 shadow-[0_12px_32px_rgba(0,0,0,0.55)] backdrop-blur-md'
           : // Integrada ao painel do Hero: preta, sem sombra, presa ao topo.
-            'translate-y-0 rounded-b-3xl border-t-transparent bg-ink shadow-none',
+            'rounded-b-3xl border-t-transparent bg-ink shadow-none',
         className,
       )}
     >
@@ -135,7 +140,7 @@ function NavShell({
       </button>
 
       <ScrollProgress />
-    </div>
+    </motion.div>
   )
 }
 

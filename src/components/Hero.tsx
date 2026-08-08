@@ -96,23 +96,24 @@ export default function Hero() {
         <div className="absolute inset-x-0 bottom-0 px-5 pb-8 md:px-10 md:pb-12">
           <motion.div
             {...fade(0.35)}
-            className="mb-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-[11px] uppercase tracking-[0.2em] text-cream/45"
+            className="mb-6 flex flex-wrap items-center gap-x-3 gap-y-2 text-[11px] uppercase tracking-[0.2em] text-cream/45"
           >
-            <span>Brasília, Distrito Federal</span>
-            <span className="hidden h-px w-8 bg-line sm:block" aria-hidden="true" />
-            <span className="inline-flex items-center gap-2.5">
+            <span className="inline-flex items-center gap-2.5 rounded-full border border-line/70 bg-black/20 px-3 py-1.5 text-cream/80">
               <StatusDot />
-              Aberto a novos desafios
+              Brasília, DF
             </span>
             <span className="hidden h-px w-8 bg-line sm:block" aria-hidden="true" />
-            <span>Sistemas, automações e produtos digitais</span>
+            <span className="text-cream/55">Sistemas, automações e produtos digitais</span>
+            <span className="hidden h-px w-8 bg-line sm:block" aria-hidden="true" />
+            <span className="rounded-full border border-line/70 px-3 py-1 text-[10px] tracking-[0.22em] text-cream/40">
+              BSB
+            </span>
           </motion.div>
 
           <div className="grid grid-cols-1 items-end gap-8 lg:grid-cols-12 lg:gap-10">
             <h1 className="lg:col-span-8">
               <WordsPullUp
                 segments={[{ text: 'Gabriel Brasil' }]}
-                asterisk
                 className="block text-[17vw] font-medium leading-[0.85] tracking-[-0.06em] text-cream sm:text-[16vw] lg:text-[13vw]"
               />
             </h1>

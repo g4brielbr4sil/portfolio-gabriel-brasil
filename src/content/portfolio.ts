@@ -1,8 +1,10 @@
 import { barthyPreviews, pnqcPreviews } from '@/content/projectPreviews'
 
+const contactEmail = (import.meta.env.VITE_CONTACT_EMAIL as string | undefined)?.trim() || ''
+
 export const contact = {
-  email: 'g4brielbr4sil@gmail.com',
-  mailto: 'mailto:g4brielbr4sil@gmail.com',
+  email: contactEmail,
+  mailto: contactEmail ? `mailto:${contactEmail}` : '',
   linkedin: 'https://www.linkedin.com/in/gabrielbrasildev',
   github: 'https://github.com/g4brielbr4sil',
   resume: '/curriculo-gabriel-brasil.pdf',
@@ -338,20 +340,20 @@ export const projects: Project[] = [
   {
     number: '04',
     name: 'SaaS de Suporte',
-    status: 'Produto em desenvolvimento',
-    statusTooltip: 'As capacidades abaixo são planejadas: ainda não há aplicação ou repositório publicado.',
+    status: 'Produto em validação',
+    statusTooltip: 'O conceito está em validação; ainda não há interface pública ou implementação consolidada.',
     description:
-      'Produto voltado a pequenas empresas que precisam organizar atendimento, clientes, solicitações, tickets, conhecimento e automações em uma única operação.',
-    highlightsLabel: 'Capacidades planejadas',
+      'Plataforma operacional em validação, pensada para centralizar operação, atendimento e gestão em um ecossistema modular, com espaço para CRM, WhatsApp, check-in, rotina, oficina, suporte e acompanhamento.',
+    highlightsLabel: 'Conceito em construção',
     highlights: [
-      'Tickets e solicitações',
-      'Gestão de clientes',
-      'Base de conhecimento',
-      'Automações de atendimento',
-      'Indicadores operacionais',
-      'Histórico e prioridades',
+      'Operação centralizada',
+      'Atendimento e suporte',
+      'Gestão de rotina',
+      'Fluxos modulares',
+      'Arquitetura pensada para evolução',
+      'Validação de contexto real',
     ],
-    techLabel: 'Arquitetura planejada',
+    techLabel: 'Arquitetura em validação',
     tech: ['React', 'TypeScript', 'FastAPI', 'Banco relacional', 'Docker'],
     links: [
       {
@@ -364,34 +366,34 @@ export const projects: Project[] = [
       category: 'Produto em desenvolvimento',
       status: 'Produto em desenvolvimento',
       context:
-        'Produto voltado a pequenas empresas que precisam organizar atendimento, clientes, solicitações, tickets, conhecimento e automações em uma única operação.',
+        'Plataforma operacional em validação, pensada para centralizar operação, atendimento e gestão em um ecossistema modular, com espaço para CRM, WhatsApp, check-in, rotina, oficina, suporte e acompanhamento.',
       problem:
-        'Desenhar uma solução de suporte sem publicar uma implementação ou repositório ainda não concluídos.',
+        'Apresentar um produto com narrativa profissional sem prometer uma implementação pronta ou uma interface já consolidada.',
       role: 'Estruturação conceitual do produto e definição da visão inicial.',
       decisions: [
-        'Tickets e solicitações',
-        'Gestão de clientes',
-        'Base de conhecimento',
-        'Automações de atendimento',
-        'Indicadores operacionais',
-        'Histórico e prioridades',
+        'Operação centralizada',
+        'Atendimento e suporte',
+        'Gestão de rotina',
+        'Fluxos modulares',
+        'Arquitetura pensada para evolução',
+        'Validação de contexto real',
       ],
       features: [
-        'Tickets e solicitações',
-        'Gestão de clientes',
-        'Base de conhecimento',
-        'Automações de atendimento',
-        'Indicadores operacionais',
-        'Histórico e prioridades',
+        'Operação centralizada',
+        'Atendimento e suporte',
+        'Gestão de rotina',
+        'Fluxos modulares',
+        'Arquitetura pensada para evolução',
+        'Validação de contexto real',
       ],
       stackMain: ['React', 'TypeScript', 'FastAPI', 'Banco relacional', 'Docker'],
       challenges: [
         'Evitar tratar a visão como produto já entregue.',
-        'Manter o escopo alinhado ao que está efetivamente em desenvolvimento.',
+        'Manter o escopo alinhado ao que está efetivamente em validação.',
       ],
       solutions: [
-        'Apresentação explícita como arquitetura planejada.',
-        'Uso de uma nota discreta para indicar o estágio do produto.',
+        'Apresentação explícita como produto em validação.',
+        'Uso de uma nota discreta para indicar o estágio do conceito.',
       ],
       nextSteps: ['Definir escopo e consolidar a primeira versão quando houver implementação pública.'],
       links: [
@@ -584,5 +586,10 @@ export const education = {
       'GitHub Actions',
       'Ferramentas parceiras do GitHub Education',
     ],
+  },
+  certifications: {
+    title: 'Certificações Cisco',
+    description: 'Formação contínua em fundamentos técnicos e ambientes de suporte.',
+    items: ['Cisco IT Essentials 1', 'Cisco IT Essentials 2'],
   },
 }
