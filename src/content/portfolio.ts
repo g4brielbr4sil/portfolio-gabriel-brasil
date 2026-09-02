@@ -444,46 +444,11 @@ export const stackGroups: { category: string; items: string[]; note?: string }[]
   },
   {
     category: 'Automações, integrações e produtividade',
-    items: ['n8n', 'Webhooks', 'Gmail OAuth', 'Google Calendar', 'Telegram', 'Figma', 'GitHub Copilot', 'GitHub Codespaces'],
+    items: ['n8n', 'Webhooks', 'Gmail', 'Telegram', 'Figma', 'GitHub Copilot', 'GitHub Codespaces'],
   },
 ]
 
 export const evolvingStack = ['Next.js', 'PHP', 'Laravel', 'Bootstrap', 'Sass']
-
-export const technologyShowcaseGroups: { category: string; items: string[] }[] = [
-  {
-    category: 'Front-end',
-    items: ['HTML5', 'CSS3', 'JavaScript', 'TypeScript', 'React', 'Vite'],
-  },
-  {
-    category: 'Interface e motion',
-    items: ['Tailwind CSS', 'Material UI', 'Motion', 'React Hook Form'],
-  },
-  {
-    category: 'Back-end e APIs',
-    items: ['Python', 'FastAPI', 'SQLAlchemy', 'Pydantic', 'APIs REST'],
-  },
-  {
-    category: 'Dados',
-    items: ['SQLite', 'PostgreSQL', 'Supabase Auth'],
-  },
-  {
-    category: 'Desenvolvimento e entrega',
-    items: ['Git', 'GitHub', 'Docker', 'Linux', 'Cloudflare Pages'],
-  },
-  {
-    category: 'Automações',
-    items: ['n8n', 'Webhooks', 'Gmail OAuth', 'Google Calendar'],
-  },
-  {
-    category: 'Qualidade',
-    items: ['GitHub Actions', 'TypeScript typecheck', 'Ruff', 'unittest'],
-  },
-  {
-    category: 'Ferramentas e operação',
-    items: ['Figma', 'Microsoft Office', 'File Management', 'Network Configuration', 'Cable Management', 'Data Entry'],
-  },
-]
 
 export const experience = [
   {

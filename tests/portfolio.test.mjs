@@ -14,10 +14,12 @@ test('hero does not depend on a provisional third-party portrait', async () => {
 
 test('reference-driven hero keeps factual positioning without legacy status chips', async () => {
   const hero = await source('src/components/Hero.tsx')
+  const approvedCopy =
+    'Sou Gabriel Brasil, Desenvolvedor Full Stack e Analista de Sistemas em Brasília, DF. Desenvolvo soluções digitais de ponta a ponta, conectando interfaces, APIs, dados, automações e integrações para transformar problemas reais em sistemas funcionais, bem estruturados e confiáveis.'
   assert.match(hero, /aria-label="OLÁ!"/)
   assert.match(hero, /opacity: \[1, 1, 0, 0, 1\]/)
-  assert.match(hero, /Desenvolvedor Full Stack e Analista de Sistemas/)
-  assert.match(hero, /Brasília, DF/)
+  assert.ok(hero.includes(approvedCopy))
+  assert.match(hero, /min-h-\[100svh\]/)
   assert.equal(hero.includes('Aberto a novos desafios'), false)
   assert.equal(hero.includes('asterisk'), false)
   assert.equal(hero.includes('Ecossistema em construção'), false)
@@ -156,21 +158,62 @@ test('home uses full viewport chapters on desktop without compressing the footer
 
 test('tech stack follows the compact grouped composition from the video', async () => {
   const stack = await source('src/components/Stack.tsx')
+  const groups = await source('src/components/icons/tech/stackGroups.ts')
+  const icons = await source('src/components/icons/tech/TechIcons.tsx')
   const portfolio = await source('src/content/portfolio.ts')
 
-  assert.match(stack, /technologyShowcaseGroups/)
-  assert.match(stack, /flex flex-wrap gap-3/)
-  assert.match(stack, /h-\[48px\]/)
+  assert.match(stack, /stackGroups/)
+  assert.match(stack, /flex flex-wrap/)
+  assert.match(stack, /min-h-12/)
+  assert.match(stack, />\s*Stack\s*</)
   assert.match(stack, /useReducedMotion/)
   assert.equal(stack.includes('StackTicker'), false)
   assert.equal(stack.includes('rounded-[1.5rem]'), false)
-  assert.match(portfolio, /Front-end/)
-  assert.match(portfolio, /Automações/)
-  assert.match(portfolio, /GitHub Actions/)
-  assert.match(portfolio, /Microsoft Office/)
-  assert.match(portfolio, /Network Configuration/)
-  assert.match(portfolio, /Cable Management/)
-  assert.match(portfolio, /Data Entry/)
+  for (const category of [
+    'Front-end',
+    'Interface & Motion',
+    'Back-end & APIs',
+    'Dados & Autenticação',
+    'DevOps, Infra & Deploy',
+    'Automação & Integrações',
+    'Versionamento & Ferramentas',
+  ]) {
+    assert.ok(groups.includes(category))
+  }
+  for (const technology of [
+    'HTML5',
+    'CSS3',
+    'JavaScript',
+    'TypeScript',
+    'React',
+    'Vite',
+    'Tailwind CSS',
+    'Material UI',
+    'Motion',
+    'React Hook Form',
+    'Python',
+    'FastAPI',
+    'SQLite',
+    'PostgreSQL',
+    'Supabase',
+    'Docker',
+    'Linux',
+    'Cloudflare',
+    'Railway',
+    'n8n',
+    'Gmail',
+    'Git',
+    'GitHub',
+    'GitHub Copilot',
+    'Figma',
+    'Visual Studio Code',
+  ]) {
+    assert.ok(groups.includes(technology))
+  }
+  assert.equal(`${stack}${groups}${portfolio}`.includes('Google Calendar'), false)
+  assert.equal(stack.includes('technologyMarks'), false)
+  assert.match(icons, /SiReacthookform/)
+  assert.match(icons, /VscVscode/)
 })
 
 test('projects follow the video grid, expansion and accessible modal structure', async () => {

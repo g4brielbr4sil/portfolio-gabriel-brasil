@@ -1,7 +1,7 @@
 import { motion, useReducedMotion } from 'motion/react'
 import { cn } from '@/lib/utils'
 
-const dots = ['#d7d9d4', '#8c928f', '#667d76'] as const
+const dots = ['#720B1D', '#9F102A', '#C61A3A'] as const
 
 export default function BrandDots({ className = '' }: { className?: string }) {
   const reduced = useReducedMotion()
