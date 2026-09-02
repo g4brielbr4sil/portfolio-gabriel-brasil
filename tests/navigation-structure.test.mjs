@@ -6,30 +6,22 @@ async function source(path) {
   return readFile(new URL(`../${path}`, import.meta.url), 'utf8')
 }
 
-test('navigation mounts one responsive topbar and shares one scroll source', async () => {
+test('navigation uses one reference-driven topbar without legacy overlays', async () => {
   const navigation = await source('src/components/navigation/Navigation.tsx')
-  const desktop = await source('src/components/navigation/DesktopNavigation.tsx')
-  const mobile = await source('src/components/navigation/MobileHeader.tsx')
-  const progress = await source('src/components/navigation/ScrollProgress.tsx')
 
-  assert.match(navigation, /desktop \? \(/)
-  assert.match(navigation, /useScroll\(\)/)
-  assert.equal(desktop.includes('NavShell'), false)
-  assert.equal(desktop.includes('nav-indicator-wide'), false)
-  assert.equal(mobile.includes('useScroll('), false)
-  assert.equal(progress.includes('useScroll('), false)
+  assert.match(navigation, /data-navigation-bar/)
+  assert.match(navigation, /navigationOrder: SectionId\[\] = \['inicio', 'formacao', 'tecnologias', 'projetos', 'sobre'\]/)
+  assert.equal(navigation.includes('CommandNavigation'), false)
+  assert.equal(navigation.includes('MobileDock'), false)
+  assert.equal(navigation.includes('NavigationSheet'), false)
 })
 
 test('route links remain native while home hashes use explicit in-page navigation', async () => {
-  const desktop = await source('src/components/navigation/DesktopNavigation.tsx')
-  const dock = await source('src/components/navigation/MobileDock.tsx')
-  const sheet = await source('src/components/navigation/NavigationSheet.tsx')
+  const navigation = await source('src/components/navigation/Navigation.tsx')
   const active = await source('src/hooks/useActiveSection.ts')
 
-  for (const component of [desktop, dock, sheet]) {
-    assert.match(component, /shouldNavigateInPage/)
-    assert.match(component, /isModifiedNavigationEvent/)
-  }
+  assert.match(navigation, /shouldNavigateInPage/)
+  assert.match(navigation, /isModifiedNavigationEvent/)
   assert.match(active, /pushState/)
   assert.match(active, /hashchange/)
   assert.match(active, /popstate/)
@@ -37,18 +29,20 @@ test('route links remain native while home hashes use explicit in-page navigatio
   assert.match(active, /data-navigation-bar/)
 })
 
-test('menu, command palette and project dialogs cannot expose the dock together', async () => {
-  const navigation = await source('src/components/navigation/Navigation.tsx')
-  const sheet = await source('src/components/navigation/NavigationSheet.tsx')
-  const command = await source('src/components/navigation/CommandNavigation.tsx')
+test('hero follows the video composition without legacy technical decoration', async () => {
+  const hero = await source('src/components/Hero.tsx')
 
-  assert.match(navigation, /type NavigationOverlay = 'menu' \| 'command' \| null/)
-  assert.match(navigation, /overlay === 'menu'/)
-  assert.match(navigation, /overlay === 'command'/)
-  assert.match(navigation, /MutationObserver/)
-  assert.match(navigation, /!dialogOpen/)
-  assert.equal(sheet.includes('setTimeout'), false)
-  assert.equal(command.includes('setTimeout'), false)
+  assert.match(hero, /aria-label="OLÁ!"/)
+  assert.match(hero, /opacity: \[1, 1, 0, 0, 1\]/)
+  assert.match(hero, /PersonalPortrait/)
+  assert.match(hero, /gabriel-avatar\.webp/)
+  assert.match(hero, /Email/)
+  assert.match(hero, /LinkedIn/)
+  assert.match(hero, /GitHub/)
+  assert.equal(hero.includes('WordsPullUp'), false)
+  assert.equal(hero.includes('SystemLines'), false)
+  assert.equal(hero.includes('bg-grid'), false)
+  assert.equal(hero.includes('handles.map'), false)
 })
 
 test('internal pages use the same navigation system as the home page', async () => {

@@ -41,7 +41,7 @@ function previewImage(options: {
 
 /** A Barthy V2 implementa os dois temas, então o seletor aparece no card. */
 export const barthyPreviews: ProjectPreviewThemes = {
-  default: 'dark',
+  default: 'light',
   dark: {
     cover: previewImage({
       id: 'barthy-v2-hero-dark',

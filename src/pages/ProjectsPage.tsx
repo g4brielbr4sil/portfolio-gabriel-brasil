@@ -10,7 +10,7 @@ export default function ProjectsPage() {
           title="Sistemas e produtos construídos para problemas reais."
           description="Cada projeto apresenta o contexto, minha atuação, decisões técnicas, stack e estado atual sem métricas ou resultados inventados."
         />
-        <Projects />
+        <Projects showAllInitially />
       </main>
     </PageLayout>
   )

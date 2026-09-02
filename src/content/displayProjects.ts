@@ -1,6 +1,6 @@
 import { projects, type Project } from '@/content/portfolio'
 
-const [barthy, pnqc, hermes, supportBase] = projects
+const [barthy, pnqc, hermes, radar, supportBase] = projects
 
 const supportSaas: Project = {
   ...supportBase,
@@ -53,4 +53,4 @@ const supportSaas: Project = {
   },
 }
 
-export const displayProjects: Project[] = [barthy, pnqc, hermes, supportSaas]
+export const displayProjects: Project[] = [barthy, pnqc, hermes, radar, supportSaas]

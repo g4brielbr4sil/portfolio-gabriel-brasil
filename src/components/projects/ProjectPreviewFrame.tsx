@@ -11,7 +11,7 @@ export default function ProjectPreviewFrame({ image, children, className }: { im
       className={cn(
         'flex h-full min-h-0 flex-col overflow-hidden border shadow-[0_18px_45px_rgba(0,0,0,0.24)]',
         light ? 'border-black/10 bg-[#f6f3ed]' : 'border-white/10 bg-[#0b0b0b]',
-        mobile ? 'mx-auto max-w-sm rounded-[1.75rem]' : 'w-full rounded-2xl',
+        mobile ? 'mx-auto max-w-sm rounded-[12px]' : 'w-full rounded-[6px]',
         className,
       )}
     >

@@ -1,326 +1,185 @@
 import { lazy, Suspense, useRef, useState } from 'react'
-import { ArrowUpRight } from '@phosphor-icons/react/dist/csr/ArrowUpRight'
-import { Plus } from '@phosphor-icons/react/dist/csr/Plus'
-import { FadeUp, WordsPullUp } from '@/components/motion/Reveal'
-import { Badge } from '@/components/ui/badge'
-import { usePreviewTheme } from '@/components/projects/usePreviewTheme'
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { ArrowSquareOut } from '@phosphor-icons/react/dist/csr/ArrowSquareOut'
+import { Code } from '@phosphor-icons/react/dist/csr/Code'
+import { Eye } from '@phosphor-icons/react/dist/csr/Eye'
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { displayProjects } from '@/content/displayProjects'
 import type { Project, ProjectLink } from '@/content/portfolio'
-import ProjectCardCarousel from '@/components/projects/ProjectCardCarousel'
-import ProjectCaseStudyButton from '@/components/projects/ProjectCaseStudyButton'
+import ProjectVisual from '@/components/projects/ProjectVisual'
 
 const ProjectCaseStudyDialog = lazy(() => import('@/components/projects/ProjectCaseStudyDialog'))
 
+const EASE = [0.22, 1, 0.36, 1] as const
+
 type Props = {
   onOverlayChange?: (open: boolean) => void
+  showAllInitially?: boolean
 }
 
-export default function Projects({ onOverlayChange }: Props) {
+export default function Projects({ onOverlayChange, showAllInitially = false }: Props) {
+  const reduced = useReducedMotion()
+  const [showAll, setShowAll] = useState(showAllInitially)
   const [activeProject, setActiveProject] = useState<Project | null>(null)
-  const [activeTheme, setActiveTheme] = useState<'dark' | 'light'>('dark')
-  const [activeIndex, setActiveIndex] = useState(0)
   const openerRef = useRef<HTMLElement | null>(null)
+  const visibleProjects = showAll ? displayProjects : displayProjects.slice(0, 2)
 
-  const [barthy, pnqc, hermes, supportSaas] = displayProjects
-
-  function openProject(project: Project, theme: 'dark' | 'light', index: number, opener: HTMLElement | null) {
+  function openProject(project: Project, opener: HTMLElement | null) {
     openerRef.current = opener
     setActiveProject(project)
-    setActiveTheme(theme)
-    setActiveIndex(index)
     onOverlayChange?.(true)
   }
 
   function handleOpenChange(open: boolean) {
-    if (!open) {
-      const target = openerRef.current
-      setActiveProject(null)
-      onOverlayChange?.(false)
-      window.setTimeout(() => {
-        if (target?.isConnected) target.focus({ preventScroll: true })
-      }, 0)
-    }
+    if (open) return
+
+    const target = openerRef.current
+    setActiveProject(null)
+    onOverlayChange?.(false)
+    window.setTimeout(() => {
+      if (target?.isConnected) target.focus({ preventScroll: true })
+    }, 0)
   }
 
   return (
-    <section id="projetos" className="relative scroll-mt-28 bg-ink px-3 pb-24 md:px-6 md:pb-32">
-      <div className="pointer-events-none absolute inset-0 bg-noise opacity-[0.12]" />
+    <section
+      id="projetos"
+      aria-labelledby="projects-title"
+      className="portfolio-chapter projects-section px-4 sm:px-6 lg:px-8"
+    >
+      <div className="portfolio-container w-full px-0 py-16 sm:px-4 lg:px-5 xl:py-20">
+        <motion.h2
+          id="projects-title"
+          className="flex items-center gap-3 text-[23px] font-semibold tracking-[-0.02em] text-white sm:text-2xl xl:text-[26px]"
+          initial={reduced ? false : { opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.65 }}
+          transition={{ duration: 0.45, ease: EASE }}
+        >
+          <Code size={24} weight="bold" className="text-[#8198ad]" aria-hidden="true" />
+          Projetos
+        </motion.h2>
 
-      <div className="relative mx-auto max-w-7xl">
-        <div className="grid gap-6 border-b border-line pb-10 md:grid-cols-12 md:items-end">
-          <h2 className="md:col-span-7">
-            <WordsPullUp
-              segments={[{ text: 'Produtos construídos para problemas reais.' }]}
-              className="block max-w-2xl text-2xl leading-[1.05] tracking-[-0.02em] text-cream sm:text-3xl md:text-4xl lg:text-5xl [&>span]:mr-[0.22em]"
-            />
-          </h2>
-          <FadeUp delay={0.15} className="md:col-span-5">
-            <p className="text-sm text-muted md:text-base">
-              Cases com evidências reais, decisões técnicas e responsabilidade explícita em cada entrega.
-            </p>
-          </FadeUp>
-        </div>
+        <motion.div layout={!reduced} className="mt-9 grid gap-4 md:grid-cols-2 xl:gap-5">
+          <AnimatePresence initial={false} mode="popLayout">
+            {visibleProjects.map((project, index) => (
+              <ProjectCard
+                key={project.slug}
+                project={project}
+                index={index}
+                reduced={Boolean(reduced)}
+                onOpen={openProject}
+              />
+            ))}
+          </AnimatePresence>
+        </motion.div>
 
-        <div className="mt-10 grid gap-5 lg:grid-cols-12">
-          <ProjectCard project={barthy} delay={0} className="lg:col-span-7" featured onOpenProject={openProject} />
-          <ProjectCard project={pnqc} delay={0.1} className="lg:col-span-5" featured onOpenProject={openProject} />
-          <ProjectCard project={hermes} delay={0.2} className="lg:col-span-12" onOpenProject={openProject} />
-        </div>
-
-        <div className="mt-16 border-t border-line pt-10">
-          <div className="grid gap-5 md:grid-cols-12 md:items-start">
-            <div className="md:col-span-4">
-              <p className="text-[10px] uppercase tracking-[0.26em] text-cream/35">Em validação</p>
-              <h3 className="mt-3 text-xl text-cream md:text-2xl">Uma base operacional, vários módulos.</h3>
-              <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted">
-                A próxima tese de produto conecta relacionamento, WhatsApp, check-ins e operação em módulos que podem crescer conforme a realidade de cada negócio.
-              </p>
-              <div className="mt-6 flex flex-wrap gap-2 text-[10px] uppercase tracking-[0.12em] text-cream/45">
-                {['CRM', 'WhatsApp', 'Check-in', 'Rotina', 'Operação', 'Suporte'].map((item) => (
-                  <span key={item} className="rounded-full border border-line px-3 py-1">{item}</span>
-                ))}
-              </div>
-            </div>
-            <ProjectCard
-              project={supportSaas}
-              delay={0.15}
-              className="md:col-span-8"
-              compact
-              onOpenProject={openProject}
-            />
-          </div>
-        </div>
+        {!showAllInitially && (
+          <motion.div layout={!reduced} className="mt-8 flex justify-center">
+            <button
+              type="button"
+              onClick={() => setShowAll((current) => !current)}
+              aria-expanded={showAll}
+              className="inline-flex min-h-11 items-center rounded-[4px] border border-white/20 bg-[#1b2421] px-5 text-[13px] font-semibold text-white/86 transition-colors hover:bg-[#26312d] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#93aaa2] sm:text-sm"
+            >
+              {showAll ? 'Mostrar menos' : 'Ver todos os projetos'}
+            </button>
+          </motion.div>
+        )}
       </div>
 
       {activeProject && (
         <Suspense fallback={null}>
-          <ProjectCaseStudyDialog
-            project={activeProject}
-            open
-            initialTheme={activeTheme}
-            initialIndex={activeIndex}
-            onOpenChange={handleOpenChange}
-          />
+          <ProjectCaseStudyDialog project={activeProject} open onOpenChange={handleOpenChange} />
         </Suspense>
       )}
     </section>
   )
 }
 
-type CardProps = {
+function ProjectCard({
+  project,
+  index,
+  reduced,
+  onOpen,
+}: {
   project: Project
-  delay: number
-  className?: string
-  featured?: boolean
-  compact?: boolean
-  onOpenProject: (project: Project, theme: 'dark' | 'light', index: number, opener: HTMLElement | null) => void
-}
-
-function ProjectCard({ project, delay, className, featured, compact, onOpenProject }: CardProps) {
-  const [expanded, setExpanded] = useState(false)
-  const extra = project.techExtra ?? []
-  const preview = usePreviewTheme(project.previewThemes)
-  const canShowGallery = Boolean(preview.images && preview.images.images.length > 1)
-
-  function openCurrentProject(opener: HTMLElement | null) {
-    onOpenProject(project, preview.theme, 0, opener)
-  }
+  index: number
+  reduced: boolean
+  onOpen: (project: Project, opener: HTMLElement | null) => void
+}) {
+  const links = project.links.filter((link) => Boolean(link.href)).slice(0, 2)
 
   return (
-    <FadeUp delay={delay} scale className={className}>
-      <article className="group flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-line bg-card transition-[transform,border-color] duration-500 [@media(hover:hover)]:hover:-translate-y-1 [@media(hover:hover)]:hover:border-cream/25">
-        <div
-          className={`relative overflow-hidden border-b border-line bg-surface ${
-            compact ? 'h-52 md:h-60' : featured ? 'h-72 md:h-[22rem]' : 'h-64 md:h-72'
-          }`}
-        >
-          <div className="absolute inset-0 transition-transform duration-700 [@media(hover:hover)]:group-hover:scale-[1.01]">
-            {preview.images && canShowGallery ? (
-              <ProjectCardCarousel
-                projectName={project.name}
-                theme={preview.theme}
-                images={preview.images.images}
-                canToggleTheme={preview.canToggle}
-                onThemeChange={preview.setTheme}
-                preload={preview.preload ? { theme: preview.preload.theme, images: preview.preload.images.images } : undefined}
-                onOpenGallery={({ theme, index, opener }) => onOpenProject(project, theme, index, opener)}
-              />
-            ) : (
-              <Mockup project={project} onOpenProject={(opener) => openCurrentProject(opener)} />
-            )}
-          </div>
-          {project.status &&
-            (project.statusTooltip ? (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <button type="button" className="absolute right-4 top-4 z-30 inline-flex min-h-11 items-center rounded-full cursor-help">
-                    <Badge variant="solid">{project.status}</Badge>
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent>{project.statusTooltip}</TooltipContent>
-              </Tooltip>
-            ) : (
-              <Badge variant="solid" className="absolute right-4 top-4 z-30">
-                {project.status}
-              </Badge>
-            ))}
+    <motion.article
+      layout={!reduced}
+      initial={reduced ? false : { opacity: 0, y: 22 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      exit={reduced ? undefined : { opacity: 0, y: 14 }}
+      viewport={{ once: true, amount: 0.35 }}
+      transition={{ duration: 0.48, delay: index * 0.06, ease: EASE, layout: { duration: 0.35, ease: EASE } }}
+      className="group overflow-hidden rounded-[6px] border border-white/17 bg-[#141918] transition-[transform,border-color] duration-300 [@media(hover:hover)]:hover:-translate-y-0.5 [@media(hover:hover)]:hover:border-white/30"
+    >
+      <button
+        type="button"
+        onClick={(event) => onOpen(project, event.currentTarget)}
+        className="block aspect-[16/8.5] w-full overflow-hidden border-b border-white/12 bg-[#090c0d] text-left focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#93aaa2]"
+        aria-label={`Ver detalhes de ${project.name}`}
+      >
+        <span className="block h-full transition-transform duration-500 [@media(hover:hover)]:group-hover:scale-[1.01] motion-reduce:transition-none">
+          <ProjectVisual project={project} />
+        </span>
+      </button>
+
+      <div className="p-4 sm:p-5 xl:p-6">
+        <div className="flex items-start justify-between gap-3">
+          <h3 className="text-base font-semibold leading-snug text-white/92 sm:text-[17px] xl:text-lg">{project.name}</h3>
+          {project.status && <span className="shrink-0 text-[11px] uppercase tracking-[0.08em] text-white/38 xl:text-[12px]">{project.status}</span>}
         </div>
+        <p className="mt-2 line-clamp-2 text-sm leading-[1.6] text-white/50 sm:text-[15px] xl:text-base">{project.description}</p>
 
-        <div className="flex flex-1 flex-col p-6 md:p-8">
-          <div className="flex items-baseline gap-4">
-            <span className="font-mono text-xs text-cream/35">{project.number}</span>
-            <h3 className="text-lg text-cream md:text-xl">{project.name}</h3>
-          </div>
+        <div className="mt-4 flex flex-wrap gap-1.5">
+          <button
+            type="button"
+            onClick={(event) => onOpen(project, event.currentTarget)}
+            className="inline-flex min-h-10 items-center gap-1.5 rounded-[4px] border border-white/16 px-3 text-[12px] text-white/68 transition-colors hover:bg-white/[0.06] hover:text-white md:min-h-9 xl:text-[13px]"
+          >
+            <Eye size={11} aria-hidden="true" />
+            Detalhes
+          </button>
 
-          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted">{project.description}</p>
-
-          <div className="mt-6 flex flex-wrap items-center gap-3">
-            <ProjectCaseStudyButton label="Explorar projeto" onClick={(event) => openCurrentProject(event.currentTarget)} />
-            {project.pagePath && (
-              <a
-                href={project.pagePath}
-                className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full border border-line bg-white/5 px-4 text-xs text-cream/75 transition-colors hover:bg-white/10 hover:text-cream"
-              >
-                Ver estudo de caso
-                <ArrowUpRight size={14} weight="regular" aria-hidden="true" />
-              </a>
-            )}
-            {project.links
-              .filter((link) => Boolean(link.href))
-              .slice(0, 1)
-              .map((link) => (
-                <CardLink key={link.label} link={link} pill />
-              ))}
-          </div>
-
-          {!compact && (
-            <>
-              <p className="mt-7 text-[10px] uppercase tracking-[0.22em] text-cream/35">
-                {project.highlightsLabel ?? 'Principais capacidades'}
-              </p>
-              <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-[11px] text-cream/60">
-                {project.highlights.map((highlight) => (
-                  <li key={highlight} className="flex items-center gap-2">
-                    <span className="h-1 w-1 rounded-full bg-cream/40" aria-hidden="true" />
-                    {highlight}
-                  </li>
-                ))}
-              </ul>
-            </>
+          {project.pagePath && (
+            <a
+              href={project.pagePath}
+              className="inline-flex min-h-10 items-center gap-1.5 rounded-[4px] border border-white/16 px-3 text-[12px] text-white/68 transition-colors hover:bg-white/[0.06] hover:text-white md:min-h-9 xl:text-[13px]"
+            >
+              <Code size={11} aria-hidden="true" />
+              Case
+            </a>
           )}
 
-          <p className="mt-7 text-[10px] uppercase tracking-[0.22em] text-cream/35">
-            {project.techLabel ?? 'Stack principal'}
-          </p>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {project.tech.map((tech) => (
-              <Badge key={tech}>{tech}</Badge>
-            ))}
-          </div>
-
-          {extra.length > 0 && !compact && (
-            <Collapsible open={expanded} onOpenChange={setExpanded} className="mt-4">
-              <CollapsibleTrigger className="inline-flex min-h-[44px] items-center gap-1.5 text-[11px] text-cream/45 transition-colors duration-300 hover:text-cream/80">
-                <Plus
-                  size={12}
-                  weight="regular"
-                  aria-hidden="true"
-                  className={`transition-transform duration-500 ${expanded ? 'rotate-45' : ''}`}
-                />
-                {expanded ? 'Ocultar ecossistema' : `Ecossistema do projeto · ${extra.length}`}
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <div className="flex flex-wrap gap-2 pt-3">
-                  {extra.map((tech) => (
-                    <Badge key={tech} className="border-line/60 text-cream/35">
-                      {tech}
-                    </Badge>
-                  ))}
-                </div>
-              </CollapsibleContent>
-            </Collapsible>
-          )}
-
-          {project.links.length > 1 && (
-            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-line pt-5">
-              {project.links.slice(1).map((link) => (
-                <CardLink key={link.label} link={link} />
-              ))}
-            </div>
-          )}
+          {links.map((link) => (
+            <ProjectActionLink key={link.label} link={link} />
+          ))}
         </div>
-      </article>
-    </FadeUp>
+      </div>
+    </motion.article>
   )
 }
 
-function CardLink({ link, pill = false }: { link: ProjectLink; pill?: boolean }) {
+function ProjectActionLink({ link }: { link: ProjectLink }) {
   if (!link.href) return null
+
+  const label = /repositório|código/i.test(link.label) ? 'Código' : 'Abrir'
 
   return (
     <a
       href={link.href}
       target={link.external ? '_blank' : undefined}
       rel={link.external ? 'noopener noreferrer' : undefined}
-      className={
-        pill
-          ? 'inline-flex min-h-[44px] items-center gap-1.5 rounded-full border border-line bg-white/5 px-4 text-xs text-cream/75 transition-colors hover:bg-white/10 hover:text-cream'
-          : 'group/link inline-flex min-h-[44px] items-center gap-1.5 text-xs text-cream/70 transition-colors duration-300 hover:text-cream'
-      }
+      className="inline-flex min-h-10 items-center gap-1.5 rounded-[4px] border border-white/16 px-3 text-[12px] text-white/68 transition-colors hover:bg-white/[0.06] hover:text-white md:min-h-9 xl:text-[13px]"
     >
-      {link.label}
-      <ArrowUpRight
-        size={14}
-        weight="regular"
-        aria-hidden="true"
-        className="transition-transform duration-500 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5"
-      />
+      <ArrowSquareOut size={11} aria-hidden="true" />
+      {label}
     </a>
-  )
-}
-
-function Mockup({ project, onOpenProject }: { project: Project; onOpenProject: (opener: HTMLElement | null) => void }) {
-  const labels = project.highlights.slice(0, 4)
-
-  return (
-    <div className="absolute inset-0 bg-grid opacity-90">
-      <button
-        type="button"
-        onClick={(event) => onOpenProject(event.currentTarget)}
-        className="absolute inset-0 z-10 cursor-pointer"
-        aria-label={`Explorar estudo de caso de ${project.name}`}
-      />
-
-      <div className="absolute inset-x-5 top-5 flex items-center gap-1.5">
-        <span className="h-2 w-2 rounded-full bg-cream/20" />
-        <span className="h-2 w-2 rounded-full bg-cream/15" />
-        <span className="h-2 w-2 rounded-full bg-cream/10" />
-        <span className="ml-3 h-2 w-24 rounded-full bg-cream/10" />
-      </div>
-
-      <div className="absolute inset-x-5 bottom-6 top-14 grid gap-3 sm:grid-cols-[0.75fr_1.25fr]">
-        <div className="rounded-xl border border-line bg-black/35 p-4">
-          <p className="text-[10px] uppercase tracking-[0.22em] text-cream/35">Visão do produto</p>
-          <div className="mt-4 space-y-2">
-            {labels.map((label) => (
-              <div key={label} className="rounded-lg border border-line bg-white/[0.03] px-3 py-2 text-[11px] text-cream/55">
-                {label}
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="flex items-center justify-center rounded-xl border border-line bg-black/35 p-5">
-          <div className="relative h-32 w-32 rounded-full border border-cream/15">
-            <span className="absolute left-1/2 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cream/60" />
-            <span className="absolute left-1/2 top-2 h-2 w-2 -translate-x-1/2 rounded-full bg-cream/30" />
-            <span className="absolute bottom-5 left-4 h-2 w-2 rounded-full bg-cream/25" />
-            <span className="absolute bottom-5 right-4 h-2 w-2 rounded-full bg-cream/25" />
-            <span className="absolute inset-6 rounded-full border border-cream/10" />
-          </div>
-        </div>
-      </div>
-    </div>
   )
 }

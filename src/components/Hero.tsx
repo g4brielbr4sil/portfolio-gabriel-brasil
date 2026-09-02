@@ -1,173 +1,179 @@
-import { useRef } from 'react'
-import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
-import { GitBranch } from '@phosphor-icons/react/dist/csr/GitBranch'
-import { Pulse } from '@phosphor-icons/react/dist/csr/Pulse'
-import { ActionButton } from '@/components/ui/Button'
-import StatusDot from '@/components/ui/StatusDot'
-import { WordsPullUp } from '@/components/motion/Reveal'
+import type { ReactNode } from 'react'
+import { ArrowUpRight } from '@phosphor-icons/react/dist/csr/ArrowUpRight'
+import { EnvelopeSimple } from '@phosphor-icons/react/dist/csr/EnvelopeSimple'
+import { GithubLogo } from '@phosphor-icons/react/dist/csr/GithubLogo'
+import { LinkedinLogo } from '@phosphor-icons/react/dist/csr/LinkedinLogo'
+import { motion, useReducedMotion, type Variants } from 'motion/react'
 import { contact } from '@/content/portfolio'
+import gabrielAvatar from '@/assets/profile/gabriel-avatar.webp'
 
-const EASE = [0.16, 1, 0.3, 1] as const
+const EASE = [0.22, 1, 0.36, 1] as const
+
+const sequence: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { delayChildren: 0.12, staggerChildren: 0.08 },
+  },
+}
+
+const item: Variants = {
+  hidden: { opacity: 0, y: 12 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.46, ease: EASE },
+  },
+}
+
+const contactCards = [
+  {
+    label: 'Email',
+    value: contact.email,
+    href: contact.mailto,
+    icon: <EnvelopeSimple size={18} weight="regular" aria-hidden="true" />,
+  },
+  {
+    label: 'LinkedIn',
+    value: 'gabrielbrasildev',
+    href: contact.linkedin,
+    icon: <LinkedinLogo size={18} weight="regular" aria-hidden="true" />,
+    external: true,
+  },
+  {
+    label: 'GitHub',
+    value: 'g4brielbr4sil',
+    href: contact.github,
+    icon: <GithubLogo size={18} weight="regular" aria-hidden="true" />,
+    external: true,
+  },
+] satisfies Array<{
+  label: string
+  value: string
+  href: string
+  icon: ReactNode
+  external?: boolean
+}>
 
 export default function Hero() {
   const reduced = useReducedMotion()
-  const sectionRef = useRef<HTMLElement>(null)
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start start', 'end start'],
-  })
-
-  const cardDrift = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : -24])
-  const cardDriftSlow = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : -12])
-
-  const fade = (delay: number) => ({
-    initial: reduced ? false : { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.72, delay, ease: EASE },
-  })
 
   return (
-    <header id="inicio" ref={sectionRef} className="h-[100svh] min-h-[640px] p-3 md:p-6">
-      <div className="relative h-full w-full overflow-hidden rounded-2xl bg-surface md:rounded-[2rem]">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_18%,rgba(74,127,167,0.20),transparent_34%),radial-gradient(circle_at_12%_76%,rgba(205,118,93,0.10),transparent_28%),linear-gradient(135deg,#050505_0%,#11151b_54%,#070707_100%)]" />
-        <div className="pointer-events-none absolute inset-0 bg-grid opacity-50" />
-        <SystemLines reduced={Boolean(reduced)} />
-        <div className="pointer-events-none absolute inset-0 noise-overlay opacity-[0.28] mix-blend-overlay" />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black/85" />
-
-        <motion.div
-          {...fade(0.9)}
-          style={{ y: cardDrift }}
-          className="pointer-events-none absolute right-4 top-24 hidden w-64 rounded-2xl border border-line bg-black/45 p-4 backdrop-blur-md lg:block xl:w-72"
-        >
-          <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-cream/50">
-            <Pulse size={14} weight="light" aria-hidden="true" />
-            Ecossistema em construção
-          </div>
-          <div className="mt-4 space-y-3">
-            {[
-              { label: 'Barthy Web Studio V2', value: 'Studio autoral' },
-              { label: 'Hermes Command Center', value: 'Operação' },
-              { label: 'Levens Qualifica | PNQC', value: 'Produção' },
-            ].map((row) => (
-              <div key={row.label} className="flex items-center justify-between gap-3 text-[11px]">
-                <span className="text-cream/70">{row.label}</span>
-                <span className="rounded-full border border-line px-2 py-0.5 text-cream/50">{row.value}</span>
-              </div>
-            ))}
-          </div>
-        </motion.div>
-
-        <motion.div
-          {...fade(1.1)}
-          style={{ y: cardDriftSlow }}
-          className="pointer-events-none absolute right-10 top-[22rem] hidden w-64 rounded-2xl border border-line bg-black/45 p-4 font-mono text-[11px] leading-relaxed text-cream/60 backdrop-blur-md xl:block"
-        >
-          <div className="mb-3 flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-cream/40">
-            <GitBranch size={14} weight="light" aria-hidden="true" />
-            Stack aplicada
-          </div>
-          <div>React + TypeScript</div>
-          <div>Python + FastAPI</div>
-          <div>SQLite + PostgreSQL</div>
-          <div className="mt-2 text-cream/40">Cloudflare Pages · Docker · GitHub Actions</div>
-        </motion.div>
-
-        <div className="absolute inset-x-0 bottom-0 px-5 pb-8 md:px-10 md:pb-12">
-          <motion.div
-            {...fade(0.35)}
-            className="mb-6 flex flex-wrap items-center gap-x-3 gap-y-2 text-[11px] uppercase tracking-[0.2em] text-cream/45"
+    <header
+      id="inicio"
+      className="relative flex min-h-[100svh] scroll-mt-24 items-center overflow-hidden px-4 pb-12 pt-[104px] sm:px-6 lg:px-8 xl:pb-16 xl:pt-[112px]"
+    >
+      <motion.div
+        className="portfolio-container relative z-10 grid items-center gap-8 min-[860px]:grid-cols-[minmax(0,1fr)_350px] min-[860px]:gap-[42px] xl:grid-cols-[minmax(0,1fr)_410px] xl:gap-16 2xl:grid-cols-[minmax(0,1fr)_440px] 2xl:gap-20"
+        variants={sequence}
+        initial={reduced ? false : 'hidden'}
+        animate="visible"
+      >
+        <div>
+          <motion.h1
+            variants={item}
+            aria-label="OLÁ!"
+            className="text-[68px] leading-[0.65] text-white sm:text-[70px]"
           >
-            <span className="inline-flex items-center gap-2.5 rounded-full border border-line/70 bg-black/20 px-3 py-1.5 text-cream/80">
-              <StatusDot />
-              Brasília, DF
+            <span className="hero-display hero-display-localized block">
+              OLÁ
+              <motion.span
+                aria-hidden="true"
+                animate={reduced ? undefined : { opacity: [1, 1, 0, 0, 1] }}
+                transition={{ duration: 1.7, times: [0, 0.47, 0.5, 0.97, 1], repeat: Infinity, ease: 'linear' }}
+              >
+                !
+              </motion.span>
             </span>
-            <span className="hidden h-px w-8 bg-line sm:block" aria-hidden="true" />
-            <span className="text-cream/55">Sistemas, automações e produtos digitais</span>
-            <span className="hidden h-px w-8 bg-line sm:block" aria-hidden="true" />
-            <span className="rounded-full border border-line/70 px-3 py-1 text-[10px] tracking-[0.22em] text-cream/40">
-              BSB
-            </span>
+          </motion.h1>
+
+          <motion.p
+            variants={item}
+            className="mt-[14px] max-w-[540px] text-[15px] leading-[1.65] text-white/74 sm:text-base lg:text-[17px] xl:max-w-[650px] xl:text-[18px]"
+          >
+            Sou Gabriel Brasil, Desenvolvedor Full Stack e Analista de Sistemas em Brasília, DF. Desenvolvo soluções digitais de ponta a ponta, conectando interfaces, APIs, dados, automações e integrações para transformar problemas reais em sistemas funcionais, bem estruturados e confiáveis.
+          </motion.p>
+
+          <motion.div variants={item} className="mt-5 grid max-w-[540px] grid-cols-1 gap-3 min-[470px]:grid-cols-3 xl:max-w-[650px] xl:gap-4">
+            {contactCards.map((card) => (
+              <ContactCard key={card.label} {...card} />
+            ))}
           </motion.div>
-
-          <div className="grid grid-cols-1 items-end gap-8 lg:grid-cols-12 lg:gap-10">
-            <h1 className="lg:col-span-8">
-              <WordsPullUp
-                segments={[{ text: 'Gabriel Brasil' }]}
-                className="block text-[17vw] font-medium leading-[0.85] tracking-[-0.06em] text-cream sm:text-[16vw] lg:text-[13vw]"
-              />
-            </h1>
-
-            <div className="lg:col-span-4">
-              <motion.p {...fade(0.5)} className="text-xs uppercase tracking-[0.22em] text-cream/60 sm:text-[13px]">
-                Analista de Sistemas e Desenvolvedor
-              </motion.p>
-              <motion.p {...fade(0.6)} className="mt-4 max-w-md text-sm leading-[1.35] text-primary/70 md:text-base">
-                Transformo processos, ideias e problemas reais em produtos digitais funcionais.
-              </motion.p>
-              <motion.div {...fade(0.75)} className="mt-7 flex flex-wrap items-center gap-3">
-                <ActionButton href="#projetos">Ver projetos</ActionButton>
-                {contact.resume && (
-                  <ActionButton href={contact.resume} variant="secondary" download={contact.resumeDownloadName}>
-                    Baixar currículo
-                  </ActionButton>
-                )}
-              </motion.div>
-            </div>
-          </div>
         </div>
-      </div>
+
+        <motion.div variants={item}>
+          <PersonalPortrait />
+        </motion.div>
+      </motion.div>
+
     </header>
   )
 }
 
-function SystemLines({ reduced }: { reduced: boolean }) {
-  const paths = [
-    'M0 210 H180 V420 H340',
-    'M180 210 V90 H430',
-    'M1200 560 H980 V330 H820',
-    'M980 560 V680 H700',
-  ]
-  const nodes = [
-    [180, 210],
-    [340, 420],
-    [430, 90],
-    [980, 560],
-    [820, 330],
-    [700, 680],
-  ]
+function ContactCard({
+  label,
+  value,
+  href,
+  icon,
+  external = false,
+}: {
+  label: string
+  value: string
+  href: string
+  icon: ReactNode
+  external?: boolean
+}) {
+  return (
+    <a
+      href={href}
+      target={external ? '_blank' : undefined}
+      rel={external ? 'noopener noreferrer' : undefined}
+      className="group flex min-h-[106px] min-w-0 flex-col justify-between rounded-[11px] border border-white/24 bg-black/42 p-3.5 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.035)] backdrop-blur-sm transition-colors duration-200 hover:border-white/42 hover:bg-black/52 xl:min-h-[114px] xl:p-4"
+      aria-label={`${label}: ${value}`}
+    >
+      <span className="flex items-start justify-between gap-3 text-white/75">
+        {icon}
+        <ArrowUpRight
+          size={14}
+          weight="regular"
+          className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+          aria-hidden="true"
+        />
+      </span>
+      <span>
+        <span className="block text-[13px] font-semibold text-white xl:text-sm">{label}</span>
+        <span className="mt-0.5 block truncate text-[11px] text-white/50 xl:text-[12px]">{value}</span>
+      </span>
+    </a>
+  )
+}
+
+function PersonalPortrait() {
+  const reduced = useReducedMotion()
 
   return (
-    <svg
-      className="pointer-events-none absolute inset-0 h-full w-full opacity-35"
-      viewBox="0 0 1200 800"
-      preserveAspectRatio="none"
-      aria-hidden="true"
+    <div
+      className="relative aspect-square w-full max-w-[350px] overflow-visible rounded-[3px] bg-[#2d171c] shadow-[0_24px_80px_rgba(69,22,31,0.18)] xl:max-w-[410px] 2xl:max-w-[440px]"
+      role="img"
+      aria-label="Ilustração de Gabriel Brasil"
     >
-      <g stroke="rgba(222,219,200,0.35)" strokeWidth="1" fill="none">
-        {paths.map((d, index) => (
-          <motion.path
-            key={d}
-            d={d}
-            initial={reduced ? false : { pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ duration: 1.6, delay: 0.45 + index * 0.14, ease: EASE }}
-          />
-        ))}
-      </g>
-      <g fill="rgba(222,219,200,0.5)">
-        {nodes.map(([cx, cy], index) => (
-          <motion.circle
-            key={`${cx}-${cy}`}
-            cx={cx}
-            cy={cy}
-            r={3}
-            initial={reduced ? false : { opacity: 0, scale: 0.6 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.9, delay: 1.6 + index * 0.12, ease: EASE }}
-          />
-        ))}
-      </g>
-    </svg>
+      <motion.div
+        initial={reduced ? false : { opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.9, delay: reduced ? 0 : 0.18, ease: EASE }}
+        className="absolute inset-0 overflow-hidden rounded-[3px] bg-[#170f12]"
+      >
+        <motion.img
+          src={gabrielAvatar}
+          alt=""
+          width="1200"
+          height="896"
+          decoding="async"
+          fetchPriority="high"
+          className="h-full w-full object-cover object-center opacity-[0.88] saturate-[0.78] brightness-[0.88]"
+        />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/24 via-black/[0.04] to-black/14" />
+      </motion.div>
+    </div>
   )
 }

@@ -8,17 +8,17 @@ import ContactForm from '@/components/contact/ContactForm'
 
 export default function Contact({ showFooter = true }: { showFooter?: boolean }) {
   return (
-    <section id="contato" className="relative scroll-mt-28 bg-ink px-3 pb-8 pt-20 md:px-6 md:pt-28">
+    <section id="contato" className="relative scroll-mt-28 px-5 pb-8 pt-10 sm:px-8 md:pt-16">
       <div className="pointer-events-none absolute inset-0 bg-noise opacity-[0.12]" />
 
-      <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[1.75rem] border border-line bg-surface px-6 py-16 md:rounded-[2.5rem] md:px-14 md:py-24">
+      <div className="portfolio-container relative overflow-hidden rounded-[8px] border border-white/14 bg-[#111615] px-6 py-12 md:px-10 md:py-16">
         <h2>
           <WordsPullUp
             segments={[
               { text: 'Vamos construir algo que' },
               { text: ' funcione de verdade.', className: 'font-serif italic' },
             ]}
-            className="block max-w-4xl text-3xl leading-[0.98] tracking-[-0.03em] text-cream sm:text-4xl md:text-6xl lg:text-7xl [&>span]:mr-[0.2em]"
+            className="block max-w-4xl text-3xl leading-[1] tracking-[-0.03em] text-white/92 sm:text-4xl md:text-5xl xl:text-6xl [&>span]:mr-[0.2em]"
           />
         </h2>
 

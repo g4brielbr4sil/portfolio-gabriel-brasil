@@ -18,11 +18,12 @@ function DetailList({ title, items }: { title: string; items: string[] }) {
 
 function AbstractPreview({ project }: { project: Project }) {
   return (
-    <div className="overflow-hidden rounded-[1.75rem] border border-line bg-surface p-6 md:p-9">
-      <div className="bg-grid rounded-[1.25rem] border border-line p-6">
+    <div className="overflow-hidden rounded-[8px] border border-white/14 bg-[#111615] p-5 md:p-7">
+      <div className="bg-grid rounded-[6px] border border-white/12 p-6">
         <p className="text-[10px] uppercase tracking-[0.22em] text-cream/40">Apresentação abstrata</p>
         <p className="mt-5 max-w-xl text-lg leading-relaxed text-cream/75">
-          Nenhuma captura real do {project.name} é publicada nesta rodada para preservar dados pessoais e operacionais.
+          {project.previewNote ??
+            `Nenhuma captura real do ${project.name} é publicada nesta rodada para preservar dados pessoais e operacionais.`}
         </p>
         <div className="mt-8 grid gap-3 sm:grid-cols-2">
           {project.highlights.slice(0, 4).map((item) => <span key={item} className="rounded-xl border border-line bg-black/25 p-4 text-sm text-cream/60">{item}</span>)}
@@ -40,7 +41,7 @@ export default function ProjectPage({ route }: { route: PortfolioRoute }) {
   return (
     <PageLayout current="project">
       <main id="conteudo" tabIndex={-1} className="px-3 pb-12 pt-24 md:px-6 md:pb-20 md:pt-32">
-        <article className="mx-auto max-w-7xl">
+        <article className="portfolio-container">
           <Breadcrumbs items={[{ label: 'Início', href: '/' }, { label: 'Projetos', href: '/projetos/' }, { label: project.name }]} />
 
           <header className="grid gap-6 border-b border-line pb-10 md:grid-cols-12 md:items-end">

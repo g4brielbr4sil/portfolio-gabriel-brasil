@@ -304,6 +304,53 @@ export const projects: Project[] = [
   },
   {
     number: '04',
+    slug: 'radar-df',
+    pagePath: '/projetos/radar-df/',
+    name: 'Radar DF',
+    status: 'Em desenvolvimento',
+    statusTooltip: 'Projeto em desenvolvimento. A composição visual é abstrata e não representa uma interface publicada.',
+    description:
+      'Plataforma em desenvolvimento para centralizar e organizar oportunidades, currículo estruturado, matching, ingestão de vagas e acompanhamento de candidaturas.',
+    highlightsLabel: 'Capacidades em desenvolvimento',
+    highlights: [
+      'Centralização de oportunidades',
+      'Currículo estruturado',
+      'Matching entre perfil e vaga',
+      'Ingestão e normalização de vagas',
+      'Acompanhamento de candidaturas',
+    ],
+    tech: ['React', 'TypeScript', 'FastAPI'],
+    techExtra: ['APIs REST', 'Banco relacional'],
+    links: [],
+    previewNote: 'Composição abstrata original. Ainda não existe screenshot público apresentado como produto pronto.',
+    caseStudy: {
+      category: 'Plataforma de oportunidades do Distrito Federal',
+      status: 'Em desenvolvimento, sem aplicação pública divulgada',
+      context:
+        'O Radar DF nasce da necessidade de reunir oportunidades hoje dispersas e tornar a busca e o acompanhamento de candidaturas mais organizados.',
+      problem:
+        'Centralizar vagas, reduzir duplicidade e estruturar o processo de candidatura sem apresentar recursos planejados como funcionalidades concluídas.',
+      role: 'Concepção do produto, estruturação do escopo e desenvolvimento da base técnica.',
+      decisions: [
+        'Manter candidato e currículo como núcleo da experiência.',
+        'Tratar ingestão, normalização e matching como capacidades em desenvolvimento.',
+        'Não publicar links ou screenshots até existir uma versão apropriada para demonstração.',
+      ],
+      features: [
+        'Centralização de oportunidades em desenvolvimento',
+        'Currículo estruturado planejado',
+        'Matching e acompanhamento de candidaturas em desenvolvimento',
+      ],
+      stackMain: ['React', 'TypeScript', 'FastAPI'],
+      stackExtra: ['APIs REST', 'Banco relacional'],
+      challenges: ['Organizar fontes diferentes sem duplicar oportunidades ou prometer cobertura ainda não validada.'],
+      solutions: ['Evolução incremental com comunicação pública limitada ao estágio comprovado do projeto.'],
+      nextSteps: ['Concluir a primeira versão demonstrável antes de divulgar uma URL pública.'],
+      links: [],
+    },
+  },
+  {
+    number: '05',
     slug: 'saas-de-suporte',
     name: 'SaaS de Suporte',
     status: 'Produto em desenvolvimento',
@@ -403,33 +450,82 @@ export const stackGroups: { category: string; items: string[]; note?: string }[]
 
 export const evolvingStack = ['Next.js', 'PHP', 'Laravel', 'Bootstrap', 'Sass']
 
+export const technologyShowcaseGroups: { category: string; items: string[] }[] = [
+  {
+    category: 'Front-end',
+    items: ['HTML5', 'CSS3', 'JavaScript', 'TypeScript', 'React', 'Vite'],
+  },
+  {
+    category: 'Interface e motion',
+    items: ['Tailwind CSS', 'Material UI', 'Motion', 'React Hook Form'],
+  },
+  {
+    category: 'Back-end e APIs',
+    items: ['Python', 'FastAPI', 'SQLAlchemy', 'Pydantic', 'APIs REST'],
+  },
+  {
+    category: 'Dados',
+    items: ['SQLite', 'PostgreSQL', 'Supabase Auth'],
+  },
+  {
+    category: 'Desenvolvimento e entrega',
+    items: ['Git', 'GitHub', 'Docker', 'Linux', 'Cloudflare Pages'],
+  },
+  {
+    category: 'Automações',
+    items: ['n8n', 'Webhooks', 'Gmail OAuth', 'Google Calendar'],
+  },
+  {
+    category: 'Qualidade',
+    items: ['GitHub Actions', 'TypeScript typecheck', 'Ruff', 'unittest'],
+  },
+  {
+    category: 'Ferramentas e operação',
+    items: ['Figma', 'Microsoft Office', 'File Management', 'Network Configuration', 'Cable Management', 'Data Entry'],
+  },
+]
+
 export const experience = [
   {
-    role: 'Sistemas, processos e operação',
+    role: 'Desenvolvedor Júnior',
+    organization: 'Levens',
     description:
-      'Entendimento de processos, levantamento de requisitos, organização de regras de negócio, documentação de fluxos e acompanhamento da evolução de sistemas usados em operações reais.',
-    skills: ['Análise de sistemas', 'Levantamento de requisitos', 'Mapeamento de processos', 'Regras de negócio', 'Documentação'],
+      'Desenvolvimento e evolução de aplicações do ecossistema de cuidados, com interfaces, APIs, automações, testes e suporte a produção.',
+    meta: 'jun. 2025 a ago. 2026',
+    details: [
+      'Desenvolvimento com React, TypeScript e Vite, integração com APIs REST, autenticação e controle de acesso.',
+      'Testes, homologação, deploy na Cloudflare Pages e suporte a sistemas em produção.',
+    ],
+    skills: ['React', 'TypeScript', 'Vite', 'APIs REST', 'Autenticação', 'Cloudflare Pages'],
   },
   {
-    role: 'Construção de produtos digitais',
+    role: 'Estagiário de Desenvolvimento de Jogos',
+    organization: 'Acclivity',
     description:
-      'Desenvolvimento de aplicações web, interfaces responsivas, APIs, bancos de dados e integrações por meio de projetos autorais e produtos em produção.',
-    skills: ['React', 'TypeScript', 'Python', 'FastAPI', 'SQLAlchemy', 'SQLite', 'PostgreSQL'],
+      'Prototipação de interfaces, organização de telas e estruturação de fluxos para uma plataforma voltada ao público gamer.',
+    meta: 'jan. 2023 a jun. 2023',
+    details: [
+      'Estágio híbrido em Brasília, Distrito Federal, Brasil.',
+      'Contato prático com desenvolvimento web, lógica de programação, design de interfaces e organização de projetos digitais.',
+    ],
+    skills: ['Automação de processos', 'TypeScript'],
   },
   {
-    role: 'Implantação, suporte e melhoria contínua',
-    description:
-      'Validação de funcionalidades, testes, homologação, diagnóstico de bugs, acompanhamento de incidentes, suporte e melhoria após a publicação.',
-    skills: ['Testes funcionais', 'Homologação', 'Suporte técnico', 'Deploy', 'Monitoramento', 'Backup e rollback'],
+    role: 'Hello, World!',
+    description: 'Primeira linha de código e início da jornada em desenvolvimento.',
+    meta: '2022',
+    milestone: true,
+    skills: [],
   },
 ]
 
 export const education = {
   degree: {
+    shortTitle: 'Análise e Desenvolvimento de Sistemas',
     title: 'Tecnólogo em Análise e Desenvolvimento de Sistemas',
+    kind: 'Tecnólogo',
     institution: 'UDF, Centro Universitário do Distrito Federal',
-    status: 'Formação em andamento',
-    note: 'Conclusão prevista para dezembro de 2027',
+    status: 'Em andamento',
   },
   ecosystem: {
     title: 'Ecossistema de desenvolvimento',
@@ -437,4 +533,33 @@ export const education = {
       'Acesso educacional ativo a ferramentas profissionais para desenvolvimento, colaboração, infraestrutura, aprendizado e publicação de projetos.',
     items: ['GitHub Pro', 'GitHub Copilot', 'GitHub Codespaces', 'GitHub Actions', 'Ferramentas parceiras do GitHub Education'],
   },
+  certifications: [
+    {
+      title: 'Cisco IT Essentials 1 e 2',
+      institution: 'Cisco',
+      issued: 'Formação complementar',
+      description: 'Fundamentos de TI, hardware, sistemas, redes e suporte técnico.',
+      skills: ['IT Essentials 1', 'IT Essentials 2'],
+    },
+    {
+      title: 'Mestre em Engenharia de Prompt e Colaboração com IA',
+      institution: 'Cruzeiro do Sul',
+      issued: 'ago. 2026',
+      expired: 'Expirou em ago. de 2026',
+      credentialCode: '21186462-904d-4f54-8d4a-2a994a8382cc',
+      credentialUrl: site.urls.credentials.promptEngineering,
+      description: 'Engenharia de Prompt, pensamento crítico e colaboração com IA.',
+      skills: ['Engenharia de Prompt', 'Pensamento crítico', 'Colaboração com IA'],
+    },
+    {
+      title: 'Arquiteto de IA e Responsabilidade Digital',
+      institution: 'Cruzeiro do Sul',
+      issued: 'ago. 2026',
+      expired: 'Expirou em ago. de 2026',
+      credentialCode: 'aa1253e1-4ded-4c99-9ec9-492bb6cd337d',
+      credentialUrl: site.urls.credentials.responsibleAi,
+      description: 'IA fraca e forte, Machine Learning e responsabilidade digital.',
+      skills: ['Diferenciação de IA Fraca e IA Forte', 'Machine Learning', 'Responsabilidade Digital'],
+    },
+  ],
 }

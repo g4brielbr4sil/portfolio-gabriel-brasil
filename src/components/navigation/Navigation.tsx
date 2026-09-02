@@ -1,272 +1,88 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { useMotionValueEvent, useScroll } from 'motion/react'
-import CommandNavigation from '@/components/navigation/CommandNavigation'
-import DesktopNavigation from '@/components/navigation/DesktopNavigation'
-import MobileDock from '@/components/navigation/MobileDock'
-import MobileHeader from '@/components/navigation/MobileHeader'
-import NavigationSheet from '@/components/navigation/NavigationSheet'
-import type { SectionId } from '@/config/navigation'
+import type { MouseEvent } from 'react'
+import { motion, useReducedMotion } from 'motion/react'
+import { sections, type NavSection, type SectionId } from '@/config/navigation'
 import type { RouteKind } from '@/config/routes'
+import BrandDots from '@/components/brand/BrandDots'
 import { useActiveSection } from '@/hooks/useActiveSection'
-import {
-  initialDockScrollState,
-  isCommandShortcut,
-  isEditableTarget,
-  isVirtualKeyboardOccluding,
-  nextTopbarScrolled,
-  reduceDockScroll,
-  type NavigationHandler,
-} from '@/lib/navigation-state'
+import { isModifiedNavigationEvent, shouldNavigateInPage } from '@/lib/navigation-state'
 
 type Props = {
   current?: RouteKind
   overlayOpen?: boolean
 }
 
-type NavigationOverlay = 'menu' | 'command' | null
+const navigationOrder: SectionId[] = ['inicio', 'formacao', 'tecnologias', 'projetos', 'sobre']
 
-const DESKTOP_QUERY = '(min-width: 56rem)'
+const navigationItems = navigationOrder
+  .map((id) => sections.find((section) => section.id === id))
+  .filter((section): section is NavSection => Boolean(section))
 
-function useDesktopNavigation() {
-  const [desktop, setDesktop] = useState(false)
-
-  useEffect(() => {
-    const media = window.matchMedia(DESKTOP_QUERY)
-    const update = () => setDesktop(media.matches)
-    update()
-    media.addEventListener('change', update)
-    return () => media.removeEventListener('change', update)
-  }, [])
-
-  return desktop
-}
-
-export default function Navigation({ current, overlayOpen = false }: Props) {
+export default function Navigation({ current }: Props) {
   const { active, navigate } = useActiveSection()
-  const desktop = useDesktopNavigation()
-  const [scrolled, setScrolled] = useState(false)
-  const [dockHidden, setDockHidden] = useState(false)
-  const [overlay, setOverlay] = useState<NavigationOverlay>(null)
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const [keyboardOpen, setKeyboardOpen] = useState(false)
-  const [shortcutLabel, setShortcutLabel] = useState('Ctrl K')
-
-  const overlayRef = useRef<NavigationOverlay>(null)
-  const returnFocusRef = useRef<HTMLElement | null>(null)
-  const usingKeyboard = useRef(false)
-  const keyboardBaseline = useRef(0)
-  const { scrollY, scrollYProgress } = useScroll()
-  const dockScroll = useRef({ ...initialDockScrollState, lastY: scrollY.get() })
-
-  const restoreFocus = useCallback(() => {
-    const target = returnFocusRef.current
-    returnFocusRef.current = null
-    window.requestAnimationFrame(() => {
-      if (target?.isConnected) target.focus({ preventScroll: true })
-    })
-  }, [])
-
-  const closeOverlay = useCallback(
-    (shouldRestoreFocus = true) => {
-      overlayRef.current = null
-      setOverlay(null)
-      if (shouldRestoreFocus) restoreFocus()
-      else returnFocusRef.current = null
-    },
-    [restoreFocus],
-  )
-
-  const openOverlay = useCallback((next: Exclude<NavigationOverlay, null>) => {
-    if (!overlayRef.current) {
-      const current = document.activeElement
-      returnFocusRef.current = current instanceof HTMLElement ? current : null
-    }
-    overlayRef.current = next
-    setOverlay(next)
-  }, [])
-
-  useMotionValueEvent(scrollY, 'change', (value) => {
-    setScrolled((current) => nextTopbarScrolled(current, value))
-
-    if (usingKeyboard.current) return
-    const nextDock = reduceDockScroll(dockScroll.current, value, performance.now())
-    dockScroll.current = nextDock
-    setDockHidden((current) => (current === nextDock.hidden ? current : nextDock.hidden))
-  })
-
-  useEffect(() => {
-    const isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent)
-    setShortcutLabel(isMac ? '⌘ K' : 'Ctrl K')
-
-    function onKeyDown(event: KeyboardEvent) {
-      if (event.key === 'Tab') {
-        usingKeyboard.current = true
-        dockScroll.current = { ...dockScroll.current, hidden: false, distance: 0 }
-        setDockHidden(false)
-      }
-      if (!isCommandShortcut(event)) return
-
-      event.preventDefault()
-      if (overlayRef.current === 'command') closeOverlay()
-      else openOverlay('command')
-    }
-
-    function onPointerDown() {
-      usingKeyboard.current = false
-    }
-
-    window.addEventListener('keydown', onKeyDown)
-    window.addEventListener('pointerdown', onPointerDown)
-    return () => {
-      window.removeEventListener('keydown', onKeyDown)
-      window.removeEventListener('pointerdown', onPointerDown)
-    }
-  }, [closeOverlay, openOverlay])
-
-  useEffect(() => {
-    const viewport = window.visualViewport
-    keyboardBaseline.current = Math.max(window.innerHeight, viewport?.height ?? 0)
-
-    function updateKeyboard() {
-      const focusedEditable = isEditableTarget(document.activeElement)
-      if (!focusedEditable) {
-        keyboardBaseline.current = Math.max(window.innerHeight, viewport?.height ?? 0)
-        setKeyboardOpen(false)
-        return
-      }
-
-      setKeyboardOpen(
-        isVirtualKeyboardOccluding({
-          focusedEditable,
-          baselineHeight: keyboardBaseline.current,
-          layoutHeight: window.innerHeight,
-          viewportHeight: viewport?.height ?? window.innerHeight,
-          viewportOffsetTop: viewport?.offsetTop ?? 0,
-        }),
-      )
-    }
-
-    function onFocusOut() {
-      window.requestAnimationFrame(updateKeyboard)
-    }
-
-    function onOrientationChange() {
-      setKeyboardOpen(false)
-      window.setTimeout(() => {
-        keyboardBaseline.current = Math.max(window.innerHeight, viewport?.height ?? 0)
-        updateKeyboard()
-      }, 250)
-    }
-
-    window.addEventListener('focusin', updateKeyboard)
-    window.addEventListener('focusout', onFocusOut)
-    window.addEventListener('resize', updateKeyboard)
-    window.addEventListener('orientationchange', onOrientationChange)
-    viewport?.addEventListener('resize', updateKeyboard)
-    viewport?.addEventListener('scroll', updateKeyboard)
-    return () => {
-      window.removeEventListener('focusin', updateKeyboard)
-      window.removeEventListener('focusout', onFocusOut)
-      window.removeEventListener('resize', updateKeyboard)
-      window.removeEventListener('orientationchange', onOrientationChange)
-      viewport?.removeEventListener('resize', updateKeyboard)
-      viewport?.removeEventListener('scroll', updateKeyboard)
-    }
-  }, [])
-
-  useEffect(() => {
-    const closeForNavigation = () => closeOverlay(false)
-    window.addEventListener('hashchange', closeForNavigation)
-    window.addEventListener('popstate', closeForNavigation)
-    return () => {
-      window.removeEventListener('hashchange', closeForNavigation)
-      window.removeEventListener('popstate', closeForNavigation)
-    }
-  }, [closeOverlay])
-
-  useEffect(() => {
-    if (overlayOpen && overlayRef.current) closeOverlay(false)
-  }, [closeOverlay, overlayOpen])
-
-  useEffect(() => {
-    const update = () => setDialogOpen(Boolean(document.querySelector('[role="dialog"]')))
-    const observer = new MutationObserver(update)
-    observer.observe(document.body, { childList: true, subtree: true })
-    update()
-    return () => observer.disconnect()
-  }, [])
-
-  const go = useCallback<NavigationHandler>(
-    (id, options) => {
-      if (overlayRef.current) closeOverlay(false)
-      navigate(id, options)
-    },
-    [closeOverlay, navigate],
-  )
-
-  const handleOverlayChange = useCallback(
-    (open: boolean) => {
-      if (!open) closeOverlay()
-    },
-    [closeOverlay],
-  )
-
-  const dockVisible =
-    !desktop && !dockHidden && !overlay && !keyboardOpen && !overlayOpen && !dialogOpen
+  const reduced = useReducedMotion()
   const currentAria = current && current !== 'home' ? 'page' : 'location'
 
+  function handleNavigation(event: MouseEvent<HTMLAnchorElement>, id: SectionId) {
+    if (isModifiedNavigationEvent(event) || !shouldNavigateInPage(window.location.pathname, id)) return
+
+    event.preventDefault()
+    navigate(id, { focus: id !== 'inicio' })
+  }
+
   return (
-    <>
-      <nav
-        aria-label="Navegação principal"
-        className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-3 min-[56rem]:px-6 min-[56rem]:pt-6"
+    <motion.nav
+      aria-label="Navegação principal"
+      className="fixed left-1/2 top-[18px] z-50 w-[calc(100%_-_16px)] max-w-[960px] -translate-x-1/2 sm:w-[calc(100%_-_32px)] 2xl:max-w-[1020px]"
+      initial={reduced ? false : { opacity: 0, y: -8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <div
+        data-navigation-bar
+        className="reference-nav-scroll flex h-[47px] items-center overflow-x-auto rounded-full bg-[#070707]/94 px-[7px] shadow-[0_14px_42px_rgba(0,0,0,0.32)] backdrop-blur-xl xl:h-[49px]"
       >
-        <div className="pointer-events-none w-full min-[56rem]:w-auto">
-          {desktop ? (
-            <DesktopNavigation
-              active={active}
-              currentAria={currentAria}
-              scrolled={scrolled}
-              onNavigate={go}
-              onOpenCommand={() => openOverlay('command')}
-              shortcutLabel={shortcutLabel}
-              scrollProgress={scrollYProgress}
-            />
-          ) : (
-            <MobileHeader
-              active={active}
-              currentAria={currentAria}
-              scrolled={scrolled}
-              onNavigate={go}
-              onOpenMenu={() => openOverlay('menu')}
-              scrollProgress={scrollYProgress}
-            />
-          )}
-        </div>
-      </nav>
+        <a
+          href="/"
+          onClick={(event) => handleNavigation(event, 'inicio')}
+          className="flex min-h-11 shrink-0 items-center gap-2 px-3 text-[13px] font-semibold tracking-[-0.01em] text-white min-[470px]:pl-6 min-[470px]:pr-3 min-[900px]:pl-[46px] xl:pl-[52px] xl:text-sm"
+          aria-label="Gabriel Brasil, voltar ao início"
+        >
+          <BrandMark />
+          <span className="hidden min-[470px]:inline">Gabriel Brasil</span>
+        </a>
 
-      <MobileDock active={active} currentAria={currentAria} onNavigate={go} visible={dockVisible} />
+        <span className="mx-2 h-4 w-px shrink-0 bg-white/10" aria-hidden="true" />
 
-      {overlay === 'menu' && (
-        <NavigationSheet
-          open
-          onOpenChange={handleOverlayChange}
-          active={active}
-          currentAria={currentAria}
-          onNavigate={go}
-          onOpenCommand={() => openOverlay('command')}
-          onCloseAutoFocus={() => undefined}
-        />
-      )}
+        <ul className="ml-1 flex min-w-max items-center gap-1 min-[900px]:ml-[clamp(2rem,9vw,6rem)] min-[900px]:gap-1.5 xl:ml-[clamp(3rem,10vw,7rem)] xl:gap-2" role="list">
+          {navigationItems.map((section) => {
+            const Icon = section.icon
+            const isActive = active === section.id
 
-      {overlay === 'command' && (
-        <CommandNavigation
-          open
-          onOpenChange={handleOverlayChange}
-          onNavigate={go}
-          onCloseAutoFocus={() => undefined}
-        />
-      )}
-    </>
+            return (
+              <li key={section.id}>
+                <a
+                  href={section.href}
+                  onClick={(event) => handleNavigation(event, section.id)}
+                  aria-current={isActive ? currentAria : undefined}
+                  className={`flex min-h-8 items-center gap-[7px] rounded-full px-2 text-[11px] font-semibold uppercase transition-colors duration-200 sm:min-h-11 sm:px-[11px] min-[900px]:min-h-9 min-[900px]:px-3 xl:px-[14px] xl:text-[12px] ${
+                    isActive
+                      ? 'bg-white text-black'
+                      : 'text-white/58 hover:bg-white/8 hover:text-white'
+                  }`}
+                >
+                  <Icon size={13} weight={isActive ? 'fill' : 'regular'} aria-hidden="true" />
+                  <span className="hidden min-[900px]:inline">{section.label}</span>
+                  <span className="sr-only min-[900px]:hidden">{section.label}</span>
+                </a>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
+    </motion.nav>
   )
+}
+
+function BrandMark() {
+  return <BrandDots className="mr-0.5" />
 }
