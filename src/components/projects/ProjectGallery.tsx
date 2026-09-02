@@ -130,7 +130,7 @@ export default function ProjectGallery({
 
       <div
         className={cn(
-          'relative touch-pan-y overflow-hidden rounded-[1.5rem] border border-line bg-black/40',
+        'relative touch-pan-y overflow-hidden rounded-[8px] border border-line bg-black/40',
           current.device === 'mobile' ? 'mx-auto w-full max-w-[22rem] md:max-w-[24rem]' : 'w-full',
         )}
         {...swipeHandlers}
@@ -172,7 +172,7 @@ export default function ProjectGallery({
               type="button"
               onClick={() => setIndex(itemIndex)}
               className={cn(
-                'relative h-20 min-w-[6rem] snap-start overflow-hidden rounded-2xl border bg-black/35 p-1 transition-all duration-300 md:h-24 md:min-w-[7.5rem]',
+                'relative h-20 min-w-[6rem] snap-start overflow-hidden rounded-[6px] border bg-black/35 p-1 transition-all duration-300 md:h-24 md:min-w-[7.5rem]',
                 active ? 'border-cream/60 ring-1 ring-cream/25' : 'border-white/8 opacity-65 hover:opacity-90',
               )}
               aria-label={`Ir para a imagem ${itemIndex + 1} de ${images.length}`}

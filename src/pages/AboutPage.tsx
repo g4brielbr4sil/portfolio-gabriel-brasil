@@ -1,6 +1,5 @@
 import About from '@/components/About'
-import Education from '@/components/Education'
-import Experience from '@/components/Experience'
+import EducationExperience from '@/components/EducationExperience'
 import Skills from '@/components/Skills'
 import Stack from '@/components/Stack'
 import PageLayout, { PageIntro } from '@/components/layout/PageLayout'
@@ -16,9 +15,8 @@ export default function AboutPage() {
         />
         <About />
         <Skills />
-        <Experience />
+        <EducationExperience detailed />
         <Stack />
-        <Education />
       </main>
     </PageLayout>
   )

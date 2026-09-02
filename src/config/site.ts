@@ -22,6 +22,10 @@ function readOptionalPublicUrl(value: string | undefined, variableName: string) 
     throw new Error(`${variableName} aceita somente URLs HTTP ou HTTPS.`)
   }
 
+  if (['localhost', '127.0.0.1', '::1'].includes(parsed.hostname)) {
+    throw new Error(`${variableName} nao aceita enderecos locais como URL publica.`)
+  }
+
   return parsed.toString()
 }
 
@@ -51,6 +55,12 @@ export const site = {
     barthyV2: 'https://github.com/g4brielbr4sil/barthy-web-studio-v2',
     barthyV1: 'https://barthy-web-studio.pages.dev/',
     barthyV1Repository: 'https://github.com/g4brielbr4sil/barthy-web-studio',
+    credentials: {
+      promptEngineering:
+        'https://www3.cruzeirodosulvirtual.com.br/badges/exibir/21186462-904d-4f54-8d4a-2a994a8382cc',
+      responsibleAi:
+        'https://www3.cruzeirodosulvirtual.com.br/badges/exibir/aa1253e1-4ded-4c99-9ec9-492bb6cd337d',
+    },
   },
   resume: {
     path: '/curriculo-gabriel-brasil.pdf',

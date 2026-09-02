@@ -2,16 +2,113 @@
 
 @theme {
   --color-ink: #000000;
-  --color-surface: #101010;
-  --color-card: #212121;
-  --color-cream: #e1e0cc;
-  --color-primary: #dedbc8;
-  --color-muted: #9ca3af;
-  --color-line: rgba(222, 219, 200, 0.12);
-  --color-signal: #2b4a70;
+  --color-surface: #111615;
+  --color-card: #171d1b;
+  --color-cream: #eef0ed;
+  --color-primary: #d7d9d4;
+  --color-muted: #9aa29e;
+  --color-line: rgba(235, 240, 236, 0.13);
+  --color-signal: #667d76;
 
-  --font-sans: 'Almarai', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-serif: 'Instrument Serif', Georgia, serif;
+  --font-sans: 'Segoe UI', Arial, sans-serif;
+  --font-serif: Georgia, serif;
+}
+
+.portfolio-shell {
+  background-color: #020303;
+  background-image:
+    radial-gradient(ellipse 46rem 34rem at -7rem 18rem, rgba(28, 92, 66, 0.34) 0, rgba(20, 72, 53, 0.18) 42%, transparent 72%),
+    radial-gradient(ellipse 42rem 34rem at calc(100% + 5rem) 12rem, rgba(159, 16, 42, 0.34) 0, rgba(114, 11, 29, 0.2) 46%, transparent 74%),
+    radial-gradient(ellipse 54rem 30rem at 50% 57rem, rgba(31, 67, 116, 0.27) 0, rgba(22, 49, 89, 0.14) 46%, transparent 76%),
+    radial-gradient(ellipse 48rem 32rem at -5rem 124rem, rgba(114, 11, 29, 0.22) 0, rgba(84, 10, 29, 0.1) 48%, transparent 76%),
+    radial-gradient(ellipse 50rem 34rem at calc(100% + 7rem) 188rem, rgba(25, 76, 58, 0.24) 0, rgba(16, 53, 42, 0.1) 50%, transparent 76%),
+    radial-gradient(ellipse 52rem 34rem at 42% 250rem, rgba(32, 62, 108, 0.22) 0, rgba(24, 43, 76, 0.1) 50%, transparent 78%),
+    radial-gradient(ellipse 46rem 30rem at calc(100% + 4rem) 305rem, rgba(159, 16, 42, 0.21) 0, rgba(114, 11, 29, 0.09) 52%, transparent 80%);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.portfolio-container {
+  width: 100%;
+  max-width: 1100px;
+  margin-inline: auto;
+}
+
+.portfolio-container-narrow {
+  width: 100%;
+  max-width: 1060px;
+  margin-inline: auto;
+}
+
+@media (min-width: 1280px) {
+  .portfolio-container { max-width: 1220px; }
+  .portfolio-container-narrow { max-width: 1160px; }
+}
+
+@media (min-width: 1536px) {
+  .portfolio-container { max-width: 1400px; }
+  .portfolio-container-narrow { max-width: 1320px; }
+}
+
+@media (min-width: 1800px) {
+  .portfolio-container { max-width: 1520px; }
+  .portfolio-container-narrow { max-width: 1420px; }
+}
+
+.portfolio-chapter {
+  position: relative;
+  scroll-margin-top: 6rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+@media (min-width: 768px) {
+  .portfolio-chapter {
+    display: flex;
+    min-height: 100svh;
+    align-items: center;
+  }
+}
+
+.hero-display {
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  transform: translateY(-4px) skewX(-2deg) scaleY(0.66);
+  transform-origin: left center;
+}
+
+.hero-display-localized {
+  letter-spacing: 0.015em;
+  transform: translateY(-4px) skewX(-2deg) scaleX(1.4) scaleY(0.66);
+}
+
+.hero-monogram {
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  transform: skewX(-2deg);
+}
+
+.reference-nav-scroll {
+  scrollbar-width: none;
+}
+
+.reference-nav-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.journey-section {
+  background: transparent;
+}
+
+.stack-section {
+  background: transparent;
+}
+
+.projects-section {
+  background: transparent;
 }
 
 @layer base {
@@ -117,6 +214,22 @@
 @keyframes ticker {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
+}
+
+@keyframes project-tech-ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.project-tech-track {
+  animation: project-tech-ticker var(--project-ticker-duration, 32s) linear infinite;
+  will-change: transform;
+}
+
+.project-tech-ticker:hover .project-tech-track,
+.project-tech-ticker:focus .project-tech-track,
+.project-tech-ticker:focus-within .project-tech-track {
+  animation-play-state: paused;
 }
 
 @media (prefers-reduced-motion: reduce) {

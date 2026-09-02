@@ -1,30 +1,89 @@
-import { FadeUp, ScrollRevealText, WordsPullUp } from '@/components/motion/Reveal'
+import { Code } from '@phosphor-icons/react/dist/csr/Code'
+import { GameController } from '@phosphor-icons/react/dist/csr/GameController'
+import { MusicNotes } from '@phosphor-icons/react/dist/csr/MusicNotes'
+import { PersonSimpleRun } from '@phosphor-icons/react/dist/csr/PersonSimpleRun'
+import { SoccerBall } from '@phosphor-icons/react/dist/csr/SoccerBall'
+import { User } from '@phosphor-icons/react/dist/csr/User'
+import { motion, useReducedMotion } from 'motion/react'
+
+const EASE = [0.22, 1, 0.36, 1] as const
+
+const hobbies = [
+  { label: 'Games', icon: GameController, color: '#8fb1b8' },
+  { label: 'Futebol', icon: SoccerBall, color: '#9ba79d' },
+  { label: 'Codar', icon: Code, color: '#c1aa72' },
+  { label: 'Corrida', icon: PersonSimpleRun, color: '#a78f94' },
+  { label: 'Música', icon: MusicNotes, color: '#b88491' },
+] as const
 
 export default function About() {
+  const reduced = useReducedMotion()
+
   return (
-    <section id="sobre" className="scroll-mt-28 bg-ink px-3 py-20 md:px-6 md:py-32">
-      <div className="mx-auto max-w-6xl overflow-hidden rounded-[1.75rem] border border-line bg-surface px-6 py-16 text-center md:rounded-[2.5rem] md:px-16 md:py-28">
-        <FadeUp>
-          <span className="text-[10px] uppercase tracking-[0.28em] text-primary sm:text-xs">
-            Sobre mim
-          </span>
-        </FadeUp>
+    <section
+      id="sobre"
+      aria-labelledby="about-title"
+      className="portfolio-chapter px-4 sm:px-6 lg:px-8"
+    >
+      <div className="portfolio-container-narrow w-full px-0 py-16 sm:px-4 lg:px-5 xl:py-20">
+        <motion.h2
+          id="about-title"
+          className="flex items-center gap-3 text-[23px] font-semibold tracking-[-0.02em] text-white sm:text-2xl xl:text-[26px]"
+          initial={reduced ? false : { opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.7 }}
+          transition={{ duration: 0.45, ease: EASE }}
+        >
+          <User size={24} weight="fill" className="text-[#8198ad]" aria-hidden="true" />
+          Sobre mim
+        </motion.h2>
 
-        <h2 className="mx-auto mt-8 max-w-3xl text-3xl leading-[0.95] tracking-[-0.02em] text-cream sm:text-4xl sm:leading-[0.9] md:text-5xl lg:text-6xl xl:text-[4.25rem]">
-          <WordsPullUp
-            segments={[
-              { text: 'Eu sou Gabriel Brasil,' },
-              { text: ' Analista de Sistemas e Desenvolvedor.', className: 'font-serif italic' },
-              { text: ' Transformo processos, ideias e problemas reais em soluções digitais funcionais.' },
-            ]}
-            className="[&>span]:mr-[0.22em]"
-          />
-        </h2>
+        <motion.div
+          initial={reduced ? false : { opacity: 0, y: 22 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.35 }}
+          transition={{ duration: 0.5, delay: reduced ? 0 : 0.05, ease: EASE }}
+          className="mt-5 rounded-[6px] border border-white/18 bg-[#141918] p-5 sm:p-6 xl:p-7"
+        >
+          <h3 className="text-lg font-semibold text-white/92 xl:text-xl">Quem sou eu?</h3>
+          <div className="mt-4 space-y-4 text-[15px] leading-[1.72] text-white/64 sm:text-base xl:text-lg">
+            <p>
+              Sou Gabriel, brasiliense, curioso por natureza e do tipo que não sossega enquanto não entende como alguma
+              coisa funciona. Gosto de aprender na prática, testar, quebrar a cabeça e encontrar meu próprio jeito de
+              resolver as coisas.
+            </p>
+            <p>
+              Foi meio assim que a tecnologia entrou na minha vida. Antes de pensar nisso como profissão, eu já mexia em
+              computador, instalava Windows, formatava máquinas, configurava drivers, particionava discos e tentava
+              consertar qualquer coisa que desse problema.
+            </p>
+            <p>
+              Fora disso, gosto de games, futebol, corrida e música. Também curto tocar meus próprios projetos,
+              experimentar ideias novas e ter coisas para construir além do trabalho.
+            </p>
+          </div>
+        </motion.div>
 
-        <ScrollRevealText
-          text="Minha atuação combina análise de sistemas, desenvolvimento web, automação de processos, integrações, testes, implantação e melhoria contínua. Gosto de compreender como uma operação funciona, identificar seus gargalos e construir soluções que tornem o trabalho mais organizado, eficiente e confiável."
-          className="mx-auto mt-12 max-w-2xl text-sm leading-relaxed text-primary md:text-base"
-        />
+        <motion.div
+          initial={reduced ? false : { opacity: 0, y: 22 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.45 }}
+          transition={{ duration: 0.5, delay: reduced ? 0 : 0.12, ease: EASE }}
+          className="mt-4 rounded-[6px] border border-white/18 bg-[#141918] p-5 sm:p-6 xl:p-7"
+        >
+          <h3 className="text-lg font-semibold text-white/92 xl:text-xl">Hobbies</h3>
+          <ul className="mt-4 flex flex-wrap gap-2.5" aria-label="Hobbies de Gabriel Brasil">
+            {hobbies.map(({ label, icon: Icon, color }) => (
+              <li
+                key={label}
+                className="inline-flex min-h-11 items-center gap-2.5 rounded-lg border border-white/20 bg-black/10 px-4 text-[15px] font-medium text-white/80 sm:text-base xl:min-h-12 xl:px-5"
+              >
+                <Icon size={17} weight="bold" color={color} aria-hidden="true" />
+                {label}
+              </li>
+            ))}
+          </ul>
+        </motion.div>
       </div>
     </section>
   )

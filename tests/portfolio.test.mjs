@@ -12,12 +12,16 @@ test('hero does not depend on a provisional third-party portrait', async () => {
   assert.equal(hero.includes('imagem provisória'), false)
 })
 
-test('final hero keeps the Brasília positioning without the old availability copy', async () => {
+test('reference-driven hero keeps factual positioning without legacy status chips', async () => {
   const hero = await source('src/components/Hero.tsx')
+  assert.match(hero, /aria-label="OLÁ!"/)
+  assert.match(hero, /opacity: \[1, 1, 0, 0, 1\]/)
+  assert.match(hero, /Desenvolvedor Full Stack e Analista de Sistemas/)
   assert.match(hero, /Brasília, DF/)
-  assert.match(hero, /BSB/)
   assert.equal(hero.includes('Aberto a novos desafios'), false)
   assert.equal(hero.includes('asterisk'), false)
+  assert.equal(hero.includes('Ecossistema em construção'), false)
+  assert.equal(hero.includes('Stack aplicada'), false)
 })
 
 test('resume CTAs point to the published real PDF and retain an absent-file fallback', async () => {
@@ -67,6 +71,7 @@ test('all required public routes are declared and dynamically loaded', async () 
     "pagePath: '/projetos/barthy-web-studio-v2/'",
     "pagePath: '/projetos/pnqc/'",
     "pagePath: '/projetos/hermes-command-center/'",
+    "pagePath: '/projetos/radar-df/'",
   ]) {
     assert.match(`${routes}\n${await source('src/content/portfolio.ts')}`, new RegExp(path.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')))
   }
@@ -104,16 +109,135 @@ test('Barthy opens in the light preview while PNQC remains dark-only', async () 
   assert.match(frame, /image\.theme === 'light'/)
 })
 
-test('education exposes the requested Cisco certifications', async () => {
-  const education = await source('src/components/Education.tsx')
-  assert.match(education, /Cisco IT Essentials 1/)
-  assert.match(education, /Cisco IT Essentials 2/)
-  assert.match(education, /lg:grid-cols-3/)
+test('education and experience follow the two-column timeline gate', async () => {
+  const journey = await source('src/components/EducationExperience.tsx')
+  const portfolio = await source('src/content/portfolio.ts')
+  assert.match(journey, /md:grid-cols-2/)
+  assert.match(journey, /border-l/)
+  assert.match(journey, /Formação/)
+  assert.match(journey, /Experiência/)
+  assert.match(portfolio, /Cisco IT Essentials 1 e 2/)
+  assert.match(portfolio, /Mestre em Engenharia de Prompt e Colaboração com IA/)
+  assert.match(portfolio, /Arquiteto de IA e Responsabilidade Digital/)
+  assert.match(portfolio, /Desenvolvedor Júnior/)
+  assert.match(portfolio, /Acclivity/)
+  assert.match(portfolio, /Hello, World!/)
+  assert.equal(portfolio.includes('Conclusão prevista para dezembro de 2027'), false)
+  assert.equal(journey.includes('rounded-[1.5rem]'), false)
 })
 
 test('home section order matches the desktop navigation sequence', async () => {
   const home = await source('src/pages/HomePage.tsx')
-  assert.ok(home.indexOf('<Experience />') < home.indexOf('<Stack />'))
+  assert.ok(home.indexOf('<EducationExperience />') < home.indexOf('<Stack />'))
+  assert.ok(home.indexOf('<Stack />') < home.indexOf('<Projects />'))
+  assert.ok(home.indexOf('<Projects />') < home.indexOf('<About />'))
+  assert.equal(home.includes('<Skills />'), false)
+})
+
+test('home uses full viewport chapters on desktop without compressing the footer', async () => {
+  const hero = await source('src/components/Hero.tsx')
+  const journey = await source('src/components/EducationExperience.tsx')
+  const stack = await source('src/components/Stack.tsx')
+  const projects = await source('src/components/Projects.tsx')
+  const about = await source('src/components/About.tsx')
+  const footer = await source('src/components/Footer.tsx')
+  const css = await source('src/index.css')
+
+  assert.match(hero, /min-h-\[100svh\]/)
+  for (const section of [journey, stack, projects, about]) {
+    assert.match(section, /portfolio-chapter/)
+  }
+  assert.match(css, /\.portfolio-chapter[\s\S]*min-height: 100svh/)
+  assert.match(css, /scroll-margin-top: 6rem/)
+  assert.match(css, /max-width: 1520px/)
+  assert.equal(footer.includes("-mt-[60px]"), false)
+  assert.match(footer, /md:pb-8/)
+})
+
+test('tech stack follows the compact grouped composition from the video', async () => {
+  const stack = await source('src/components/Stack.tsx')
+  const portfolio = await source('src/content/portfolio.ts')
+
+  assert.match(stack, /technologyShowcaseGroups/)
+  assert.match(stack, /flex flex-wrap gap-3/)
+  assert.match(stack, /h-\[48px\]/)
+  assert.match(stack, /useReducedMotion/)
+  assert.equal(stack.includes('StackTicker'), false)
+  assert.equal(stack.includes('rounded-[1.5rem]'), false)
+  assert.match(portfolio, /Front-end/)
+  assert.match(portfolio, /Automações/)
+  assert.match(portfolio, /GitHub Actions/)
+  assert.match(portfolio, /Microsoft Office/)
+  assert.match(portfolio, /Network Configuration/)
+  assert.match(portfolio, /Cable Management/)
+  assert.match(portfolio, /Data Entry/)
+})
+
+test('projects follow the video grid, expansion and accessible modal structure', async () => {
+  const projects = await source('src/components/Projects.tsx')
+  const modal = await source('src/components/projects/ProjectCaseStudyDialog.tsx')
+  const display = await source('src/content/displayProjects.ts')
+
+  assert.match(projects, /md:grid-cols-2/)
+  assert.match(projects, /AnimatePresence/)
+  assert.match(projects, /layout=\{!reduced\}/)
+  assert.match(projects, /Ver todos os projetos/)
+  assert.match(projects, /Mostrar menos/)
+  assert.match(modal, /y: 18, scale: 0\.975/)
+  assert.match(modal, /min-\[1120px\]:grid-cols-\[minmax\(0,56fr\)_minmax\(0,44fr\)\]/)
+  assert.match(modal, /rounded-\[20px\]/)
+  assert.match(modal, /projectAccents/)
+  assert.match(modal, /Case completo/)
+  assert.match(modal, /object-contain/)
+  assert.match(modal, /ProjectTechTicker/)
+  assert.match(await source('src/components/projects/ProjectTechTicker.tsx'), /TechnologyIcon/)
+  assert.match(await source('src/components/projects/TechnologyIcon.tsx'), /SiFastapi/)
+  assert.match(display, /\[barthy, pnqc, hermes, radar, supportSaas\]/)
+  assert.match(await source('src/content/portfolio.ts'), /slug: 'radar-df'/)
+})
+
+test('about follows the flat biography and hobbies composition from the video', async () => {
+  const about = await source('src/components/About.tsx')
+
+  assert.match(about, /Quem sou eu\?/)
+  assert.match(about, /Hobbies/)
+  assert.match(about, /Games/)
+  assert.match(about, /Futebol/)
+  assert.match(about, /Codar/)
+  assert.match(about, /Corrida/)
+  assert.match(about, /Música/)
+  assert.match(about, /instalava\s+Windows/)
+  assert.equal(about.includes('inteligência artificial aplicada'), false)
+  assert.equal((about.match(/<p>/g) ?? []).length, 3)
+  assert.match(about, /portfolio-container-narrow/)
+  assert.match(about, /useReducedMotion/)
+  assert.match(about, /brasiliense/)
+  assert.equal(about.includes('rounded-[1.75rem]'), false)
+  assert.equal(about.includes('ScrollRevealText'), false)
+})
+
+test('home closes with the reference footer while the contact route retains the form', async () => {
+  const home = await source('src/pages/HomePage.tsx')
+  const footer = await source('src/components/Footer.tsx')
+  const contact = await source('src/components/Contact.tsx')
+  const contactPage = await source('src/pages/ContactPage.tsx')
+
+  assert.match(home, /<Footer \/>/)
+  assert.equal(home.includes('<Contact />'), false)
+  assert.match(footer, /Links rápidos/)
+  assert.match(footer, /Vamos conversar/)
+  assert.match(footer, /contact\.github/)
+  assert.match(footer, /contact\.linkedin/)
+  assert.match(footer, /contact\.mailto/)
+  assert.match(footer, /useReducedMotion/)
+  assert.match(footer, /BrandDots/)
+  assert.match(contact, /<ContactForm \/>/)
+  assert.match(contactPage, /<Contact showFooter=\{false\} \/>/)
+})
+
+test('public URL configuration rejects localhost targets', async () => {
+  const site = await source('src/config/site.ts')
+  assert.match(site, /\['localhost', '127\.0\.0\.1', '::1'\]/)
 })
 
 test('validation product remains explicit about its modular and non-final state', async () => {
