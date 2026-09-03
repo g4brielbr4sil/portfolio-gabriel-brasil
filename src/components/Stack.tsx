@@ -18,16 +18,11 @@ const group: Variants = {
 }
 
 const technology: Variants = {
-  hidden: (index: number) => ({
-    opacity: 0,
-    x: index % 2 === 0 ? -18 : 24,
-    y: 26 + (index % 3) * 9,
-  }),
+  hidden: { opacity: 0, y: 10 },
   visible: {
     opacity: 1,
-    x: 0,
     y: 0,
-    transition: { type: 'spring', stiffness: 115, damping: 18, mass: 0.8 },
+    transition: { duration: 0.28, ease: EASE },
   },
 }
 
@@ -68,13 +63,12 @@ export default function Stack() {
                 {stackGroup.title}
               </h3>
               <motion.ul className="mt-3.5 flex flex-wrap gap-2.5 sm:gap-3" variants={group}>
-                {stackGroup.items.map((item, index) => {
+                {stackGroup.items.map((item) => {
                   const Icon = item.icon
 
                   return (
                     <motion.li
                       key={item.name}
-                      custom={index}
                       variants={technology}
                       className="inline-flex min-h-12 min-w-0 items-center gap-2.5 rounded-[7px] border border-white/14 bg-[#0d1111]/90 px-3.5 py-2.5 text-[14px] font-semibold text-white/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.025)] transition-colors duration-200 hover:border-white/24 hover:bg-[#121717] sm:px-4 sm:text-[15px] xl:min-h-[52px] xl:text-base"
                     >

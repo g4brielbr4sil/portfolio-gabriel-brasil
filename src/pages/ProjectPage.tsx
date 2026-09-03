@@ -22,8 +22,7 @@ function AbstractPreview({ project }: { project: Project }) {
       <div className="bg-grid rounded-[6px] border border-white/12 p-6">
         <p className="text-[10px] uppercase tracking-[0.22em] text-cream/40">Apresentação abstrata</p>
         <p className="mt-5 max-w-xl text-lg leading-relaxed text-cream/75">
-          {project.previewNote ??
-            `Nenhuma captura real do ${project.name} é publicada nesta rodada para preservar dados pessoais e operacionais.`}
+          {`Nenhuma captura real do ${project.name} é publicada nesta rodada para preservar dados pessoais e operacionais.`}
         </p>
         <div className="mt-8 grid gap-3 sm:grid-cols-2">
           {project.highlights.slice(0, 4).map((item) => <span key={item} className="rounded-xl border border-line bg-black/25 p-4 text-sm text-cream/60">{item}</span>)}

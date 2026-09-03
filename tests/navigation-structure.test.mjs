@@ -32,12 +32,10 @@ test('route links remain native while home hashes use explicit in-page navigatio
 test('hero follows the video composition without legacy technical decoration', async () => {
   const hero = await source('src/components/Hero.tsx')
 
-  assert.match(hero, /aria-label="OLÁ!"/)
+  assert.ok(hero.includes('OLÁ'))
+  assert.match(hero, /hero-display/)
   assert.match(hero, /opacity: \[1, 1, 0, 0, 1\]/)
-  assert.match(hero, /hero-letter-o/)
-  assert.match(hero, /hero-letter-l/)
-  assert.match(hero, /hero-letter-a/)
-  assert.match(hero, /hero-letter-mark/)
+  assert.equal(hero.includes('hero-letter'), false)
   assert.match(hero, /PersonalPortrait/)
   assert.match(hero, /gabriel-avatar\.webp/)
   assert.match(hero, /Email/)

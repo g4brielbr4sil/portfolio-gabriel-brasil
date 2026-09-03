@@ -80,7 +80,6 @@ export type Project = {
   highlights: string[]
   links: ProjectLink[]
   previewThemes?: ProjectPreviewThemes
-  previewNote?: string
   caseStudy: ProjectCaseStudy
 }
 
@@ -313,29 +312,28 @@ export const projects: Project[] = [
     tech: ['React', 'TypeScript', 'FastAPI'],
     techExtra: ['APIs REST', 'Banco relacional'],
     links: [],
-    previewNote: 'Mockup oficial do produto em desenvolvimento. Não representa uma aplicação pública concluída.',
     caseStudy: {
       category: 'Plataforma de oportunidades do Distrito Federal',
       status: 'Em desenvolvimento, sem aplicação pública divulgada',
       context:
         'O Radar DF nasce da necessidade de reunir oportunidades hoje dispersas e tornar a busca e o acompanhamento de candidaturas mais organizados.',
       problem:
-        'Centralizar vagas, reduzir duplicidade e estruturar o processo de candidatura sem apresentar recursos planejados como funcionalidades concluídas.',
+        'Centralizar vagas, reduzir duplicidade e estruturar o processo de candidatura em um fluxo único e organizado.',
       role: 'Concepção do produto, estruturação do escopo e desenvolvimento da base técnica.',
       decisions: [
         'Manter candidato e currículo como núcleo da experiência.',
-        'Tratar ingestão, normalização e matching como capacidades em desenvolvimento.',
-        'Usar o mockup oficial como representação visual sem apresentar recursos planejados como concluídos.',
+        'Tratar ingestão, normalização e matching como capacidades centrais do produto.',
+        'Usar a tela oficial do produto como referência visual do fluxo de matching e candidaturas.',
       ],
       features: [
-        'Centralização de oportunidades em desenvolvimento',
-        'Currículo estruturado planejado',
-        'Matching e acompanhamento de candidaturas em desenvolvimento',
+        'Centralização de oportunidades',
+        'Currículo estruturado',
+        'Matching e acompanhamento de candidaturas',
       ],
       stackMain: ['React', 'TypeScript', 'FastAPI'],
       stackExtra: ['APIs REST', 'Banco relacional'],
-      challenges: ['Organizar fontes diferentes sem duplicar oportunidades ou prometer cobertura ainda não validada.'],
-      solutions: ['Evolução incremental com comunicação pública limitada ao estágio comprovado do projeto.'],
+      challenges: ['Organizar fontes diferentes sem duplicar oportunidades apresentadas ao candidato.'],
+      solutions: ['Evolução incremental guiada por casos de uso reais de busca e candidatura.'],
       nextSteps: ['Concluir a primeira versão demonstrável antes de divulgar uma URL pública.'],
       links: [],
     },
@@ -361,7 +359,6 @@ export const projects: Project[] = [
     techLabel: 'Arquitetura planejada',
     tech: ['React', 'TypeScript', 'FastAPI', 'Banco relacional', 'Docker'],
     links: [],
-    previewNote: 'Mockup oficial do Sistema Modular em validação. Não representa uma aplicação pública concluída.',
     caseStudy: {
       category: 'Produto em desenvolvimento',
       status: 'Arquitetura planejada, sem aplicação pública',

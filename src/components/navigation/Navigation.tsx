@@ -44,17 +44,17 @@ export default function Navigation({ current }: Props) {
         <a
           href="/"
           onClick={(event) => handleNavigation(event, 'inicio')}
-          className="flex min-h-11 shrink-0 items-center gap-2 px-3 text-[13px] font-semibold tracking-[-0.01em] text-white min-[470px]:pl-6 min-[470px]:pr-3 min-[900px]:pl-[46px] xl:pl-[52px] xl:text-sm"
+          className="flex min-h-11 shrink-0 items-center gap-1.5 px-2.5 text-[11px] font-semibold tracking-[-0.01em] text-white min-[380px]:gap-2 min-[380px]:px-3 min-[470px]:pl-6 min-[470px]:pr-3 min-[470px]:text-[13px] min-[900px]:pl-[46px] xl:pl-[52px] xl:text-sm"
           aria-label="Gabriel Brasil, voltar ao início"
         >
           <BrandMark />
-          <span className="hidden min-[470px]:inline">Gabriel Brasil</span>
+          <span className="whitespace-nowrap">Gabriel Brasil</span>
         </a>
 
         <div className="flex shrink-0 items-center min-[900px]:ml-[clamp(2rem,9vw,6rem)]">
-          <span className="mx-2 h-4 w-px shrink-0 bg-white/10" aria-hidden="true" />
+          <span className="mx-1.5 h-4 w-px shrink-0 bg-white/10 min-[470px]:mx-2" aria-hidden="true" />
 
-          <ul className="flex min-w-max items-center gap-1 min-[900px]:gap-1.5 xl:gap-2" role="list">
+          <ul className="flex min-w-max items-center gap-0.5 min-[470px]:gap-1 min-[900px]:gap-1.5 xl:gap-2" role="list">
             {navigationItems.map((section) => {
               const Icon = section.icon
               const isActive = active === section.id
@@ -65,7 +65,7 @@ export default function Navigation({ current }: Props) {
                     href={section.href}
                     onClick={(event) => handleNavigation(event, section.id)}
                     aria-current={isActive ? currentAria : undefined}
-                    className={`flex min-h-8 items-center gap-[7px] rounded-full px-2 text-[11px] font-semibold uppercase transition-colors duration-200 sm:min-h-11 sm:px-[11px] min-[900px]:min-h-9 min-[900px]:px-3 xl:px-[14px] xl:text-[12px] ${
+                    className={`flex min-h-8 items-center gap-[7px] rounded-full px-1.5 text-[11px] font-semibold uppercase transition-colors duration-200 sm:min-h-11 sm:px-[11px] min-[900px]:min-h-9 min-[900px]:px-3 xl:px-[14px] xl:text-[12px] ${
                       isActive
                         ? 'bg-white text-black'
                         : 'text-white/58 hover:bg-white/8 hover:text-white'

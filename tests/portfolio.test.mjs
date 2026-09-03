@@ -16,7 +16,8 @@ test('reference-driven hero keeps factual positioning without legacy status chip
   const hero = await source('src/components/Hero.tsx')
   const approvedCopy =
     'Sou Gabriel Brasil, Desenvolvedor Full Stack e Analista de Sistemas em Brasília, DF. Desenvolvo soluções digitais de ponta a ponta, conectando interfaces, APIs, dados, automações e integrações para transformar problemas reais em sistemas funcionais, bem estruturados e confiáveis.'
-  assert.match(hero, /aria-label="OLÁ!"/)
+  assert.ok(hero.includes('OLÁ'))
+  assert.match(hero, /hero-display/)
   assert.match(hero, /opacity: \[1, 1, 0, 0, 1\]/)
   assert.ok(hero.includes(approvedCopy))
   assert.match(hero, /min-h-\[100svh\]/)
@@ -337,8 +338,7 @@ test('external links opened in a new tab use noopener and noreferrer', async () 
   const files = [
     'src/components/Projects.tsx',
     'src/components/projects/ProjectCaseStudyDialog.tsx',
-    'src/components/navigation/DesktopNavigation.tsx',
-    'src/components/navigation/NavigationSheet.tsx',
+    'src/components/Hero.tsx',
     'src/components/ui/Button.tsx',
     'src/components/layout/PageLayout.tsx',
     'src/pages/ProjectPage.tsx',

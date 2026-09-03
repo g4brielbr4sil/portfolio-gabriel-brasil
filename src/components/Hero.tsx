@@ -75,21 +75,15 @@ export default function Hero() {
         <div className="contents min-[860px]:block">
           <motion.h1
             variants={item}
-            aria-label="OLÁ!"
-            className="hero-area-title text-[68px] leading-[0.78] text-white sm:text-[70px]"
+            className="hero-area-title hero-display text-[68px] leading-[0.78] text-white sm:text-[70px]"
           >
-            <span className="hero-display hero-display-localized inline-flex" aria-hidden="true">
-              <span className="hero-letter hero-letter-o">O</span>
-              <span className="hero-letter hero-letter-l">L</span>
-              <span className="hero-letter hero-letter-a">Á</span>
-              <motion.span
-                className="hero-letter hero-letter-mark"
-                animate={reduced ? undefined : { opacity: [1, 1, 0, 0, 1] }}
-                transition={{ duration: 1.7, times: [0, 0.47, 0.5, 0.97, 1], repeat: Infinity, ease: 'linear' }}
-              >
-                !
-              </motion.span>
-            </span>
+            OLÁ
+            <motion.span
+              animate={reduced ? undefined : { opacity: [1, 1, 0, 0, 1] }}
+              transition={{ duration: 1.7, times: [0, 0.47, 0.5, 0.97, 1], repeat: Infinity, ease: 'linear' }}
+            >
+              !
+            </motion.span>
           </motion.h1>
 
           <motion.p

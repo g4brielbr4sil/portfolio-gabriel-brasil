@@ -27,7 +27,7 @@ const supportSaas: Project = {
     context:
       'Visão de produto para operações de serviço que hoje distribuem clientes, retornos, mensagens, check-ins e rotinas entre ferramentas isoladas.',
     problem:
-      'Organizar diferentes necessidades operacionais em módulos conectáveis sem transformar a proposta em um sistema monolítico ou prometer funcionalidades ainda não construídas.',
+      'Organizar diferentes necessidades operacionais em módulos conectáveis, mantendo o sistema simples de evoluir.',
     role: 'Estruturação do problema, visão de produto e arquitetura inicial dos módulos.',
     decisions: [
       'CRM e relacionamento como base comum entre módulos.',
@@ -47,7 +47,7 @@ const supportSaas: Project = {
     ],
     solutions: [
       'Arquitetura modular com capacidades separadas por contexto de operação.',
-      'Mockup oficial integrado com comunicação explícita do estágio real do produto.',
+      'Tela oficial do produto usada como referência visual da experiência modular.',
     ],
     nextSteps: ['Validar os primeiros módulos com operações reais e definir o escopo da primeira versão demonstrável.'],
   },
