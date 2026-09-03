@@ -1,4 +1,4 @@
-import { lazy, Suspense, useRef, useState } from 'react'
+import { lazy, Suspense, useLayoutEffect, useRef, useState } from 'react'
 import { Code } from '@phosphor-icons/react/dist/csr/Code'
 import { Eye } from '@phosphor-icons/react/dist/csr/Eye'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
@@ -20,7 +20,23 @@ export default function Projects({ onOverlayChange, showAllInitially = false }: 
   const [showAll, setShowAll] = useState(showAllInitially)
   const [activeProject, setActiveProject] = useState<Project | null>(null)
   const openerRef = useRef<HTMLElement | null>(null)
+  const toggleRef = useRef<HTMLButtonElement | null>(null)
+  const toggleAnchorRef = useRef<number | null>(null)
   const visibleProjects = showAll ? displayProjects : displayProjects.slice(0, 2)
+
+  function handleToggleShowAll() {
+    toggleAnchorRef.current = toggleRef.current?.getBoundingClientRect().top ?? null
+    setShowAll((current) => !current)
+  }
+
+  useLayoutEffect(() => {
+    const anchor = toggleAnchorRef.current
+    if (anchor == null || !toggleRef.current) return
+
+    const delta = toggleRef.current.getBoundingClientRect().top - anchor
+    if (Math.abs(delta) > 1) window.scrollBy(0, delta)
+    toggleAnchorRef.current = null
+  }, [showAll])
 
   function openProject(project: Project, opener: HTMLElement | null) {
     openerRef.current = opener
@@ -75,8 +91,9 @@ export default function Projects({ onOverlayChange, showAllInitially = false }: 
         {!showAllInitially && (
           <motion.div layout={!reduced} className="mt-8 flex justify-center">
             <button
+              ref={toggleRef}
               type="button"
-              onClick={() => setShowAll((current) => !current)}
+              onClick={handleToggleShowAll}
               aria-expanded={showAll}
               className="inline-flex min-h-11 items-center rounded-[4px] border border-white/20 bg-[#1b2421] px-5 text-[13px] font-semibold text-white/86 transition-colors hover:bg-[#26312d] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#93aaa2] sm:text-sm"
             >

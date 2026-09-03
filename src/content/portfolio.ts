@@ -111,11 +111,6 @@ export const projects: Project[] = [
         href: site.urls.barthyV2,
         external: true,
       },
-      {
-        label: 'Abrir versão pública V1',
-        href: site.urls.barthyV1,
-        external: true,
-      },
     ],
     caseStudy: {
       category: 'Portfólio institucional autoral',
@@ -154,11 +149,6 @@ export const projects: Project[] = [
         {
           label: 'Ver repositório V2',
           href: site.urls.barthyV2,
-          external: true,
-        },
-        {
-          label: 'Abrir versão pública V1',
-          href: site.urls.barthyV1,
           external: true,
         },
       ],

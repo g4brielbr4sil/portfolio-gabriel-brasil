@@ -67,16 +67,16 @@ export default function Hero() {
       className="relative flex min-h-[100svh] scroll-mt-24 items-center overflow-hidden px-4 pb-12 pt-[104px] sm:px-6 lg:px-8 xl:pb-16 xl:pt-[112px]"
     >
       <motion.div
-        className="portfolio-container relative z-10 grid items-center gap-10 sm:gap-12 min-[860px]:grid-cols-[minmax(0,1fr)_350px] min-[860px]:gap-[42px] xl:grid-cols-[minmax(0,1fr)_410px] xl:gap-16 2xl:grid-cols-[minmax(0,1fr)_440px] 2xl:gap-20"
+        className="hero-grid portfolio-container relative z-10 grid items-center gap-10 sm:gap-12 min-[860px]:grid-cols-[minmax(0,1fr)_350px] min-[860px]:gap-[42px] xl:grid-cols-[minmax(0,1fr)_410px] xl:gap-16 2xl:grid-cols-[minmax(0,1fr)_440px] 2xl:gap-20"
         variants={sequence}
         initial={reduced ? false : 'hidden'}
         animate="visible"
       >
-        <div>
+        <div className="contents min-[860px]:block">
           <motion.h1
             variants={item}
             aria-label="OLÁ!"
-            className="text-[68px] leading-[0.78] text-white sm:text-[70px]"
+            className="hero-area-title text-[68px] leading-[0.78] text-white sm:text-[70px]"
           >
             <span className="hero-display hero-display-localized inline-flex" aria-hidden="true">
               <span className="hero-letter hero-letter-o">O</span>
@@ -94,14 +94,14 @@ export default function Hero() {
 
           <motion.p
             variants={item}
-            className="mt-6 max-w-[540px] text-[15px] leading-[1.65] text-white/74 sm:mt-7 sm:text-base lg:text-[17px] xl:mt-8 xl:max-w-[650px] xl:text-[18px]"
+            className="hero-area-text mt-6 max-w-[540px] text-[15px] leading-[1.65] text-white/74 sm:mt-7 sm:text-base lg:text-[17px] xl:mt-8 xl:max-w-[650px] xl:text-[18px]"
           >
             {HERO_COPY}
           </motion.p>
 
           <motion.div
             variants={item}
-            className="mt-7 grid max-w-[540px] grid-cols-1 gap-3 min-[470px]:grid-cols-3 sm:mt-8 xl:mt-9 xl:max-w-[650px] xl:gap-4"
+            className="hero-area-cards mt-7 grid max-w-[540px] grid-cols-1 gap-3 min-[470px]:grid-cols-3 sm:mt-8 xl:mt-9 xl:max-w-[650px] xl:gap-4"
           >
             {contactCards.map((card) => (
               <ContactCard key={card.label} {...card} />
@@ -109,7 +109,7 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        <motion.div variants={item}>
+        <motion.div variants={item} className="hero-area-avatar">
           <PersonalPortrait />
         </motion.div>
       </motion.div>
