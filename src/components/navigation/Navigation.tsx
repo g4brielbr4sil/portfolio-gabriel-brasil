@@ -39,7 +39,7 @@ export default function Navigation({ current }: Props) {
     >
       <div
         data-navigation-bar
-        className="reference-nav-scroll flex h-[47px] items-center overflow-x-auto rounded-full bg-[#070707]/94 px-[7px] shadow-[0_14px_42px_rgba(0,0,0,0.32)] backdrop-blur-xl xl:h-[49px]"
+        className="reference-nav-scroll flex h-[47px] items-center overflow-x-auto rounded-full bg-[#070707]/94 px-[7px] shadow-[0_14px_42px_rgba(0,0,0,0.32)] backdrop-blur-xl max-[899px]:justify-between xl:h-[49px]"
       >
         <a
           href="/"
@@ -51,33 +51,35 @@ export default function Navigation({ current }: Props) {
           <span className="hidden min-[470px]:inline">Gabriel Brasil</span>
         </a>
 
-        <span className="mx-2 h-4 w-px shrink-0 bg-white/10" aria-hidden="true" />
+        <div className="flex shrink-0 items-center min-[900px]:ml-[clamp(2rem,9vw,6rem)]">
+          <span className="mx-2 h-4 w-px shrink-0 bg-white/10" aria-hidden="true" />
 
-        <ul className="ml-1 flex min-w-max items-center gap-1 min-[900px]:ml-[clamp(2rem,9vw,6rem)] min-[900px]:gap-1.5 xl:ml-[clamp(3rem,10vw,7rem)] xl:gap-2" role="list">
-          {navigationItems.map((section) => {
-            const Icon = section.icon
-            const isActive = active === section.id
+          <ul className="flex min-w-max items-center gap-1 min-[900px]:gap-1.5 xl:gap-2" role="list">
+            {navigationItems.map((section) => {
+              const Icon = section.icon
+              const isActive = active === section.id
 
-            return (
-              <li key={section.id}>
-                <a
-                  href={section.href}
-                  onClick={(event) => handleNavigation(event, section.id)}
-                  aria-current={isActive ? currentAria : undefined}
-                  className={`flex min-h-8 items-center gap-[7px] rounded-full px-2 text-[11px] font-semibold uppercase transition-colors duration-200 sm:min-h-11 sm:px-[11px] min-[900px]:min-h-9 min-[900px]:px-3 xl:px-[14px] xl:text-[12px] ${
-                    isActive
-                      ? 'bg-white text-black'
-                      : 'text-white/58 hover:bg-white/8 hover:text-white'
-                  }`}
-                >
-                  <Icon size={13} weight={isActive ? 'fill' : 'regular'} aria-hidden="true" />
-                  <span className="hidden min-[900px]:inline">{section.label}</span>
-                  <span className="sr-only min-[900px]:hidden">{section.label}</span>
-                </a>
-              </li>
-            )
-          })}
-        </ul>
+              return (
+                <li key={section.id}>
+                  <a
+                    href={section.href}
+                    onClick={(event) => handleNavigation(event, section.id)}
+                    aria-current={isActive ? currentAria : undefined}
+                    className={`flex min-h-8 items-center gap-[7px] rounded-full px-2 text-[11px] font-semibold uppercase transition-colors duration-200 sm:min-h-11 sm:px-[11px] min-[900px]:min-h-9 min-[900px]:px-3 xl:px-[14px] xl:text-[12px] ${
+                      isActive
+                        ? 'bg-white text-black'
+                        : 'text-white/58 hover:bg-white/8 hover:text-white'
+                    }`}
+                  >
+                    <Icon size={13} weight={isActive ? 'fill' : 'regular'} aria-hidden="true" />
+                    <span className="hidden min-[900px]:inline">{section.label}</span>
+                    <span className="sr-only min-[900px]:hidden">{section.label}</span>
+                  </a>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
       </div>
     </motion.nav>
   )

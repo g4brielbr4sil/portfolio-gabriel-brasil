@@ -53,7 +53,6 @@ export const site = {
     hermes: 'https://hermes-agent-01l.pages.dev/',
     pnqc: 'https://levens-qualifica-pnqc.pages.dev/',
     barthyV2: 'https://github.com/g4brielbr4sil/barthy-web-studio-v2',
-    barthyV1Repository: 'https://github.com/g4brielbr4sil/barthy-web-studio',
     credentials: {
       promptEngineering:
         'https://www3.cruzeirodosulvirtual.com.br/badges/exibir/21186462-904d-4f54-8d4a-2a994a8382cc',
