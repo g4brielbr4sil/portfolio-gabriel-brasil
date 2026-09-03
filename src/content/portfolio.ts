@@ -1,4 +1,4 @@
-import { barthyPreviews, pnqcPreviews } from '@/content/projectPreviews'
+import { barthyPreviews, hermesPreviews, modularPreviews, pnqcPreviews, radarPreviews } from '@/content/projectPreviews'
 import { resumeUrl, site } from '@/config/site'
 
 export const contact = {
@@ -80,7 +80,6 @@ export type Project = {
   highlights: string[]
   links: ProjectLink[]
   previewThemes?: ProjectPreviewThemes
-  previewNote?: string
   caseStudy: ProjectCaseStudy
 }
 
@@ -109,11 +108,6 @@ export const projects: Project[] = [
       {
         label: 'Ver repositório V2',
         href: site.urls.barthyV2,
-        external: true,
-      },
-      {
-        label: 'Abrir versão pública V1',
-        href: site.urls.barthyV1,
         external: true,
       },
     ],
@@ -154,11 +148,6 @@ export const projects: Project[] = [
         {
           label: 'Ver repositório V2',
           href: site.urls.barthyV2,
-          external: true,
-        },
-        {
-          label: 'Abrir versão pública V1',
-          href: site.urls.barthyV1,
           external: true,
         },
       ],
@@ -239,7 +228,8 @@ export const projects: Project[] = [
     pagePath: '/projetos/hermes-command-center/',
     name: 'Hermes Command Center',
     status: 'Ambiente protegido',
-    statusTooltip: 'Aplicação autoral privada. Nenhuma captura com dados pessoais é publicada nesta versão.',
+    statusTooltip: 'Aplicação autoral privada. As capturas usam dados demonstrativos para preservar a operação real.',
+    previewThemes: hermesPreviews,
     description:
       'Aplicação Full Stack autoral para centralizar CRM, pipeline, finanças, tarefas, rotina, estudos, relatórios, memória, aprovações e integrações.',
     highlightsLabel: 'Principais capacidades',
@@ -308,7 +298,8 @@ export const projects: Project[] = [
     pagePath: '/projetos/radar-df/',
     name: 'Radar DF',
     status: 'Em desenvolvimento',
-    statusTooltip: 'Projeto em desenvolvimento. A composição visual é abstrata e não representa uma interface publicada.',
+    statusTooltip: 'Projeto em desenvolvimento. A tela oficial representa a direção visual do produto, sem indicar uma aplicação pública pronta.',
+    previewThemes: radarPreviews,
     description:
       'Plataforma em desenvolvimento para centralizar e organizar oportunidades, currículo estruturado, matching, ingestão de vagas e acompanhamento de candidaturas.',
     highlightsLabel: 'Capacidades em desenvolvimento',
@@ -322,29 +313,28 @@ export const projects: Project[] = [
     tech: ['React', 'TypeScript', 'FastAPI'],
     techExtra: ['APIs REST', 'Banco relacional'],
     links: [],
-    previewNote: 'Composição abstrata original. Ainda não existe screenshot público apresentado como produto pronto.',
     caseStudy: {
       category: 'Plataforma de oportunidades do Distrito Federal',
       status: 'Em desenvolvimento, sem aplicação pública divulgada',
       context:
         'O Radar DF nasce da necessidade de reunir oportunidades hoje dispersas e tornar a busca e o acompanhamento de candidaturas mais organizados.',
       problem:
-        'Centralizar vagas, reduzir duplicidade e estruturar o processo de candidatura sem apresentar recursos planejados como funcionalidades concluídas.',
+        'Centralizar vagas, reduzir duplicidade e estruturar o processo de candidatura em um fluxo único e organizado.',
       role: 'Concepção do produto, estruturação do escopo e desenvolvimento da base técnica.',
       decisions: [
         'Manter candidato e currículo como núcleo da experiência.',
-        'Tratar ingestão, normalização e matching como capacidades em desenvolvimento.',
-        'Não publicar links ou screenshots até existir uma versão apropriada para demonstração.',
+        'Tratar ingestão, normalização e matching como capacidades centrais do produto.',
+        'Usar a tela oficial do produto como referência visual do fluxo de matching e candidaturas.',
       ],
       features: [
-        'Centralização de oportunidades em desenvolvimento',
-        'Currículo estruturado planejado',
-        'Matching e acompanhamento de candidaturas em desenvolvimento',
+        'Centralização de oportunidades',
+        'Currículo estruturado',
+        'Matching e acompanhamento de candidaturas',
       ],
       stackMain: ['React', 'TypeScript', 'FastAPI'],
       stackExtra: ['APIs REST', 'Banco relacional'],
-      challenges: ['Organizar fontes diferentes sem duplicar oportunidades ou prometer cobertura ainda não validada.'],
-      solutions: ['Evolução incremental com comunicação pública limitada ao estágio comprovado do projeto.'],
+      challenges: ['Organizar fontes diferentes sem duplicar oportunidades apresentadas ao candidato.'],
+      solutions: ['Evolução incremental guiada por casos de uso reais de busca e candidatura.'],
       nextSteps: ['Concluir a primeira versão demonstrável antes de divulgar uma URL pública.'],
       links: [],
     },
@@ -355,6 +345,7 @@ export const projects: Project[] = [
     name: 'SaaS de Suporte',
     status: 'Produto em desenvolvimento',
     statusTooltip: 'Arquitetura e escopo em definição. Ainda não existe aplicação pública.',
+    previewThemes: modularPreviews,
     description:
       'Produto voltado a pequenas empresas que precisam organizar atendimento, clientes, solicitações, tickets, conhecimento e automações.',
     highlightsLabel: 'Capacidades planejadas',
@@ -444,46 +435,11 @@ export const stackGroups: { category: string; items: string[]; note?: string }[]
   },
   {
     category: 'Automações, integrações e produtividade',
-    items: ['n8n', 'Webhooks', 'Gmail OAuth', 'Google Calendar', 'Telegram', 'Figma', 'GitHub Copilot', 'GitHub Codespaces'],
+    items: ['n8n', 'Webhooks', 'Telegram', 'Figma', 'GitHub Copilot', 'GitHub Codespaces'],
   },
 ]
 
 export const evolvingStack = ['Next.js', 'PHP', 'Laravel', 'Bootstrap', 'Sass']
-
-export const technologyShowcaseGroups: { category: string; items: string[] }[] = [
-  {
-    category: 'Front-end',
-    items: ['HTML5', 'CSS3', 'JavaScript', 'TypeScript', 'React', 'Vite'],
-  },
-  {
-    category: 'Interface e motion',
-    items: ['Tailwind CSS', 'Material UI', 'Motion', 'React Hook Form'],
-  },
-  {
-    category: 'Back-end e APIs',
-    items: ['Python', 'FastAPI', 'SQLAlchemy', 'Pydantic', 'APIs REST'],
-  },
-  {
-    category: 'Dados',
-    items: ['SQLite', 'PostgreSQL', 'Supabase Auth'],
-  },
-  {
-    category: 'Desenvolvimento e entrega',
-    items: ['Git', 'GitHub', 'Docker', 'Linux', 'Cloudflare Pages'],
-  },
-  {
-    category: 'Automações',
-    items: ['n8n', 'Webhooks', 'Gmail OAuth', 'Google Calendar'],
-  },
-  {
-    category: 'Qualidade',
-    items: ['GitHub Actions', 'TypeScript typecheck', 'Ruff', 'unittest'],
-  },
-  {
-    category: 'Ferramentas e operação',
-    items: ['Figma', 'Microsoft Office', 'File Management', 'Network Configuration', 'Cable Management', 'Data Entry'],
-  },
-]
 
 export const experience = [
   {

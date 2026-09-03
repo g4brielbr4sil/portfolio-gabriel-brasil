@@ -14,10 +14,13 @@ test('hero does not depend on a provisional third-party portrait', async () => {
 
 test('reference-driven hero keeps factual positioning without legacy status chips', async () => {
   const hero = await source('src/components/Hero.tsx')
-  assert.match(hero, /aria-label="OLÁ!"/)
+  const approvedCopy =
+    'Sou Gabriel Brasil, Desenvolvedor Full Stack e Analista de Sistemas em Brasília, DF. Desenvolvo soluções digitais de ponta a ponta, conectando interfaces, APIs, dados, automações e integrações para transformar problemas reais em sistemas funcionais, bem estruturados e confiáveis.'
+  assert.ok(hero.includes('OLÁ'))
+  assert.match(hero, /hero-display/)
   assert.match(hero, /opacity: \[1, 1, 0, 0, 1\]/)
-  assert.match(hero, /Desenvolvedor Full Stack e Analista de Sistemas/)
-  assert.match(hero, /Brasília, DF/)
+  assert.ok(hero.includes(approvedCopy))
+  assert.match(hero, /min-h-\[100svh\]/)
   assert.equal(hero.includes('Aberto a novos desafios'), false)
   assert.equal(hero.includes('asterisk'), false)
   assert.equal(hero.includes('Ecossistema em construção'), false)
@@ -82,12 +85,17 @@ test('all required public routes are declared and dynamically loaded', async () 
   assert.match(await source('scripts/prerender.mjs'), /data-route-path/)
 })
 
-test('Hermes project page keeps screenshots private', async () => {
+test('Hermes project page uses sanitized real screenshots, not the raw captures', async () => {
   const projectPage = await source('src/pages/ProjectPage.tsx')
   const portfolio = await source('src/content/portfolio.ts')
-  assert.match(projectPage, /Nenhuma captura real/)
+  const previews = await source('src/content/projectPreviews.ts')
+  assert.match(projectPage, /ProjectGallery/)
+  assert.equal(projectPage.includes('Nenhuma captura real'), false)
   assert.match(portfolio, /slug: 'hermes-command-center'/)
-  assert.equal(portfolio.includes('hermes-screenshot'), false)
+  assert.match(portfolio, /previewThemes: hermesPreviews/)
+  assert.match(previews, /export const hermesPreviews/)
+  assert.match(previews, /hermes-command-center\.avif/)
+  assert.match(previews, /dados demonstrativos/)
 })
 
 test('project previews use real AVIF and WebP assets with an error fallback', async () => {
@@ -99,7 +107,10 @@ test('project previews use real AVIF and WebP assets with an error fallback', as
   assert.match(picture, /object-contain/)
   assert.match(previews, /export const barthyPreviews[\s\S]*dark:[\s\S]*light:/)
   assert.match(previews, /export const pnqcPreviews[\s\S]*dark:/)
-  assert.doesNotMatch(previews.match(/export const pnqcPreviews[\s\S]*/)?.[0] ?? '', /light:/)
+  assert.match(previews, /export const radarPreviews[\s\S]*default: 'dark'/)
+  assert.match(previews, /export const modularPreviews[\s\S]*default: 'light'/)
+  assert.match(previews, /radar-df-matching-dashboard/)
+  assert.match(previews, /sistema-modular-atendimentos/)
 })
 
 test('Barthy opens in the light preview while PNQC remains dark-only', async () => {
@@ -156,21 +167,77 @@ test('home uses full viewport chapters on desktop without compressing the footer
 
 test('tech stack follows the compact grouped composition from the video', async () => {
   const stack = await source('src/components/Stack.tsx')
+  const groups = await source('src/components/icons/tech/stackGroups.ts')
+  const icons = await source('src/components/icons/tech/TechIcons.tsx')
   const portfolio = await source('src/content/portfolio.ts')
 
-  assert.match(stack, /technologyShowcaseGroups/)
-  assert.match(stack, /flex flex-wrap gap-3/)
-  assert.match(stack, /h-\[48px\]/)
+  assert.match(stack, /stackGroups/)
+  assert.match(stack, /flex flex-wrap/)
+  assert.match(stack, /min-h-12/)
+  assert.match(stack, />\s*Stack\s*</)
   assert.match(stack, /useReducedMotion/)
   assert.equal(stack.includes('StackTicker'), false)
   assert.equal(stack.includes('rounded-[1.5rem]'), false)
-  assert.match(portfolio, /Front-end/)
-  assert.match(portfolio, /Automações/)
-  assert.match(portfolio, /GitHub Actions/)
-  assert.match(portfolio, /Microsoft Office/)
-  assert.match(portfolio, /Network Configuration/)
-  assert.match(portfolio, /Cable Management/)
-  assert.match(portfolio, /Data Entry/)
+  for (const category of [
+    'Front-end',
+    'Interface & Motion',
+    'Back-end & APIs',
+    'Dados',
+    'Infra & DevOps',
+    'Ferramentas',
+    'Ferramentas e Operação',
+  ]) {
+    assert.ok(groups.includes(category))
+  }
+  for (const technology of [
+    'HTML5',
+    'CSS3',
+    'JavaScript',
+    'TypeScript',
+    'React',
+    'Vite',
+    'Tailwind CSS',
+    'Material UI',
+    'Motion',
+    'React Hook Form',
+    'Python',
+    'FastAPI',
+    'PHP',
+    'APIs REST',
+    'SQLite',
+    'PostgreSQL',
+    'Supabase',
+    'SQL',
+    'Docker',
+    'Linux',
+    'Cloudflare',
+    'Railway',
+    'AWS Lightsail',
+    'n8n',
+    'Git',
+    'GitHub',
+    'GitHub Copilot',
+    'Figma',
+    'Visual Studio Code',
+    'Microsoft Office',
+    'File Management',
+    'Network Configuration',
+    'Cable Management',
+    'Data Entry',
+  ]) {
+    assert.ok(groups.includes(technology))
+  }
+  assert.equal(`${stack}${groups}${icons}${portfolio}`.includes('Google Calendar'), false)
+  assert.equal(`${stack}${groups}${icons}${portfolio}`.includes('Gmail'), false)
+  assert.equal(stack.includes('technologyMarks'), false)
+  assert.match(icons, /SiReacthookform/)
+  assert.match(icons, /SiPhp/)
+  assert.match(icons, /viewBox="0 0 304 182"/)
+  assert.match(icons, /VscVscode/)
+  assert.match(icons, /FolderOpen/)
+  assert.match(icons, /Network/)
+  assert.match(icons, /PlugsConnected/)
+  assert.match(icons, /Keyboard/)
 })
 
 test('projects follow the video grid, expansion and accessible modal structure', async () => {
@@ -180,9 +247,11 @@ test('projects follow the video grid, expansion and accessible modal structure',
 
   assert.match(projects, /md:grid-cols-2/)
   assert.match(projects, /AnimatePresence/)
-  assert.match(projects, /layout=\{!reduced\}/)
+  assert.match(projects, /gridTemplateRows/)
   assert.match(projects, /Ver todos os projetos/)
   assert.match(projects, /Mostrar menos/)
+  assert.equal(projects.includes('ProjectActionLink'), false)
+  assert.equal(projects.includes("const label = /repositório|código/i"), false)
   assert.match(modal, /y: 18, scale: 0\.975/)
   assert.match(modal, /min-\[1120px\]:grid-cols-\[minmax\(0,56fr\)_minmax\(0,44fr\)\]/)
   assert.match(modal, /rounded-\[20px\]/)
@@ -193,7 +262,9 @@ test('projects follow the video grid, expansion and accessible modal structure',
   assert.match(await source('src/components/projects/ProjectTechTicker.tsx'), /TechnologyIcon/)
   assert.match(await source('src/components/projects/TechnologyIcon.tsx'), /SiFastapi/)
   assert.match(display, /\[barthy, pnqc, hermes, radar, supportSaas\]/)
-  assert.match(await source('src/content/portfolio.ts'), /slug: 'radar-df'/)
+  const portfolio = await source('src/content/portfolio.ts')
+  assert.match(portfolio, /slug: 'radar-df'[\s\S]*previewThemes: radarPreviews/)
+  assert.match(portfolio, /slug: 'saas-de-suporte'[\s\S]*previewThemes: modularPreviews/)
 })
 
 test('about follows the flat biography and hobbies composition from the video', async () => {
@@ -272,8 +343,7 @@ test('external links opened in a new tab use noopener and noreferrer', async () 
   const files = [
     'src/components/Projects.tsx',
     'src/components/projects/ProjectCaseStudyDialog.tsx',
-    'src/components/navigation/DesktopNavigation.tsx',
-    'src/components/navigation/NavigationSheet.tsx',
+    'src/components/Hero.tsx',
     'src/components/ui/Button.tsx',
     'src/components/layout/PageLayout.tsx',
     'src/pages/ProjectPage.tsx',
@@ -281,4 +351,39 @@ test('external links opened in a new tab use noopener and noreferrer', async () 
   const combined = (await Promise.all(files.map(source))).join('\n')
   assert.equal(combined.includes("? 'noreferrer'"), false)
   assert.match(combined, /noopener noreferrer/)
+})
+
+test('canonical SEO configuration points to the official gabrielbrasil.dev domain', async () => {
+  const site = await source('src/config/site.ts')
+  const metadata = await source('src/seo/metadata.ts')
+  const prerender = await source('scripts/prerender.mjs')
+  const routes = await source('src/config/routes.ts')
+
+  assert.match(site, /const canonicalUrl = 'https:\/\/gabrielbrasil\.dev\/'/)
+  assert.equal(site.includes('portfolio-gabriel-brasil.pages.dev'), false)
+  assert.equal(site.includes('futureDomain'), false)
+
+  assert.match(metadata, /absoluteUrl\(route\.path\)/)
+  assert.match(metadata, /route\.indexable \? 'index, follow/)
+  assert.match(metadata, /'noindex, nofollow'/)
+  assert.match(metadata, /twitter:card/)
+
+  assert.match(prerender, /data\.site\.canonicalUrl/)
+  assert.match(prerender, /sitemap\.xml/)
+  assert.match(prerender, /robots\.txt/)
+  assert.match(prerender, /llms\.txt/)
+  assert.match(prerender, /llms-full\.txt/)
+  assert.match(prerender, /Sitemap: \$\{new URL\('sitemap\.xml', data\.site\.canonicalUrl\)\}/)
+
+  assert.match(routes, /indexable: false/)
+  assert.equal(routes.match(/indexable: false/g)?.length, 1)
+})
+
+test('project gallery thumbnail strip stays contained on narrow viewports', async () => {
+  const gallery = await source('src/components/projects/ProjectGallery.tsx')
+  const projectPage = await source('src/pages/ProjectPage.tsx')
+
+  assert.match(gallery, /flex h-full min-w-0 flex-col/)
+  assert.match(gallery, /flex min-w-0 snap-x gap-2 overflow-x-auto/)
+  assert.match(projectPage, /className="min-w-0">\{project\.previewThemes/)
 })

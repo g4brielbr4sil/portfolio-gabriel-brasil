@@ -20,6 +20,16 @@ import pnqcPainelAvif from '@/assets/projects/pnqc/pnqc-painel.avif'
 import pnqcPainelWebp from '@/assets/projects/pnqc/pnqc-painel.webp'
 import pnqcCursoAvif from '@/assets/projects/pnqc/pnqc-curso.avif'
 import pnqcCursoWebp from '@/assets/projects/pnqc/pnqc-curso.webp'
+import radarMatchingAvif from '@/assets/projects/radar-df/radar-df-matching-dashboard.avif'
+import radarMatchingWebp from '@/assets/projects/radar-df/radar-df-matching-dashboard.webp'
+import hermesCommandCenterAvif from '@/assets/projects/hermes/hermes-command-center.avif'
+import hermesCommandCenterWebp from '@/assets/projects/hermes/hermes-command-center.webp'
+import hermesRendaExtraAvif from '@/assets/projects/hermes/hermes-renda-extra.avif'
+import hermesRendaExtraWebp from '@/assets/projects/hermes/hermes-renda-extra.webp'
+import hermesPipelineAvif from '@/assets/projects/hermes/hermes-pipeline.avif'
+import hermesPipelineWebp from '@/assets/projects/hermes/hermes-pipeline.webp'
+import modularAtendimentosAvif from '@/assets/projects/sistema-modular/sistema-modular-atendimentos.avif'
+import modularAtendimentosWebp from '@/assets/projects/sistema-modular/sistema-modular-atendimentos.webp'
 
 function previewImage(options: {
   id: string
@@ -342,5 +352,97 @@ export const pnqcPreviews: ProjectPreviewThemes = {
         order: 3,
       }),
     ],
+  },
+}
+
+const radarMatching = previewImage({
+  id: 'radar-df-matching-dashboard',
+  avif: radarMatchingAvif,
+  webp: radarMatchingWebp,
+  width: 1302,
+  height: 838,
+  caption: 'Painel de vagas, ingestão e matching',
+  alt: 'Tela oficial do Radar DF em tema escuro, com vaga, indicadores, ranking de candidatos, ingestão e requisitos extraídos.',
+  theme: 'dark',
+  device: 'desktop',
+  order: 0,
+})
+
+export const radarPreviews: ProjectPreviewThemes = {
+  default: 'dark',
+  dark: {
+    cover: radarMatching,
+    desktop: [radarMatching],
+    images: [radarMatching],
+  },
+}
+
+const hermesCommandCenter = previewImage({
+  id: 'hermes-command-center',
+  avif: hermesCommandCenterAvif,
+  webp: hermesCommandCenterWebp,
+  width: 1919,
+  height: 1079,
+  caption: 'Visão do dia no Command Center',
+  alt: 'Painel do Hermes Command Center com dados demonstrativos — visão do dia, alertas, radar comercial e atividades recentes.',
+  theme: 'dark',
+  device: 'desktop',
+  order: 0,
+})
+
+const hermesRendaExtra = previewImage({
+  id: 'hermes-renda-extra',
+  avif: hermesRendaExtraAvif,
+  webp: hermesRendaExtraWebp,
+  width: 1919,
+  height: 1079,
+  caption: 'Renda Extra: metas, diagnóstico e próximos passos',
+  alt: 'Painel de Renda Extra do Hermes com dados demonstrativos — metas financeiras, diagnóstico e oportunidades quentes.',
+  theme: 'dark',
+  device: 'desktop',
+  order: 1,
+})
+
+const hermesPipeline = previewImage({
+  id: 'hermes-pipeline',
+  avif: hermesPipelineAvif,
+  webp: hermesPipelineWebp,
+  width: 1919,
+  height: 1079,
+  caption: 'Pipeline comercial em Kanban',
+  alt: 'Pipeline comercial do Hermes com dados demonstrativos, organizado em colunas de Kanban por estágio de oportunidade.',
+  theme: 'dark',
+  device: 'desktop',
+  order: 2,
+})
+
+export const hermesPreviews: ProjectPreviewThemes = {
+  default: 'dark',
+  dark: {
+    cover: hermesCommandCenter,
+    desktop: [hermesCommandCenter, hermesRendaExtra, hermesPipeline],
+    images: [hermesCommandCenter, hermesRendaExtra, hermesPipeline],
+  },
+}
+
+const modularAtendimentos = previewImage({
+  id: 'sistema-modular-atendimentos',
+  avif: modularAtendimentosAvif,
+  webp: modularAtendimentosWebp,
+  width: 1304,
+  height: 814,
+  caption: 'Atendimentos e histórico operacional',
+  alt: 'Tela oficial do Sistema Modular em tema claro, com atendimentos, histórico operacional, módulo oficina e WhatsApp contextual.',
+  theme: 'light',
+  device: 'desktop',
+  order: 0,
+})
+
+export const modularPreviews: ProjectPreviewThemes = {
+  default: 'light',
+  light: {
+    cover: modularAtendimentos,
+    desktop: [modularAtendimentos],
+    images: [modularAtendimentos],
   },
 }

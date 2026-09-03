@@ -1,6 +1,6 @@
 declare const __PORTFOLIO_HAS_RESUME__: boolean
 
-const canonicalUrl = 'https://portfolio-gabriel-brasil.pages.dev/'
+const canonicalUrl = 'https://gabrielbrasil.dev/'
 const email = 'contato.barthywebstudio@gmail.com'
 const linkedin = 'https://www.linkedin.com/in/gabrielbrasildev'
 const github = 'https://github.com/g4brielbr4sil'
@@ -53,8 +53,6 @@ export const site = {
     hermes: 'https://hermes-agent-01l.pages.dev/',
     pnqc: 'https://levens-qualifica-pnqc.pages.dev/',
     barthyV2: 'https://github.com/g4brielbr4sil/barthy-web-studio-v2',
-    barthyV1: 'https://barthy-web-studio.pages.dev/',
-    barthyV1Repository: 'https://github.com/g4brielbr4sil/barthy-web-studio',
     credentials: {
       promptEngineering:
         'https://www3.cruzeirodosulvirtual.com.br/badges/exibir/21186462-904d-4f54-8d4a-2a994a8382cc',
@@ -67,7 +65,6 @@ export const site = {
     downloadName: 'Gabriel-Brasil-Curriculo.pdf',
     available: __PORTFOLIO_HAS_RESUME__,
   },
-  futureDomain: null as string | null,
   socialImage: '/og-image.svg',
   sameAs: [linkedin, github],
   verification: {

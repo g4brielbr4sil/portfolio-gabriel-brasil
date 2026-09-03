@@ -9,6 +9,9 @@ import gabrielAvatar from '@/assets/profile/gabriel-avatar.webp'
 
 const EASE = [0.22, 1, 0.36, 1] as const
 
+const HERO_COPY =
+  'Sou Gabriel Brasil, Desenvolvedor Full Stack e Analista de Sistemas em Brasília, DF. Desenvolvo soluções digitais de ponta a ponta, conectando interfaces, APIs, dados, automações e integrações para transformar problemas reais em sistemas funcionais, bem estruturados e confiáveis.'
+
 const sequence: Variants = {
   hidden: { opacity: 0 },
   visible: {
@@ -64,44 +67,43 @@ export default function Hero() {
       className="relative flex min-h-[100svh] scroll-mt-24 items-center overflow-hidden px-4 pb-12 pt-[104px] sm:px-6 lg:px-8 xl:pb-16 xl:pt-[112px]"
     >
       <motion.div
-        className="portfolio-container relative z-10 grid items-center gap-8 min-[860px]:grid-cols-[minmax(0,1fr)_350px] min-[860px]:gap-[42px] xl:grid-cols-[minmax(0,1fr)_410px] xl:gap-16 2xl:grid-cols-[minmax(0,1fr)_440px] 2xl:gap-20"
+        className="hero-grid portfolio-container relative z-10 grid items-center gap-10 sm:gap-12 min-[860px]:grid-cols-[minmax(0,1fr)_350px] min-[860px]:gap-[42px] xl:grid-cols-[minmax(0,1fr)_410px] xl:gap-16 2xl:grid-cols-[minmax(0,1fr)_440px] 2xl:gap-20"
         variants={sequence}
         initial={reduced ? false : 'hidden'}
         animate="visible"
       >
-        <div>
+        <div className="contents min-[860px]:block">
           <motion.h1
             variants={item}
-            aria-label="OLÁ!"
-            className="text-[68px] leading-[0.65] text-white sm:text-[70px]"
+            className="hero-area-title hero-display text-[68px] leading-[0.78] text-white sm:text-[70px]"
           >
-            <span className="hero-display hero-display-localized block">
-              OLÁ
-              <motion.span
-                aria-hidden="true"
-                animate={reduced ? undefined : { opacity: [1, 1, 0, 0, 1] }}
-                transition={{ duration: 1.7, times: [0, 0.47, 0.5, 0.97, 1], repeat: Infinity, ease: 'linear' }}
-              >
-                !
-              </motion.span>
-            </span>
+            OLÁ
+            <motion.span
+              animate={reduced ? undefined : { opacity: [1, 1, 0, 0, 1] }}
+              transition={{ duration: 1.7, times: [0, 0.47, 0.5, 0.97, 1], repeat: Infinity, ease: 'linear' }}
+            >
+              !
+            </motion.span>
           </motion.h1>
 
           <motion.p
             variants={item}
-            className="mt-[14px] max-w-[540px] text-[15px] leading-[1.65] text-white/74 sm:text-base lg:text-[17px] xl:max-w-[650px] xl:text-[18px]"
+            className="hero-area-text mt-6 max-w-[540px] text-[15px] leading-[1.65] text-white/74 sm:mt-7 sm:text-base lg:text-[17px] xl:mt-8 xl:max-w-[650px] xl:text-[18px]"
           >
-            Sou Gabriel Brasil, Desenvolvedor Full Stack e Analista de Sistemas em Brasília, DF. Desenvolvo soluções digitais de ponta a ponta, conectando interfaces, APIs, dados, automações e integrações para transformar problemas reais em sistemas funcionais, bem estruturados e confiáveis.
+            {HERO_COPY}
           </motion.p>
 
-          <motion.div variants={item} className="mt-5 grid max-w-[540px] grid-cols-1 gap-3 min-[470px]:grid-cols-3 xl:max-w-[650px] xl:gap-4">
+          <motion.div
+            variants={item}
+            className="hero-area-cards mt-7 grid max-w-[540px] grid-cols-1 gap-3 min-[470px]:grid-cols-3 sm:mt-8 xl:mt-9 xl:max-w-[650px] xl:gap-4"
+          >
             {contactCards.map((card) => (
               <ContactCard key={card.label} {...card} />
             ))}
           </motion.div>
         </div>
 
-        <motion.div variants={item}>
+        <motion.div variants={item} className="hero-area-avatar">
           <PersonalPortrait />
         </motion.div>
       </motion.div>

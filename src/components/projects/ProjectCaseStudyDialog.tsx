@@ -20,7 +20,8 @@ const projectAccents: Record<string, string> = {
   'barthy-web-studio-v2': '#dc7655',
   pnqc: '#3f82ee',
   'hermes-command-center': '#4d83ff',
-  'radar-df': '#9f102a',
+  'radar-df': '#7554e8',
+  'saas-de-suporte': '#12a97f',
 }
 
 function ProjectDetailSection({ title, accent, children }: { title: string; accent: string; children: ReactNode }) {
@@ -201,8 +202,6 @@ export default function ProjectCaseStudyDialog({ project, open, onOpenChange }: 
                   ))}
                 </div>
               )}
-
-              {project.previewNote && <p className="mt-3 text-[12px] leading-relaxed text-white/42 sm:text-[13px]">{project.previewNote}</p>}
             </section>
 
             <aside className="min-w-0 space-y-6 p-5 sm:p-6 min-[1120px]:min-h-0 min-[1120px]:overflow-y-auto min-[1120px]:p-7">
