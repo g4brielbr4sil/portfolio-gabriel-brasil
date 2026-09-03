@@ -1,4 +1,4 @@
-import { barthyPreviews, pnqcPreviews } from '@/content/projectPreviews'
+import { barthyPreviews, modularPreviews, pnqcPreviews, radarPreviews } from '@/content/projectPreviews'
 import { resumeUrl, site } from '@/config/site'
 
 export const contact = {
@@ -308,7 +308,8 @@ export const projects: Project[] = [
     pagePath: '/projetos/radar-df/',
     name: 'Radar DF',
     status: 'Em desenvolvimento',
-    statusTooltip: 'Projeto em desenvolvimento. A composição visual é abstrata e não representa uma interface publicada.',
+    statusTooltip: 'Projeto em desenvolvimento. A tela oficial representa a direção visual do produto, sem indicar uma aplicação pública pronta.',
+    previewThemes: radarPreviews,
     description:
       'Plataforma em desenvolvimento para centralizar e organizar oportunidades, currículo estruturado, matching, ingestão de vagas e acompanhamento de candidaturas.',
     highlightsLabel: 'Capacidades em desenvolvimento',
@@ -322,7 +323,7 @@ export const projects: Project[] = [
     tech: ['React', 'TypeScript', 'FastAPI'],
     techExtra: ['APIs REST', 'Banco relacional'],
     links: [],
-    previewNote: 'Composição abstrata original. Ainda não existe screenshot público apresentado como produto pronto.',
+    previewNote: 'Mockup oficial do produto em desenvolvimento. Não representa uma aplicação pública concluída.',
     caseStudy: {
       category: 'Plataforma de oportunidades do Distrito Federal',
       status: 'Em desenvolvimento, sem aplicação pública divulgada',
@@ -334,7 +335,7 @@ export const projects: Project[] = [
       decisions: [
         'Manter candidato e currículo como núcleo da experiência.',
         'Tratar ingestão, normalização e matching como capacidades em desenvolvimento.',
-        'Não publicar links ou screenshots até existir uma versão apropriada para demonstração.',
+        'Usar o mockup oficial como representação visual sem apresentar recursos planejados como concluídos.',
       ],
       features: [
         'Centralização de oportunidades em desenvolvimento',
@@ -355,6 +356,7 @@ export const projects: Project[] = [
     name: 'SaaS de Suporte',
     status: 'Produto em desenvolvimento',
     statusTooltip: 'Arquitetura e escopo em definição. Ainda não existe aplicação pública.',
+    previewThemes: modularPreviews,
     description:
       'Produto voltado a pequenas empresas que precisam organizar atendimento, clientes, solicitações, tickets, conhecimento e automações.',
     highlightsLabel: 'Capacidades planejadas',
@@ -369,6 +371,7 @@ export const projects: Project[] = [
     techLabel: 'Arquitetura planejada',
     tech: ['React', 'TypeScript', 'FastAPI', 'Banco relacional', 'Docker'],
     links: [],
+    previewNote: 'Mockup oficial do Sistema Modular em validação. Não representa uma aplicação pública concluída.',
     caseStudy: {
       category: 'Produto em desenvolvimento',
       status: 'Arquitetura planejada, sem aplicação pública',
@@ -444,7 +447,7 @@ export const stackGroups: { category: string; items: string[]; note?: string }[]
   },
   {
     category: 'Automações, integrações e produtividade',
-    items: ['n8n', 'Webhooks', 'Gmail', 'Telegram', 'Figma', 'GitHub Copilot', 'GitHub Codespaces'],
+    items: ['n8n', 'Webhooks', 'Telegram', 'Figma', 'GitHub Copilot', 'GitHub Codespaces'],
   },
 ]
 

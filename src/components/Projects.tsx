@@ -1,10 +1,9 @@
 import { lazy, Suspense, useRef, useState } from 'react'
-import { ArrowSquareOut } from '@phosphor-icons/react/dist/csr/ArrowSquareOut'
 import { Code } from '@phosphor-icons/react/dist/csr/Code'
 import { Eye } from '@phosphor-icons/react/dist/csr/Eye'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { displayProjects } from '@/content/displayProjects'
-import type { Project, ProjectLink } from '@/content/portfolio'
+import type { Project } from '@/content/portfolio'
 import ProjectVisual from '@/components/projects/ProjectVisual'
 
 const ProjectCaseStudyDialog = lazy(() => import('@/components/projects/ProjectCaseStudyDialog'))
@@ -107,8 +106,6 @@ function ProjectCard({
   reduced: boolean
   onOpen: (project: Project, opener: HTMLElement | null) => void
 }) {
-  const links = project.links.filter((link) => Boolean(link.href)).slice(0, 2)
-
   return (
     <motion.article
       layout={!reduced}
@@ -156,30 +153,8 @@ function ProjectCard({
               Case
             </a>
           )}
-
-          {links.map((link) => (
-            <ProjectActionLink key={link.label} link={link} />
-          ))}
         </div>
       </div>
     </motion.article>
-  )
-}
-
-function ProjectActionLink({ link }: { link: ProjectLink }) {
-  if (!link.href) return null
-
-  const label = /repositório|código/i.test(link.label) ? 'Código' : 'Abrir'
-
-  return (
-    <a
-      href={link.href}
-      target={link.external ? '_blank' : undefined}
-      rel={link.external ? 'noopener noreferrer' : undefined}
-      className="inline-flex min-h-10 items-center gap-1.5 rounded-[4px] border border-white/16 px-3 text-[12px] text-white/68 transition-colors hover:bg-white/[0.06] hover:text-white md:min-h-9 xl:text-[13px]"
-    >
-      <ArrowSquareOut size={11} aria-hidden="true" />
-      {label}
-    </a>
   )
 }

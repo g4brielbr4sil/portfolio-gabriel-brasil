@@ -79,8 +79,24 @@
 }
 
 .hero-display-localized {
-  letter-spacing: 0.015em;
+  letter-spacing: 0;
   transform: translateY(-4px) skewX(-2deg) scaleX(1.4) scaleY(0.66);
+}
+
+.hero-letter {
+  display: inline-block;
+}
+
+.hero-letter-l {
+  margin-left: -0.115em;
+}
+
+.hero-letter-a {
+  margin-left: 0.035em;
+}
+
+.hero-letter-mark {
+  margin-left: -0.015em;
 }
 
 .hero-monogram {
@@ -112,8 +128,8 @@
     grid-template-areas:
       'frontend backend'
       'interface data'
-      'devops automation'
-      'tools tools';
+      'devops tools'
+      'operations operations';
   }
 
   .stack-groups > [data-stack-area='frontend'] { grid-area: frontend; }
@@ -121,8 +137,8 @@
   .stack-groups > [data-stack-area='backend'] { grid-area: backend; }
   .stack-groups > [data-stack-area='data'] { grid-area: data; }
   .stack-groups > [data-stack-area='devops'] { grid-area: devops; }
-  .stack-groups > [data-stack-area='automation'] { grid-area: automation; }
   .stack-groups > [data-stack-area='tools'] { grid-area: tools; }
+  .stack-groups > [data-stack-area='operations'] { grid-area: operations; }
 }
 
 .projects-section {

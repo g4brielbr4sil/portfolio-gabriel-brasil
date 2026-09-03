@@ -7,7 +7,7 @@ const supportSaas: Project = {
   name: 'Sistema modular em validação',
   status: 'Produto em validação',
   statusTooltip:
-    'Visão de produto em validação. Os módulos representam frentes planejadas, sem declarar uma interface pública pronta.',
+    'Visão de produto em validação. A tela oficial demonstra a direção da interface sem declarar uma aplicação pública pronta.',
   description:
     'Produto operacional modular pensado para centralizar relacionamento, atendimento e rotinas de pequenos negócios, conectando CRM, WhatsApp, check-ins, operação, suporte e acompanhamento conforme o contexto de uso.',
   highlightsLabel: 'Frentes em validação',
@@ -47,7 +47,7 @@ const supportSaas: Project = {
     ],
     solutions: [
       'Arquitetura modular com capacidades separadas por contexto de operação.',
-      'Comunicação explícita do estágio do produto, sem telas ou métricas inventadas.',
+      'Mockup oficial integrado com comunicação explícita do estágio real do produto.',
     ],
     nextSteps: ['Validar os primeiros módulos com operações reais e definir o escopo da primeira versão demonstrável.'],
   },

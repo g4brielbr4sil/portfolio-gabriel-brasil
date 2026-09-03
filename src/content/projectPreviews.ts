@@ -20,6 +20,10 @@ import pnqcPainelAvif from '@/assets/projects/pnqc/pnqc-painel.avif'
 import pnqcPainelWebp from '@/assets/projects/pnqc/pnqc-painel.webp'
 import pnqcCursoAvif from '@/assets/projects/pnqc/pnqc-curso.avif'
 import pnqcCursoWebp from '@/assets/projects/pnqc/pnqc-curso.webp'
+import radarMatchingAvif from '@/assets/projects/radar-df/radar-df-matching-dashboard.avif'
+import radarMatchingWebp from '@/assets/projects/radar-df/radar-df-matching-dashboard.webp'
+import modularAtendimentosAvif from '@/assets/projects/sistema-modular/sistema-modular-atendimentos.avif'
+import modularAtendimentosWebp from '@/assets/projects/sistema-modular/sistema-modular-atendimentos.webp'
 
 function previewImage(options: {
   id: string
@@ -342,5 +346,49 @@ export const pnqcPreviews: ProjectPreviewThemes = {
         order: 3,
       }),
     ],
+  },
+}
+
+const radarMatching = previewImage({
+  id: 'radar-df-matching-dashboard',
+  avif: radarMatchingAvif,
+  webp: radarMatchingWebp,
+  width: 1302,
+  height: 838,
+  caption: 'Painel de vagas, ingestão e matching',
+  alt: 'Mockup oficial do Radar DF em tema escuro, com vaga, indicadores, ranking de candidatos, ingestão e requisitos extraídos.',
+  theme: 'dark',
+  device: 'desktop',
+  order: 0,
+})
+
+export const radarPreviews: ProjectPreviewThemes = {
+  default: 'dark',
+  dark: {
+    cover: radarMatching,
+    desktop: [radarMatching],
+    images: [radarMatching],
+  },
+}
+
+const modularAtendimentos = previewImage({
+  id: 'sistema-modular-atendimentos',
+  avif: modularAtendimentosAvif,
+  webp: modularAtendimentosWebp,
+  width: 1304,
+  height: 814,
+  caption: 'Atendimentos e histórico operacional',
+  alt: 'Mockup oficial do Sistema Modular em tema claro, com atendimentos, histórico operacional, módulo oficina e WhatsApp contextual.',
+  theme: 'light',
+  device: 'desktop',
+  order: 0,
+})
+
+export const modularPreviews: ProjectPreviewThemes = {
+  default: 'light',
+  light: {
+    cover: modularAtendimentos,
+    desktop: [modularAtendimentos],
+    images: [modularAtendimentos],
   },
 }

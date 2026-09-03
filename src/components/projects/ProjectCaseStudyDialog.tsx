@@ -20,7 +20,8 @@ const projectAccents: Record<string, string> = {
   'barthy-web-studio-v2': '#dc7655',
   pnqc: '#3f82ee',
   'hermes-command-center': '#4d83ff',
-  'radar-df': '#9f102a',
+  'radar-df': '#7554e8',
+  'saas-de-suporte': '#12a97f',
 }
 
 function ProjectDetailSection({ title, accent, children }: { title: string; accent: string; children: ReactNode }) {

@@ -78,10 +78,12 @@ export default function Hero() {
             aria-label="OLÁ!"
             className="text-[68px] leading-[0.78] text-white sm:text-[70px]"
           >
-            <span className="hero-display hero-display-localized block">
-              OLÁ
+            <span className="hero-display hero-display-localized inline-flex" aria-hidden="true">
+              <span className="hero-letter hero-letter-o">O</span>
+              <span className="hero-letter hero-letter-l">L</span>
+              <span className="hero-letter hero-letter-a">Á</span>
               <motion.span
-                aria-hidden="true"
+                className="hero-letter hero-letter-mark"
                 animate={reduced ? undefined : { opacity: [1, 1, 0, 0, 1] }}
                 transition={{ duration: 1.7, times: [0, 0.47, 0.5, 0.97, 1], repeat: Infinity, ease: 'linear' }}
               >

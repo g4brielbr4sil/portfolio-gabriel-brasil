@@ -101,7 +101,10 @@ test('project previews use real AVIF and WebP assets with an error fallback', as
   assert.match(picture, /object-contain/)
   assert.match(previews, /export const barthyPreviews[\s\S]*dark:[\s\S]*light:/)
   assert.match(previews, /export const pnqcPreviews[\s\S]*dark:/)
-  assert.doesNotMatch(previews.match(/export const pnqcPreviews[\s\S]*/)?.[0] ?? '', /light:/)
+  assert.match(previews, /export const radarPreviews[\s\S]*default: 'dark'/)
+  assert.match(previews, /export const modularPreviews[\s\S]*default: 'light'/)
+  assert.match(previews, /radar-df-matching-dashboard/)
+  assert.match(previews, /sistema-modular-atendimentos/)
 })
 
 test('Barthy opens in the light preview while PNQC remains dark-only', async () => {
@@ -173,10 +176,10 @@ test('tech stack follows the compact grouped composition from the video', async 
     'Front-end',
     'Interface & Motion',
     'Back-end & APIs',
-    'Dados & Autenticação',
-    'DevOps, Infra & Deploy',
-    'Automação & Integrações',
-    'Versionamento & Ferramentas',
+    'Dados',
+    'Infra & DevOps',
+    'Ferramentas',
+    'Ferramentas e Operação',
   ]) {
     assert.ok(groups.includes(category))
   }
@@ -193,27 +196,42 @@ test('tech stack follows the compact grouped composition from the video', async 
     'React Hook Form',
     'Python',
     'FastAPI',
+    'PHP',
+    'APIs REST',
     'SQLite',
     'PostgreSQL',
     'Supabase',
+    'SQL',
     'Docker',
     'Linux',
     'Cloudflare',
     'Railway',
+    'AWS Lightsail',
     'n8n',
-    'Gmail',
     'Git',
     'GitHub',
     'GitHub Copilot',
     'Figma',
     'Visual Studio Code',
+    'Microsoft Office',
+    'File Management',
+    'Network Configuration',
+    'Cable Management',
+    'Data Entry',
   ]) {
     assert.ok(groups.includes(technology))
   }
-  assert.equal(`${stack}${groups}${portfolio}`.includes('Google Calendar'), false)
+  assert.equal(`${stack}${groups}${icons}${portfolio}`.includes('Google Calendar'), false)
+  assert.equal(`${stack}${groups}${icons}${portfolio}`.includes('Gmail'), false)
   assert.equal(stack.includes('technologyMarks'), false)
   assert.match(icons, /SiReacthookform/)
+  assert.match(icons, /SiPhp/)
+  assert.match(icons, /viewBox="0 0 304 182"/)
   assert.match(icons, /VscVscode/)
+  assert.match(icons, /FolderOpen/)
+  assert.match(icons, /Network/)
+  assert.match(icons, /PlugsConnected/)
+  assert.match(icons, /Keyboard/)
 })
 
 test('projects follow the video grid, expansion and accessible modal structure', async () => {
@@ -226,6 +244,8 @@ test('projects follow the video grid, expansion and accessible modal structure',
   assert.match(projects, /layout=\{!reduced\}/)
   assert.match(projects, /Ver todos os projetos/)
   assert.match(projects, /Mostrar menos/)
+  assert.equal(projects.includes('ProjectActionLink'), false)
+  assert.equal(projects.includes("const label = /repositório|código/i"), false)
   assert.match(modal, /y: 18, scale: 0\.975/)
   assert.match(modal, /min-\[1120px\]:grid-cols-\[minmax\(0,56fr\)_minmax\(0,44fr\)\]/)
   assert.match(modal, /rounded-\[20px\]/)
@@ -236,7 +256,9 @@ test('projects follow the video grid, expansion and accessible modal structure',
   assert.match(await source('src/components/projects/ProjectTechTicker.tsx'), /TechnologyIcon/)
   assert.match(await source('src/components/projects/TechnologyIcon.tsx'), /SiFastapi/)
   assert.match(display, /\[barthy, pnqc, hermes, radar, supportSaas\]/)
-  assert.match(await source('src/content/portfolio.ts'), /slug: 'radar-df'/)
+  const portfolio = await source('src/content/portfolio.ts')
+  assert.match(portfolio, /slug: 'radar-df'[\s\S]*previewThemes: radarPreviews/)
+  assert.match(portfolio, /slug: 'saas-de-suporte'[\s\S]*previewThemes: modularPreviews/)
 })
 
 test('about follows the flat biography and hobbies composition from the video', async () => {

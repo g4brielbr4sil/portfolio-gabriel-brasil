@@ -1,25 +1,33 @@
 import {
+  ApiRestIcon,
+  AwsIcon,
   CloudflareIcon,
   CopilotIcon,
+  CableManagementIcon,
   CssIcon,
+  DataEntryIcon,
   DockerIcon,
   FastApiIcon,
   FigmaIcon,
+  FileManagementIcon,
   GitIcon,
   GithubIcon,
-  GmailIcon,
   HtmlIcon,
   JavascriptIcon,
   LinuxIcon,
   MotionIcon,
   MuiIcon,
+  MicrosoftOfficeIcon,
   N8nIcon,
+  NetworkConfigurationIcon,
+  PhpIcon,
   PostgresqlIcon,
   PythonIcon,
   RailwayIcon,
   ReactHookFormIcon,
   ReactIcon,
   SqliteIcon,
+  SqlIcon,
   SupabaseIcon,
   TailwindIcon,
   TypescriptIcon,
@@ -35,7 +43,7 @@ export type StackItem = {
 
 export type StackGroup = {
   title: string
-  area: 'frontend' | 'interface' | 'backend' | 'data' | 'devops' | 'automation' | 'tools'
+  area: 'frontend' | 'interface' | 'backend' | 'data' | 'devops' | 'tools' | 'operations'
   items: StackItem[]
 }
 
@@ -68,44 +76,52 @@ export const stackGroups: StackGroup[] = [
     items: [
       { name: 'Python', icon: PythonIcon },
       { name: 'FastAPI', icon: FastApiIcon },
+      { name: 'PHP', icon: PhpIcon },
+      { name: 'APIs REST', icon: ApiRestIcon },
     ],
   },
   {
-    title: 'Dados & Autenticação',
+    title: 'Dados',
     area: 'data',
     items: [
+      { name: 'SQL', icon: SqlIcon },
       { name: 'SQLite', icon: SqliteIcon },
       { name: 'PostgreSQL', icon: PostgresqlIcon },
       { name: 'Supabase', icon: SupabaseIcon },
     ],
   },
   {
-    title: 'DevOps, Infra & Deploy',
+    title: 'Infra & DevOps',
     area: 'devops',
     items: [
       { name: 'Docker', icon: DockerIcon },
       { name: 'Linux', icon: LinuxIcon },
       { name: 'Cloudflare', icon: CloudflareIcon },
       { name: 'Railway', icon: RailwayIcon },
+      { name: 'AWS Lightsail', icon: AwsIcon },
     ],
   },
   {
-    title: 'Automação & Integrações',
-    area: 'automation',
-    items: [
-      { name: 'n8n', icon: N8nIcon },
-      { name: 'Gmail', icon: GmailIcon },
-    ],
-  },
-  {
-    title: 'Versionamento & Ferramentas',
+    title: 'Ferramentas',
     area: 'tools',
     items: [
       { name: 'Git', icon: GitIcon },
       { name: 'GitHub', icon: GithubIcon },
       { name: 'GitHub Copilot', icon: CopilotIcon },
-      { name: 'Figma', icon: FigmaIcon },
       { name: 'Visual Studio Code', icon: VscodeIcon },
+      { name: 'n8n', icon: N8nIcon },
+    ],
+  },
+  {
+    title: 'Ferramentas e Operação',
+    area: 'operations',
+    items: [
+      { name: 'Figma', icon: FigmaIcon },
+      { name: 'Microsoft Office', icon: MicrosoftOfficeIcon },
+      { name: 'File Management', icon: FileManagementIcon },
+      { name: 'Network Configuration', icon: NetworkConfigurationIcon },
+      { name: 'Cable Management', icon: CableManagementIcon },
+      { name: 'Data Entry', icon: DataEntryIcon },
     ],
   },
 ]

@@ -34,6 +34,10 @@ test('hero follows the video composition without legacy technical decoration', a
 
   assert.match(hero, /aria-label="OLÁ!"/)
   assert.match(hero, /opacity: \[1, 1, 0, 0, 1\]/)
+  assert.match(hero, /hero-letter-o/)
+  assert.match(hero, /hero-letter-l/)
+  assert.match(hero, /hero-letter-a/)
+  assert.match(hero, /hero-letter-mark/)
   assert.match(hero, /PersonalPortrait/)
   assert.match(hero, /gabriel-avatar\.webp/)
   assert.match(hero, /Email/)
