@@ -352,3 +352,29 @@ test('external links opened in a new tab use noopener and noreferrer', async () 
   assert.equal(combined.includes("? 'noreferrer'"), false)
   assert.match(combined, /noopener noreferrer/)
 })
+
+test('canonical SEO configuration points to the official gabrielbrasil.dev domain', async () => {
+  const site = await source('src/config/site.ts')
+  const metadata = await source('src/seo/metadata.ts')
+  const prerender = await source('scripts/prerender.mjs')
+  const routes = await source('src/config/routes.ts')
+
+  assert.match(site, /const canonicalUrl = 'https:\/\/gabrielbrasil\.dev\/'/)
+  assert.equal(site.includes('portfolio-gabriel-brasil.pages.dev'), false)
+  assert.equal(site.includes('futureDomain'), false)
+
+  assert.match(metadata, /absoluteUrl\(route\.path\)/)
+  assert.match(metadata, /route\.indexable \? 'index, follow/)
+  assert.match(metadata, /'noindex, nofollow'/)
+  assert.match(metadata, /twitter:card/)
+
+  assert.match(prerender, /data\.site\.canonicalUrl/)
+  assert.match(prerender, /sitemap\.xml/)
+  assert.match(prerender, /robots\.txt/)
+  assert.match(prerender, /llms\.txt/)
+  assert.match(prerender, /llms-full\.txt/)
+  assert.match(prerender, /Sitemap: \$\{new URL\('sitemap\.xml', data\.site\.canonicalUrl\)\}/)
+
+  assert.match(routes, /indexable: false/)
+  assert.equal(routes.match(/indexable: false/g)?.length, 1)
+})

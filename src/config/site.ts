@@ -1,6 +1,6 @@
 declare const __PORTFOLIO_HAS_RESUME__: boolean
 
-const canonicalUrl = 'https://portfolio-gabriel-brasil.pages.dev/'
+const canonicalUrl = 'https://gabrielbrasil.dev/'
 const email = 'contato.barthywebstudio@gmail.com'
 const linkedin = 'https://www.linkedin.com/in/gabrielbrasildev'
 const github = 'https://github.com/g4brielbr4sil'
@@ -65,7 +65,6 @@ export const site = {
     downloadName: 'Gabriel-Brasil-Curriculo.pdf',
     available: __PORTFOLIO_HAS_RESUME__,
   },
-  futureDomain: null as string | null,
   socialImage: '/og-image.svg',
   sameAs: [linkedin, github],
   verification: {
