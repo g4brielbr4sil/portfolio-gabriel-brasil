@@ -109,7 +109,7 @@ export default function ProjectGallery({
   }
 
   return (
-    <div ref={galleryRef} tabIndex={0} className="flex h-full flex-col gap-4 outline-none">
+    <div ref={galleryRef} tabIndex={0} className="flex h-full min-w-0 flex-col gap-4 outline-none">
       <div className="flex items-center justify-between gap-3">
         <div>
           <p className="text-[10px] uppercase tracking-[0.22em] text-cream/35">Galeria real</p>
@@ -163,7 +163,7 @@ export default function ProjectGallery({
         </div>
       </div>
 
-      <div className="flex snap-x gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div className="flex min-w-0 snap-x gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {images.map((image, itemIndex) => {
           const active = itemIndex === index
           return (

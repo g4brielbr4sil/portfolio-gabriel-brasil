@@ -39,7 +39,7 @@ export default function ProjectPage({ route }: { route: PortfolioRoute }) {
           </header>
 
           <div className="mt-10 grid gap-10 lg:grid-cols-[1.08fr_0.92fr]">
-            <div>{project.previewThemes && <ProjectGallery projectName={project.name} previewThemes={project.previewThemes} initialTheme={project.previewThemes.default} initialIndex={0} />}</div>
+            <div className="min-w-0">{project.previewThemes && <ProjectGallery projectName={project.name} previewThemes={project.previewThemes} initialTheme={project.previewThemes.default} initialIndex={0} />}</div>
             <div className="grid content-start gap-7">
               <section><h2 className="text-xs uppercase tracking-[0.22em] text-cream/40">Contexto</h2><p className="mt-4 text-sm leading-relaxed text-cream/70">{project.caseStudy.context}</p></section>
               <section className="border-t border-line pt-7"><h2 className="text-xs uppercase tracking-[0.22em] text-cream/40">Problema</h2><p className="mt-4 text-sm leading-relaxed text-cream/70">{project.caseStudy.problem}</p></section>

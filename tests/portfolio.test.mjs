@@ -378,3 +378,12 @@ test('canonical SEO configuration points to the official gabrielbrasil.dev domai
   assert.match(routes, /indexable: false/)
   assert.equal(routes.match(/indexable: false/g)?.length, 1)
 })
+
+test('project gallery thumbnail strip stays contained on narrow viewports', async () => {
+  const gallery = await source('src/components/projects/ProjectGallery.tsx')
+  const projectPage = await source('src/pages/ProjectPage.tsx')
+
+  assert.match(gallery, /flex h-full min-w-0 flex-col/)
+  assert.match(gallery, /flex min-w-0 snap-x gap-2 overflow-x-auto/)
+  assert.match(projectPage, /className="min-w-0">\{project\.previewThemes/)
+})
