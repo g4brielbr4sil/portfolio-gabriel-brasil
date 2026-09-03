@@ -1,4 +1,4 @@
-import { lazy, Suspense, useLayoutEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useRef, useState } from 'react'
 import { Code } from '@phosphor-icons/react/dist/csr/Code'
 import { Eye } from '@phosphor-icons/react/dist/csr/Eye'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
@@ -9,6 +9,7 @@ import ProjectVisual from '@/components/projects/ProjectVisual'
 const ProjectCaseStudyDialog = lazy(() => import('@/components/projects/ProjectCaseStudyDialog'))
 
 const EASE = [0.22, 1, 0.36, 1] as const
+const INITIAL_COUNT = 2
 
 type Props = {
   onOverlayChange?: (open: boolean) => void
@@ -20,23 +21,8 @@ export default function Projects({ onOverlayChange, showAllInitially = false }: 
   const [showAll, setShowAll] = useState(showAllInitially)
   const [activeProject, setActiveProject] = useState<Project | null>(null)
   const openerRef = useRef<HTMLElement | null>(null)
-  const toggleRef = useRef<HTMLButtonElement | null>(null)
-  const toggleAnchorRef = useRef<number | null>(null)
-  const visibleProjects = showAll ? displayProjects : displayProjects.slice(0, 2)
-
-  function handleToggleShowAll() {
-    toggleAnchorRef.current = toggleRef.current?.getBoundingClientRect().top ?? null
-    setShowAll((current) => !current)
-  }
-
-  useLayoutEffect(() => {
-    const anchor = toggleAnchorRef.current
-    if (anchor == null || !toggleRef.current) return
-
-    const delta = toggleRef.current.getBoundingClientRect().top - anchor
-    if (Math.abs(delta) > 1) window.scrollBy(0, delta)
-    toggleAnchorRef.current = null
-  }, [showAll])
+  const initialProjects = showAllInitially ? displayProjects : displayProjects.slice(0, INITIAL_COUNT)
+  const extraProjects = showAllInitially ? [] : displayProjects.slice(INITIAL_COUNT)
 
   function openProject(project: Project, opener: HTMLElement | null) {
     openerRef.current = opener
@@ -74,32 +60,52 @@ export default function Projects({ onOverlayChange, showAllInitially = false }: 
           Projetos
         </motion.h2>
 
-        <motion.div layout={!reduced} className="mt-9 grid gap-4 md:grid-cols-2 xl:gap-5">
-          <AnimatePresence initial={false} mode="popLayout">
-            {visibleProjects.map((project, index) => (
-              <ProjectCard
-                key={project.slug}
-                project={project}
-                index={index}
-                reduced={Boolean(reduced)}
-                onOpen={openProject}
-              />
-            ))}
-          </AnimatePresence>
-        </motion.div>
+        <div className="mt-9 grid gap-4 md:grid-cols-2 xl:gap-5">
+          {initialProjects.map((project, index) => (
+            <ProjectCard key={project.slug} project={project} index={index} reduced={Boolean(reduced)} onOpen={openProject} />
+          ))}
+        </div>
 
-        {!showAllInitially && (
-          <motion.div layout={!reduced} className="mt-8 flex justify-center">
+        {extraProjects.length > 0 && (
+          <motion.div
+            initial={false}
+            animate={{ gridTemplateRows: showAll ? '1fr' : '0fr' }}
+            transition={reduced ? { duration: 0 } : { duration: 0.4, ease: EASE }}
+            style={{ display: 'grid' }}
+            className="overflow-hidden"
+          >
+            <div className="min-h-0 overflow-hidden">
+              <div className="grid gap-4 pt-4 md:grid-cols-2 xl:gap-5">
+                <AnimatePresence initial={false}>
+                  {showAll &&
+                    extraProjects.map((project, index) => (
+                      <motion.div
+                        key={project.slug}
+                        initial={reduced ? false : { opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={reduced ? undefined : { opacity: 0, y: 16 }}
+                        transition={{ duration: 0.32, ease: EASE, delay: reduced ? 0 : index * 0.05 }}
+                      >
+                        <ProjectCard project={project} index={index} reduced={Boolean(reduced)} onOpen={openProject} animated={false} />
+                      </motion.div>
+                    ))}
+                </AnimatePresence>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {!showAllInitially && extraProjects.length > 0 && (
+          <div className="mt-8 flex justify-center">
             <button
-              ref={toggleRef}
               type="button"
-              onClick={handleToggleShowAll}
+              onClick={() => setShowAll((current) => !current)}
               aria-expanded={showAll}
               className="inline-flex min-h-11 items-center rounded-[4px] border border-white/20 bg-[#1b2421] px-5 text-[13px] font-semibold text-white/86 transition-colors hover:bg-[#26312d] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#93aaa2] sm:text-sm"
             >
               {showAll ? 'Mostrar menos' : 'Ver todos os projetos'}
             </button>
-          </motion.div>
+          </div>
         )}
       </div>
 
@@ -117,20 +123,20 @@ function ProjectCard({
   index,
   reduced,
   onOpen,
+  animated = true,
 }: {
   project: Project
   index: number
   reduced: boolean
   onOpen: (project: Project, opener: HTMLElement | null) => void
+  animated?: boolean
 }) {
   return (
     <motion.article
-      layout={!reduced}
-      initial={reduced ? false : { opacity: 0, y: 22 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      exit={reduced ? undefined : { opacity: 0, y: 14 }}
-      viewport={{ once: true, amount: 0.35 }}
-      transition={{ duration: 0.48, delay: index * 0.06, ease: EASE, layout: { duration: 0.35, ease: EASE } }}
+      initial={animated && !reduced ? { opacity: 0, y: 22 } : false}
+      whileInView={animated ? { opacity: 1, y: 0 } : undefined}
+      viewport={animated ? { once: true, amount: 0.35 } : undefined}
+      transition={{ duration: 0.48, delay: animated ? index * 0.06 : 0, ease: EASE }}
       className="group overflow-hidden rounded-[6px] border border-white/17 bg-[#141918] transition-[transform,border-color] duration-300 [@media(hover:hover)]:hover:-translate-y-0.5 [@media(hover:hover)]:hover:border-white/30"
     >
       <button

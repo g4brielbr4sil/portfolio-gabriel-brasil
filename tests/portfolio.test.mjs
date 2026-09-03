@@ -85,12 +85,17 @@ test('all required public routes are declared and dynamically loaded', async () 
   assert.match(await source('scripts/prerender.mjs'), /data-route-path/)
 })
 
-test('Hermes project page keeps screenshots private', async () => {
+test('Hermes project page uses sanitized real screenshots, not the raw captures', async () => {
   const projectPage = await source('src/pages/ProjectPage.tsx')
   const portfolio = await source('src/content/portfolio.ts')
-  assert.match(projectPage, /Nenhuma captura real/)
+  const previews = await source('src/content/projectPreviews.ts')
+  assert.match(projectPage, /ProjectGallery/)
+  assert.equal(projectPage.includes('Nenhuma captura real'), false)
   assert.match(portfolio, /slug: 'hermes-command-center'/)
-  assert.equal(portfolio.includes('hermes-screenshot'), false)
+  assert.match(portfolio, /previewThemes: hermesPreviews/)
+  assert.match(previews, /export const hermesPreviews/)
+  assert.match(previews, /hermes-command-center\.avif/)
+  assert.match(previews, /dados demonstrativos/)
 })
 
 test('project previews use real AVIF and WebP assets with an error fallback', async () => {
@@ -242,7 +247,7 @@ test('projects follow the video grid, expansion and accessible modal structure',
 
   assert.match(projects, /md:grid-cols-2/)
   assert.match(projects, /AnimatePresence/)
-  assert.match(projects, /layout=\{!reduced\}/)
+  assert.match(projects, /gridTemplateRows/)
   assert.match(projects, /Ver todos os projetos/)
   assert.match(projects, /Mostrar menos/)
   assert.equal(projects.includes('ProjectActionLink'), false)

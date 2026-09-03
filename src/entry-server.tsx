@@ -47,7 +47,7 @@ export function buildData() {
       stack: project.caseStudy.stackMain,
       links: project.caseStudy.links,
       privacy: project.slug === 'hermes-command-center'
-        ? 'Sem capturas reais para preservar dados pessoais e operacionais.'
+        ? 'Capturas reais com dados demonstrativos para preservar informações pessoais e operacionais.'
         : 'Somente capturas reais selecionadas para o portfólio.',
     })),
   }

@@ -1,4 +1,4 @@
-import { barthyPreviews, modularPreviews, pnqcPreviews, radarPreviews } from '@/content/projectPreviews'
+import { barthyPreviews, hermesPreviews, modularPreviews, pnqcPreviews, radarPreviews } from '@/content/projectPreviews'
 import { resumeUrl, site } from '@/config/site'
 
 export const contact = {
@@ -228,7 +228,8 @@ export const projects: Project[] = [
     pagePath: '/projetos/hermes-command-center/',
     name: 'Hermes Command Center',
     status: 'Ambiente protegido',
-    statusTooltip: 'Aplicação autoral privada. Nenhuma captura com dados pessoais é publicada nesta versão.',
+    statusTooltip: 'Aplicação autoral privada. As capturas usam dados demonstrativos para preservar a operação real.',
+    previewThemes: hermesPreviews,
     description:
       'Aplicação Full Stack autoral para centralizar CRM, pipeline, finanças, tarefas, rotina, estudos, relatórios, memória, aprovações e integrações.',
     highlightsLabel: 'Principais capacidades',

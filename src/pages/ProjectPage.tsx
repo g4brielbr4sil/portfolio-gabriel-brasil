@@ -2,7 +2,7 @@ import { ArrowUpRight } from '@phosphor-icons/react/dist/csr/ArrowUpRight'
 import Breadcrumbs from '@/components/layout/Breadcrumbs'
 import PageLayout from '@/components/layout/PageLayout'
 import ProjectGallery from '@/components/projects/ProjectGallery'
-import { projects, type Project } from '@/content/portfolio'
+import { projects } from '@/content/portfolio'
 import type { PortfolioRoute } from '@/config/routes'
 
 function DetailList({ title, items }: { title: string; items: string[] }) {
@@ -13,22 +13,6 @@ function DetailList({ title, items }: { title: string; items: string[] }) {
         {items.map((item) => <li key={item} className="flex gap-3"><span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cream/40" />{item}</li>)}
       </ul>
     </section>
-  )
-}
-
-function AbstractPreview({ project }: { project: Project }) {
-  return (
-    <div className="overflow-hidden rounded-[8px] border border-white/14 bg-[#111615] p-5 md:p-7">
-      <div className="bg-grid rounded-[6px] border border-white/12 p-6">
-        <p className="text-[10px] uppercase tracking-[0.22em] text-cream/40">Apresentação abstrata</p>
-        <p className="mt-5 max-w-xl text-lg leading-relaxed text-cream/75">
-          {`Nenhuma captura real do ${project.name} é publicada nesta rodada para preservar dados pessoais e operacionais.`}
-        </p>
-        <div className="mt-8 grid gap-3 sm:grid-cols-2">
-          {project.highlights.slice(0, 4).map((item) => <span key={item} className="rounded-xl border border-line bg-black/25 p-4 text-sm text-cream/60">{item}</span>)}
-        </div>
-      </div>
-    </div>
   )
 }
 
@@ -55,7 +39,7 @@ export default function ProjectPage({ route }: { route: PortfolioRoute }) {
           </header>
 
           <div className="mt-10 grid gap-10 lg:grid-cols-[1.08fr_0.92fr]">
-            <div>{project.previewThemes ? <ProjectGallery projectName={project.name} previewThemes={project.previewThemes} initialTheme={project.previewThemes.default} initialIndex={0} /> : <AbstractPreview project={project} />}</div>
+            <div>{project.previewThemes && <ProjectGallery projectName={project.name} previewThemes={project.previewThemes} initialTheme={project.previewThemes.default} initialIndex={0} />}</div>
             <div className="grid content-start gap-7">
               <section><h2 className="text-xs uppercase tracking-[0.22em] text-cream/40">Contexto</h2><p className="mt-4 text-sm leading-relaxed text-cream/70">{project.caseStudy.context}</p></section>
               <section className="border-t border-line pt-7"><h2 className="text-xs uppercase tracking-[0.22em] text-cream/40">Problema</h2><p className="mt-4 text-sm leading-relaxed text-cream/70">{project.caseStudy.problem}</p></section>
