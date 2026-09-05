@@ -21,7 +21,7 @@ const projectAccents: Record<string, string> = {
   pnqc: '#3f82ee',
   'hermes-command-center': '#4d83ff',
   'radar-df': '#7554e8',
-  'saas-de-suporte': '#12a97f',
+  'sistema-modular-barthy-flow': '#12a97f',
 }
 
 function ProjectDetailSection({ title, accent, children }: { title: string; accent: string; children: ReactNode }) {

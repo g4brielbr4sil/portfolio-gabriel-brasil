@@ -261,10 +261,10 @@ test('projects follow the video grid, expansion and accessible modal structure',
   assert.match(modal, /ProjectTechTicker/)
   assert.match(await source('src/components/projects/ProjectTechTicker.tsx'), /TechnologyIcon/)
   assert.match(await source('src/components/projects/TechnologyIcon.tsx'), /SiFastapi/)
-  assert.match(display, /\[barthy, pnqc, hermes, radar, supportSaas\]/)
+  assert.match(display, /export \{ projects as displayProjects \} from '@\/content\/portfolio'/)
   const portfolio = await source('src/content/portfolio.ts')
   assert.match(portfolio, /slug: 'radar-df'[\s\S]*previewThemes: radarPreviews/)
-  assert.match(portfolio, /slug: 'saas-de-suporte'[\s\S]*previewThemes: modularPreviews/)
+  assert.match(portfolio, /slug: 'sistema-modular-barthy-flow'[\s\S]*previewThemes: modularPreviews/)
 })
 
 test('about follows the flat biography and hobbies composition from the video', async () => {
@@ -337,12 +337,21 @@ test('legacy Barthy Web Studio V1 public CTA stays removed', async () => {
   assert.equal(/barthy-web-studio\.pages\.dev/.test(combined), false)
 })
 
-test('legacy SaaS de Suporte project has no dangling public route or sitemap entry', async () => {
+test('Sistema Modular / Barthy Flow is the single source of truth with no legacy SaaS de Suporte identity or invented route', async () => {
   const portfolio = await source('src/content/portfolio.ts')
+  const display = await source('src/content/displayProjects.ts')
   const routes = await source('src/config/routes.ts')
-  assert.match(portfolio, /slug: 'saas-de-suporte'/)
-  assert.equal(/pagePath:\s*'\/projetos\/saas-de-suporte\//.test(portfolio), false)
-  assert.equal(/saas-de-suporte/.test(routes), false)
+
+  assert.equal(portfolio.includes('SaaS de Suporte'), false)
+  assert.equal(display.includes('SaaS de Suporte'), false)
+  assert.equal(/slug:\s*'saas-de-suporte'/.test(portfolio), false)
+  assert.equal(/slug:\s*'saas-de-suporte'/.test(display), false)
+
+  assert.match(portfolio, /name: 'Sistema Modular \/ Barthy Flow'/)
+  assert.match(portfolio, /slug: 'sistema-modular-barthy-flow'/)
+
+  assert.equal(/pagePath:\s*'\/projetos\/sistema-modular-barthy-flow\//.test(portfolio), false)
+  assert.equal(/sistema-modular-barthy-flow/.test(routes), false)
 })
 
 test('public URL configuration rejects localhost targets', async () => {
@@ -351,7 +360,7 @@ test('public URL configuration rejects localhost targets', async () => {
 })
 
 test('validation product remains explicit about its modular and non-final state', async () => {
-  const editorial = await source('src/content/displayProjects.ts')
+  const editorial = await source('src/content/portfolio.ts')
   assert.match(editorial, /Sistema Modular \/ Barthy Flow/)
   for (const term of ['Módulo Oficina', 'Atendimentos e histórico operacional', 'WhatsApp contextual', 'Geração de orçamento']) {
     assert.match(editorial, new RegExp(term))
