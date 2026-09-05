@@ -63,7 +63,6 @@ export default function EducationExperience({ detailed = false }: { detailed?: b
     description: entry.organization ? `${entry.organization} · ${entry.description}` : entry.description,
     meta: entry.meta,
     details: detailed && entry.details ? entry.details : undefined,
-    muted: entry.milestone,
   }))
 
   return (
