@@ -1,7 +1,7 @@
 declare const __PORTFOLIO_HAS_RESUME__: boolean
 
 const canonicalUrl = 'https://gabrielbrasil.dev/'
-const email = 'contato.barthywebstudio@gmail.com'
+const email = 'g4brielbr4sil@gmail.com'
 const linkedin = 'https://www.linkedin.com/in/gabrielbrasildev'
 const github = 'https://github.com/g4brielbr4sil'
 
@@ -51,7 +51,7 @@ export const site = {
     linkedin,
     github,
     hermes: 'https://hermes-agent-01l.pages.dev/',
-    pnqc: 'https://levens-qualifica-pnqc.pages.dev/',
+    pnqc: 'https://www.pnqc.com.br/',
     barthyV2: 'https://github.com/g4brielbr4sil/barthy-web-studio-v2',
   },
   resume: {
