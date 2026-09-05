@@ -53,6 +53,12 @@ export const site = {
     hermes: 'https://hermes-agent-01l.pages.dev/',
     pnqc: 'https://www.pnqc.com.br/',
     barthyV2: 'https://github.com/g4brielbr4sil/barthy-web-studio-v2',
+    certifications: {
+      englishB2: 'https://www.credly.com/badges/7bae724f-d5f3-4e19-b26d-1da1d43d5659/linked_in_profile',
+      promptEngineering: 'https://www3.cruzeirodosulvirtual.com.br/badges/exibir/21186462-904d-4f54-8d4a-2a994a8382cc',
+      responsibleAI: 'https://www3.cruzeirodosulvirtual.com.br/badges/exibir/aa1253e1-4ded-4c99-9ec9-492bb6cd337d',
+      englishIT1: 'https://www.credly.com/badges/8c3d70fc-7887-4142-afbb-d4ae2f05ca3d/linked_in_profile',
+    },
   },
   resume: {
     path: '/curriculo-gabriel-brasil.pdf',
