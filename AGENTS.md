@@ -2,34 +2,24 @@
 
 Este repositório contém o portfólio profissional de Gabriel Brasil.
 
-## Tarefa ativa
-
-Trabalhe na issue #10:
-
-`feat: rodada completa de evolução do portfólio, SEO, IA, currículo e contato`
-
-Branch obrigatória:
-
-`feat/portfolio-polish-round-2`
-
-Não faça commits diretamente na `main` e não faça merge automático.
-
 ## Posicionamento
 
 Apresentar Gabriel Brasil como:
 
-**Analista de Sistemas e Desenvolvedor**
+**Desenvolvedor Full Stack e Analista de Sistemas**
 
-Não usar “estudante” como título principal. A formação acadêmica deve permanecer apenas na seção de formação.
+Não usar “estudante” como título principal. A formação acadêmica deve permanecer na seção de formação.
 
-## Regras de verdade
+## Prioridades de verdade e consistência
 
 - Não inventar experiências, métricas, usuários, clientes, resultados ou certificações.
 - Não inventar URLs, capturas, endpoints ou funcionalidades concluídas.
-- Não publicar capturas reais do Hermes nesta rodada.
-- Não publicar dados pessoais, financeiros, bancos, tokens ou arquivos `.env`.
-- Não criar PDF de currículo vazio ou fictício.
-- Quando faltar um arquivo, domínio, segredo ou conta, implementar o comportamento seguro e registrar a pendência.
+- Diferenciar claramente produto implementado, recurso em evolução e ideia em validação.
+- Não afirmar que Gabriel desenvolveu diretamente sistemas em que sua atuação foi de análise, requisitos, testes e homologação.
+- No PNQC, não tratar certificados, badges ou verificação pública como concluídos enquanto esses recursos seguirem em evolução.
+- No Hermes, preservar a distinção entre automação real, DryRun, contato manual confirmado e futura comunicação externa automatizada.
+- Não publicar dados pessoais, financeiros, bancos, tokens, credenciais ou arquivos `.env`.
+- Não criar currículo, métricas ou evidências fictícias.
 
 ## Identidade visual
 
@@ -39,12 +29,12 @@ Preservar a direção atual:
 - preto e creme
 - tipografia forte
 - movimentos discretos
-- cards arredondados
-- capturas reais como evidência
+- composição responsiva
+- capturas reais somente quando sanitizadas e apropriadas
 
-Não redesenhar o produto do zero.
+Não redesenhar o produto do zero sem solicitação explícita.
 
-## Stack
+## Stack principal
 
 - React
 - TypeScript
@@ -52,89 +42,99 @@ Não redesenhar o produto do zero.
 - Tailwind CSS
 - Motion
 - Radix UI
-- Phosphor Icons
-- pnpm
+- Python
+- FastAPI
+- SQL
+- Docker
+- Git e GitHub
 - Cloudflare Pages
 
 Não adicionar framework pesado sem justificar tecnicamente.
 
-## Dados e links atuais
+## Dados e links canônicos
 
-- Site: `https://portfolio-gabriel-brasil.pages.dev/`
+- Site: `https://gabrielbrasil.dev/`
 - LinkedIn: `https://www.linkedin.com/in/gabrielbrasildev`
 - GitHub: `https://github.com/g4brielbr4sil`
 - E-mail: `g4brielbr4sil@gmail.com`
 - Hermes: `https://hermes-agent-01l.pages.dev/`
-- PNQC: `https://levens-qualifica-pnqc.pages.dev/`
-- Barthy V2: `https://github.com/g4brielbr4sil/barthy-web-studio-v2`
-- Barthy V1: `https://barthy-web-studio.pages.dev/`
-- Barthy V1 GitHub: `https://github.com/g4brielbr4sil/barthy-web-studio`
+- PNQC: `https://www.pnqc.com.br/`
+- Barthy Web Studio: `https://github.com/g4brielbr4sil/barthy-web-studio-v2`
 
-Centralize essas informações em uma única configuração. Não replique strings de URL pelo projeto.
+Centralize URLs públicas em `src/config/site.ts`. Evite replicar strings pelo projeto.
+
+## Projetos prioritários
+
+O portfólio deve priorizar como cases principais:
+
+1. Hermes Command Center
+2. PNQC
+3. Barthy Web Studio
+
+Projetos em pesquisa ou validação não devem receber o mesmo peso visual de produtos já implementados.
+
+## Experiência profissional
+
+### Levens · Desenvolvedor Júnior
+
+Período de referência: `mar. 2026 a ago. 2026`.
+
+- PNQC: desenvolvimento e publicação da plataforma.
+- eCuid e demais portais: análise de sistemas, requisitos, regras de negócio, testes, homologação e acompanhamento de correções.
+- Não afirmar que Gabriel desenvolveu diretamente o eCuid.
+
+### Acclivity · Estagiário de Desenvolvimento de Jogos
+
+Período de referência: `jan. 2023 a jun. 2023`.
+
+- prototipação de telas
+- fluxos de navegação
+- lógica de programação
+- desenvolvimento web e interface na fase inicial do produto
 
 ## Currículo
 
-O caminho reservado é:
+O arquivo público é:
 
 `public/curriculo-gabriel-brasil.pdf`
 
-Enquanto o arquivo não existir, os CTAs devem permanecer ocultos e nenhum link pode retornar 404.
+Os CTAs só devem aparecer quando o arquivo estiver disponível.
 
 ## Contato
 
 O formulário deve funcionar com fallback por e-mail quando nenhum endpoint estiver configurado.
 
-- `VITE_CONTACT_ENDPOINT` pode conter somente uma URL pública.
-- Segredos de provedor devem existir apenas no servidor ou no ambiente da Cloudflare.
-- Não escolha nem simule um provedor sem configuração real.
+- `VITE_CONTACT_ENDPOINT` aceita somente URL pública.
+- Segredos de provedor ficam somente no servidor ou ambiente de deploy.
+- Não simular provedor ou endpoint inexistente.
 
-## Capturas
+## Capturas e privacidade
 
-Barthy V2 e PNQC usam capturas reais.
-
-- Não reconstruir as interfaces.
-- Não usar inversão de cores.
-- Não criar pares de tema inexistentes.
+- PNQC pode usar capturas reais sanitizadas.
+- Hermes deve preservar dados demonstrativos ou composição sanitizada, sem expor a operação real.
+- Barthy Web Studio pode usar capturas reais do próprio projeto.
 - Preservar proporção e legibilidade.
-- Usar AVIF com WebP fallback.
-
-Hermes deve continuar com apresentação abstrata e estudo de caso textual.
+- Preferir AVIF com WebP fallback quando aplicável.
 
 ## SEO e descoberta
-
-O conteúdo importante deve possuir URLs públicas estáveis e HTML rastreável.
 
 Priorizar:
 
 - títulos e descrições exclusivos
-- canonical
+- canonical em `https://gabrielbrasil.dev/`
 - sitemap
 - robots
 - links internos com `<a href>`
-- páginas públicas dos projetos
+- páginas públicas dos cases
 - JSON-LD factual
 - breadcrumbs
 - Open Graph
 - Twitter Card
-- OAI-SearchBot permitido
 - `llms.txt` complementar
-
-`llms.txt` não substitui sitemap, HTML semântico, links internos ou conteúdo público.
-
-Não alterar a política de GPTBot sem registrar a decisão.
 
 ## Qualidade
 
-Antes de começar:
-
-```bash
-pnpm install --frozen-lockfile
-pnpm typecheck
-pnpm test
-pnpm build
-```
-
-Antes de entregar:
+Antes de entregar mudanças relevantes:
 
 ```bash
 pnpm typecheck
@@ -143,7 +143,7 @@ pnpm build
 pnpm check
 ```
 
-Corrigir erros e warnings relevantes. Não silenciar TypeScript com `any`, `@ts-ignore` ou casts inseguros sem justificativa.
+Não silenciar TypeScript com `any`, `@ts-ignore` ou casts inseguros sem justificativa.
 
 ## Acessibilidade
 
@@ -154,22 +154,20 @@ Garantir:
 - landmarks
 - skip link
 - headings corretos
-- Dialog com retorno de foco
+- retorno de foco em dialogs
 - `prefers-reduced-motion`
 - áreas de toque de pelo menos 44px
 - formulário com labels e mensagens acessíveis
 - ausência de overflow horizontal em 320px
 
-## Entrega
+## Git e entrega
 
-Abrir uma PR para `main` e manter o merge manual.
+Respeitar a estratégia de branch definida pela tarefa em andamento. Não assumir branch, issue ou PR antiga como instrução permanente.
 
-O relatório deve separar claramente:
+O relatório de entrega deve separar:
 
 - o que foi implementado
 - o que foi validado
-- o que depende de arquivo ou credencial do usuário
+- o que depende de arquivo ou credencial externa
 - o que permaneceu fora do escopo
-- resultados dos testes e build
-- mudanças de bundle e performance
-- URL do preview da Cloudflare, quando disponível
+- resultados de testes e build
