@@ -261,10 +261,10 @@ test('projects follow the video grid, expansion and accessible modal structure',
   assert.match(modal, /ProjectTechTicker/)
   assert.match(await source('src/components/projects/ProjectTechTicker.tsx'), /TechnologyIcon/)
   assert.match(await source('src/components/projects/TechnologyIcon.tsx'), /SiFastapi/)
-  assert.match(display, /\[barthy, pnqc, hermes, radar, supportSaas\]/)
+  assert.match(display, /export \{ projects as displayProjects \} from '@\/content\/portfolio'/)
   const portfolio = await source('src/content/portfolio.ts')
   assert.match(portfolio, /slug: 'radar-df'[\s\S]*previewThemes: radarPreviews/)
-  assert.match(portfolio, /slug: 'saas-de-suporte'[\s\S]*previewThemes: modularPreviews/)
+  assert.match(portfolio, /slug: 'sistema-modular-barthy-flow'[\s\S]*previewThemes: modularPreviews/)
 })
 
 test('about follows the flat biography and hobbies composition from the video', async () => {
@@ -306,14 +306,63 @@ test('home closes with the reference footer while the contact route retains the 
   assert.match(contactPage, /<Contact showFooter=\{false\} \/>/)
 })
 
+test('professional positioning stays consistent as Full Stack Developer and Systems Analyst', async () => {
+  const site = await source('src/config/site.ts')
+  const routes = await source('src/config/routes.ts')
+  const metadata = await source('src/seo/metadata.ts')
+  const manifest = await source('public/site.webmanifest')
+  const prerender = await source('scripts/prerender.mjs')
+  const contact = await source('src/components/Contact.tsx')
+  const hero = await source('src/components/Hero.tsx')
+  const footer = await source('src/components/Footer.tsx')
+
+  for (const file of [site, routes, metadata, manifest, prerender, contact]) {
+    assert.match(file, /Desenvolvedor Full Stack e Analista de Sistemas/)
+    assert.equal(file.includes('Analista de Sistemas e Desenvolvedor'), false)
+  }
+  assert.match(hero, /Desenvolvedor Full Stack e Analista de Sistemas/)
+  assert.match(footer, /Desenvolvedor Full Stack e Analista de Sistemas/)
+})
+
+test('legacy Barthy Web Studio V1 public CTA stays removed', async () => {
+  const files = await Promise.all([
+    'src/config/site.ts',
+    'src/content/portfolio.ts',
+    'src/content/displayProjects.ts',
+    'src/components/Projects.tsx',
+    'src/components/projects/ProjectCaseStudyDialog.tsx',
+  ].map(source))
+  const combined = files.join('\n')
+  assert.equal(combined.includes('Abrir versão pública V1'), false)
+  assert.equal(/barthy-web-studio\.pages\.dev/.test(combined), false)
+})
+
+test('Sistema Modular / Barthy Flow is the single source of truth with no legacy SaaS de Suporte identity or invented route', async () => {
+  const portfolio = await source('src/content/portfolio.ts')
+  const display = await source('src/content/displayProjects.ts')
+  const routes = await source('src/config/routes.ts')
+
+  assert.equal(portfolio.includes('SaaS de Suporte'), false)
+  assert.equal(display.includes('SaaS de Suporte'), false)
+  assert.equal(/slug:\s*'saas-de-suporte'/.test(portfolio), false)
+  assert.equal(/slug:\s*'saas-de-suporte'/.test(display), false)
+
+  assert.match(portfolio, /name: 'Sistema Modular \/ Barthy Flow'/)
+  assert.match(portfolio, /slug: 'sistema-modular-barthy-flow'/)
+
+  assert.equal(/pagePath:\s*'\/projetos\/sistema-modular-barthy-flow\//.test(portfolio), false)
+  assert.equal(/sistema-modular-barthy-flow/.test(routes), false)
+})
+
 test('public URL configuration rejects localhost targets', async () => {
   const site = await source('src/config/site.ts')
   assert.match(site, /\['localhost', '127\.0\.0\.1', '::1'\]/)
 })
 
 test('validation product remains explicit about its modular and non-final state', async () => {
-  const editorial = await source('src/content/displayProjects.ts')
-  for (const term of ['CRM e relacionamento', 'Atendimento por WhatsApp', 'Check-ins e rotinas', 'Oficina e operação']) {
+  const editorial = await source('src/content/portfolio.ts')
+  assert.match(editorial, /Sistema Modular \/ Barthy Flow/)
+  for (const term of ['Módulo Oficina', 'Atendimentos e histórico operacional', 'WhatsApp contextual', 'Geração de orçamento']) {
     assert.match(editorial, new RegExp(term))
   }
   assert.match(editorial, /sem aplicação pública/)

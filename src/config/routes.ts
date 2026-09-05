@@ -15,9 +15,9 @@ const fixedRoutes: PortfolioRoute[] = [
   {
     path: '/',
     kind: 'home',
-    title: 'Gabriel Brasil | Analista de Sistemas e Desenvolvedor',
+    title: 'Gabriel Brasil | Desenvolvedor Full Stack e Analista de Sistemas',
     description:
-      'Portfólio de Gabriel Brasil, Analista de Sistemas e Desenvolvedor em Brasília. Projetos Full Stack, APIs, automações, integrações e produtos digitais.',
+      'Portfólio de Gabriel Brasil, Desenvolvedor Full Stack e Analista de Sistemas em Brasília, DF. Projetos Full Stack com interfaces, APIs, dados, automações e integrações.',
     indexable: true,
   },
   {

@@ -31,10 +31,10 @@ function readOptionalPublicUrl(value: string | undefined, variableName: string) 
 
 export const site = {
   name: 'Gabriel Brasil',
-  title: 'Gabriel Brasil | Analista de Sistemas e Desenvolvedor',
-  role: 'Analista de Sistemas e Desenvolvedor',
+  title: 'Gabriel Brasil | Desenvolvedor Full Stack e Analista de Sistemas',
+  role: 'Desenvolvedor Full Stack e Analista de Sistemas',
   description:
-    'Portfólio de Gabriel Brasil, Analista de Sistemas e Desenvolvedor em Brasília. Projetos Full Stack, APIs, automações, integrações e produtos digitais.',
+    'Portfólio de Gabriel Brasil, Desenvolvedor Full Stack e Analista de Sistemas em Brasília, DF. Projetos Full Stack com interfaces, APIs, dados, automações e integrações.',
   canonicalUrl,
   location: {
     city: 'Brasília',
@@ -53,19 +53,13 @@ export const site = {
     hermes: 'https://hermes-agent-01l.pages.dev/',
     pnqc: 'https://levens-qualifica-pnqc.pages.dev/',
     barthyV2: 'https://github.com/g4brielbr4sil/barthy-web-studio-v2',
-    credentials: {
-      promptEngineering:
-        'https://www3.cruzeirodosulvirtual.com.br/badges/exibir/21186462-904d-4f54-8d4a-2a994a8382cc',
-      responsibleAi:
-        'https://www3.cruzeirodosulvirtual.com.br/badges/exibir/aa1253e1-4ded-4c99-9ec9-492bb6cd337d',
-    },
   },
   resume: {
     path: '/curriculo-gabriel-brasil.pdf',
     downloadName: 'Gabriel-Brasil-Curriculo.pdf',
     available: __PORTFOLIO_HAS_RESUME__,
   },
-  socialImage: '/og-image.svg',
+  socialImage: '/og-image.png',
   sameAs: [linkedin, github],
   verification: {
     google: import.meta.env.VITE_GOOGLE_SITE_VERIFICATION?.trim() || null,

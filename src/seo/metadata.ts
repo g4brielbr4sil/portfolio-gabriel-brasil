@@ -119,11 +119,12 @@ export function renderMetadata(route: PortfolioRoute) {
     <meta property="og:image" content="${socialImage}" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Gabriel Brasil, Analista de Sistemas e Desenvolvedor" />
+    <meta property="og:image:alt" content="Gabriel Brasil, Desenvolvedor Full Stack e Analista de Sistemas" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${title}" />
     <meta name="twitter:description" content="${description}" />
     <meta name="twitter:image" content="${socialImage}" />
+    <meta name="twitter:image:alt" content="Gabriel Brasil, Desenvolvedor Full Stack e Analista de Sistemas" />
     ${verification}
     <script type="application/ld+json">${jsonLd}</script>`
 }
