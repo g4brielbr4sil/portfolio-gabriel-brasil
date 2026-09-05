@@ -43,6 +43,20 @@ test('configured endpoint reports network failures', async () => {
   )
 })
 
+test('configured endpoint receives only the known contact fields, with no extra keys', async () => {
+  let sentBody: unknown = null
+  const fetcher = async (_input: RequestInfo | URL, init?: RequestInit) => {
+    sentBody = JSON.parse(String(init?.body ?? '{}'))
+    return new Response(JSON.stringify({ ok: true }), { status: 200 })
+  }
+  await submitContactRequest('/api/contact', valid, { fetcher: fetcher as typeof fetch })
+  assert.deepEqual(Object.keys(sentBody as object).sort(), ['email', 'message', 'name', 'subject', 'website'])
+  assert.equal((sentBody as ContactPayload).subject, valid.subject)
+  assert.equal((sentBody as ContactPayload).message, valid.message)
+  assert.equal((sentBody as ContactPayload).email, valid.email)
+  assert.equal((sentBody as ContactPayload).website, '')
+})
+
 test('configured endpoint aborts after the timeout', async () => {
   const fetcher = (_input: RequestInfo | URL, init?: RequestInit) => new Promise<Response>((_resolve, reject) => {
     init?.signal?.addEventListener('abort', () => reject(new DOMException('aborted', 'AbortError')), { once: true })

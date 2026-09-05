@@ -306,6 +306,45 @@ test('home closes with the reference footer while the contact route retains the 
   assert.match(contactPage, /<Contact showFooter=\{false\} \/>/)
 })
 
+test('professional positioning stays consistent as Full Stack Developer and Systems Analyst', async () => {
+  const site = await source('src/config/site.ts')
+  const routes = await source('src/config/routes.ts')
+  const metadata = await source('src/seo/metadata.ts')
+  const manifest = await source('public/site.webmanifest')
+  const prerender = await source('scripts/prerender.mjs')
+  const contact = await source('src/components/Contact.tsx')
+  const hero = await source('src/components/Hero.tsx')
+  const footer = await source('src/components/Footer.tsx')
+
+  for (const file of [site, routes, metadata, manifest, prerender, contact]) {
+    assert.match(file, /Desenvolvedor Full Stack e Analista de Sistemas/)
+    assert.equal(file.includes('Analista de Sistemas e Desenvolvedor'), false)
+  }
+  assert.match(hero, /Desenvolvedor Full Stack e Analista de Sistemas/)
+  assert.match(footer, /Desenvolvedor Full Stack e Analista de Sistemas/)
+})
+
+test('legacy Barthy Web Studio V1 public CTA stays removed', async () => {
+  const files = await Promise.all([
+    'src/config/site.ts',
+    'src/content/portfolio.ts',
+    'src/content/displayProjects.ts',
+    'src/components/Projects.tsx',
+    'src/components/projects/ProjectCaseStudyDialog.tsx',
+  ].map(source))
+  const combined = files.join('\n')
+  assert.equal(combined.includes('Abrir versão pública V1'), false)
+  assert.equal(/barthy-web-studio\.pages\.dev/.test(combined), false)
+})
+
+test('legacy SaaS de Suporte project has no dangling public route or sitemap entry', async () => {
+  const portfolio = await source('src/content/portfolio.ts')
+  const routes = await source('src/config/routes.ts')
+  assert.match(portfolio, /slug: 'saas-de-suporte'/)
+  assert.equal(/pagePath:\s*'\/projetos\/saas-de-suporte\//.test(portfolio), false)
+  assert.equal(/saas-de-suporte/.test(routes), false)
+})
+
 test('public URL configuration rejects localhost targets', async () => {
   const site = await source('src/config/site.ts')
   assert.match(site, /\['localhost', '127\.0\.0\.1', '::1'\]/)
@@ -313,7 +352,8 @@ test('public URL configuration rejects localhost targets', async () => {
 
 test('validation product remains explicit about its modular and non-final state', async () => {
   const editorial = await source('src/content/displayProjects.ts')
-  for (const term of ['CRM e relacionamento', 'Atendimento por WhatsApp', 'Check-ins e rotinas', 'Oficina e operação']) {
+  assert.match(editorial, /Sistema Modular \/ Barthy Flow/)
+  for (const term of ['Módulo Oficina', 'Atendimentos e histórico operacional', 'WhatsApp contextual', 'Geração de orçamento']) {
     assert.match(editorial, new RegExp(term))
   }
   assert.match(editorial, /sem aplicação pública/)

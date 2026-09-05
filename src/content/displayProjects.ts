@@ -4,19 +4,19 @@ const [barthy, pnqc, hermes, radar, supportBase] = projects
 
 const supportSaas: Project = {
   ...supportBase,
-  name: 'Sistema modular em validação',
+  name: 'Sistema Modular / Barthy Flow',
   status: 'Produto em validação',
   statusTooltip:
-    'Visão de produto em validação. A tela oficial demonstra a direção da interface sem declarar uma aplicação pública pronta.',
+    'Visão de produto em validação. O primeiro contexto real é o Módulo Oficina; a tela oficial demonstra a direção da interface sem declarar uma aplicação pública pronta.',
   description:
-    'Produto operacional modular pensado para centralizar relacionamento, atendimento e rotinas de pequenos negócios, conectando CRM, WhatsApp, check-ins, operação, suporte e acompanhamento conforme o contexto de uso.',
+    'Produto operacional modular com o Módulo Oficina como primeiro contexto real: atendimentos, clientes, histórico operacional, WhatsApp contextual, orçamento e check-in, pensado para se estender a outras rotinas de pequenos negócios.',
   highlightsLabel: 'Frentes em validação',
   highlights: [
-    'CRM e relacionamento',
-    'Atendimento por WhatsApp',
-    'Check-ins e rotinas',
-    'Oficina e operação',
-    'Suporte e acompanhamento',
+    'Atendimentos e histórico operacional',
+    'CRM e relacionamento com clientes',
+    'WhatsApp contextual',
+    'Geração de orçamento',
+    'Check-ins e rotinas (Módulo Oficina)',
     'Módulos conectáveis',
   ],
   techLabel: 'Arquitetura em validação',
@@ -25,21 +25,21 @@ const supportSaas: Project = {
     category: 'Produto SaaS em validação',
     status: 'Arquitetura modular em validação, sem aplicação pública',
     context:
-      'Visão de produto para operações de serviço que hoje distribuem clientes, retornos, mensagens, check-ins e rotinas entre ferramentas isoladas.',
+      'O Módulo Oficina é o primeiro contexto real do Sistema Modular / Barthy Flow: atendimentos, clientes, histórico operacional, WhatsApp contextual, orçamento e check-in em um mesmo fluxo, pensado para se estender a outras operações de serviço.',
     problem:
-      'Organizar diferentes necessidades operacionais em módulos conectáveis, mantendo o sistema simples de evoluir.',
+      'Organizar atendimentos, clientes e retornos que hoje ficam espalhados entre mensagens e planilhas em módulos conectáveis, mantendo o sistema simples de evoluir para outros contextos além da oficina.',
     role: 'Estruturação do problema, visão de produto e arquitetura inicial dos módulos.',
     decisions: [
-      'CRM e relacionamento como base comum entre módulos.',
-      'WhatsApp tratado como canal de operação e retorno, não como sistema isolado.',
-      'Check-ins, rotina, oficina/operação e suporte concebidos como módulos ativáveis por contexto.',
+      'Atendimentos e histórico operacional como base comum entre módulos.',
+      'WhatsApp tratado como canal contextual de operação e retorno, não como sistema isolado.',
+      'Módulo Oficina como primeiro contexto validado, com orçamento e check-in como fluxos concretos.',
       'Apresentação pública limitada ao estágio real de validação.',
     ],
     features: [
-      'CRM e relacionamento planejados',
-      'Atendimento e retornos por WhatsApp planejados',
-      'Check-ins e rotinas planejados',
-      'Módulos para operação, oficina, suporte e acompanhamento',
+      'Atendimentos e histórico operacional por cliente',
+      'WhatsApp contextual integrado ao atendimento',
+      'Geração de orçamento e agendamento de check-in (Módulo Oficina)',
+      'Módulos conectáveis para operação, suporte e acompanhamento',
     ],
     challenges: [
       'Definir um núcleo comum que funcione para negócios de serviço diferentes.',

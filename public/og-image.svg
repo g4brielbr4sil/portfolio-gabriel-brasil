@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
-  <title id="title">Gabriel Brasil, Analista de Sistemas e Desenvolvedor</title>
+  <title id="title">Gabriel Brasil, Desenvolvedor Full Stack e Analista de Sistemas</title>
   <desc id="desc">Imagem social do portfólio profissional de Gabriel Brasil.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
@@ -21,7 +21,8 @@
   <rect x="42" y="42" width="1116" height="546" rx="32" fill="none" stroke="#dedbc8" stroke-opacity=".16"/>
   <text x="78" y="112" fill="#dedbc8" fill-opacity=".58" font-family="Arial, sans-serif" font-size="20" letter-spacing="5">PORTFÓLIO PROFISSIONAL · BRASÍLIA</text>
   <text x="72" y="312" fill="#e1e0cc" font-family="Arial, sans-serif" font-size="102" font-weight="700" letter-spacing="-5">Gabriel Brasil</text>
-  <text x="78" y="374" fill="#dedbc8" fill-opacity=".82" font-family="Arial, sans-serif" font-size="32">Analista de Sistemas e Desenvolvedor</text>
+  <text x="78" y="364" fill="#dedbc8" fill-opacity=".88" font-family="Arial, sans-serif" font-size="34" font-weight="600">Desenvolvedor Full Stack</text>
+  <text x="78" y="404" fill="#dedbc8" fill-opacity=".88" font-family="Arial, sans-serif" font-size="34" font-weight="600">Analista de Sistemas</text>
   <text x="78" y="456" fill="#dedbc8" fill-opacity=".58" font-family="Arial, sans-serif" font-size="24">Sistemas · APIs · Automações · Integrações · Produtos digitais</text>
   <g transform="translate(918 408)">
     <circle cx="90" cy="64" r="58" fill="none" stroke="#dedbc8" stroke-opacity=".2"/>

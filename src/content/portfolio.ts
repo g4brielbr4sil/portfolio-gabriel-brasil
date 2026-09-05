@@ -245,7 +245,7 @@ export const projects: Project[] = [
     techExtra: ['Alembic', 'Uvicorn', 'Pydantic', 'HTTPX', 'JWT', 'Recharts', 'dnd-kit', 'Ubuntu', 'AWS Lightsail'],
     links: [
       {
-        label: 'Abrir interface protegida',
+        label: 'Interface privada (login necessário)',
         href: site.urls.hermes,
         external: true,
       },
@@ -285,7 +285,7 @@ export const projects: Project[] = [
       nextSteps: ['Continuar a evolução das integrações e publicar apenas demonstrações sem dados privados.'],
       links: [
         {
-          label: 'Abrir interface protegida',
+          label: 'Interface privada (login necessário)',
           href: site.urls.hermes,
           external: true,
         },
@@ -405,54 +405,19 @@ export const pillars = [
   },
 ]
 
-export const mainStack = ['React', 'TypeScript', 'Python', 'FastAPI', 'SQLAlchemy', 'SQLite', 'PostgreSQL', 'Docker']
-
-export const stackGroups: { category: string; items: string[]; note?: string }[] = [
-  {
-    category: 'Front-end e aplicações web',
-    items: ['HTML5', 'CSS3', 'JavaScript', 'TypeScript', 'React', 'Vite', 'React Router'],
-  },
-  {
-    category: 'Interface e experiência',
-    items: ['Tailwind CSS', 'Material UI', 'Emotion', 'Radix UI', 'React Hook Form', 'Motion', 'Anime.js', 'Recharts', 'dnd-kit', 'Phosphor Icons'],
-  },
-  {
-    category: 'Back-end e APIs',
-    items: ['Python', 'FastAPI', 'Uvicorn', 'Pydantic', 'SQLAlchemy', 'Alembic', 'HTTPX', 'APIs REST'],
-  },
-  {
-    category: 'Dados, autenticação e segurança',
-    items: ['SQLite', 'PostgreSQL', 'Supabase Auth', 'Funções RPC', 'JWT', 'OAuth', 'bcrypt', 'Cryptography', 'WebAuthn', 'CORS'],
-    note: 'Supabase Auth aparece especificamente como tecnologia aplicada no PNQC.',
-  },
-  {
-    category: 'Infraestrutura e entrega',
-    items: ['Git', 'GitHub', 'GitHub Actions', 'Docker', 'Docker Compose', 'Linux', 'Ubuntu', 'AWS', 'Amazon Lightsail', 'Cloudflare Pages', 'CI/CD'],
-  },
-  {
-    category: 'Qualidade e testes',
-    items: ['TypeScript typecheck', 'Ruff', 'unittest', 'Build automatizado', 'Auditoria de dependências', 'Scripts de validação', 'Migrations controladas', 'Backup e rollback'],
-  },
-  {
-    category: 'Automações, integrações e produtividade',
-    items: ['n8n', 'Webhooks', 'Telegram', 'Figma', 'GitHub Copilot', 'GitHub Codespaces'],
-  },
-]
-
-export const evolvingStack = ['Next.js', 'PHP', 'Laravel', 'Bootstrap', 'Sass']
-
 export const experience = [
   {
     role: 'Desenvolvedor Júnior',
     organization: 'Levens',
     description:
-      'Desenvolvimento e evolução de aplicações do ecossistema de cuidados, com interfaces, APIs, automações, testes e suporte a produção.',
+      'Desenvolvimento e evolução de aplicações web e sistemas internos do ecossistema Levens, atuando com React, TypeScript, Vite, APIs REST, Supabase/PostgreSQL, autenticação, controle de acesso, automações, testes e suporte à produção.',
     meta: 'jun. 2025 a ago. 2026',
     details: [
-      'Desenvolvimento com React, TypeScript e Vite, integração com APIs REST, autenticação e controle de acesso.',
-      'Testes, homologação, deploy na Cloudflare Pages e suporte a sistemas em produção.',
+      'Desenvolvimento de interfaces responsivas e fluxos de autenticação e perfis com React, TypeScript e Vite, integrados a APIs REST.',
+      'Implementação e evolução do PNQC com Supabase Auth/PostgreSQL, controle de acesso por perfil, progresso educacional e validação de fluxos.',
+      'Investigação e correção de bugs, testes, homologação, documentação técnica, Git/GitHub e deploy via Cloudflare Pages.',
     ],
-    skills: ['React', 'TypeScript', 'Vite', 'APIs REST', 'Autenticação', 'Cloudflare Pages'],
+    skills: ['React', 'TypeScript', 'Vite', 'APIs REST', 'Supabase Auth', 'PostgreSQL', 'Git/GitHub', 'Cloudflare Pages'],
   },
   {
     role: 'Estagiário de Desenvolvimento de Jogos',
@@ -464,7 +429,7 @@ export const experience = [
       'Estágio híbrido em Brasília, Distrito Federal, Brasil.',
       'Contato prático com desenvolvimento web, lógica de programação, design de interfaces e organização de projetos digitais.',
     ],
-    skills: ['Automação de processos', 'TypeScript'],
+    skills: ['Desenvolvimento web', 'Lógica de programação', 'Design de interfaces', 'Organização de projetos digitais'],
   },
   {
     role: 'Hello, World!',
@@ -474,6 +439,17 @@ export const experience = [
     skills: [],
   },
 ]
+
+export type Certification = {
+  title: string
+  institution: string
+  issued: string
+  description: string
+  skills: string[]
+  expired?: string
+  credentialCode?: string
+  credentialUrl?: string
+}
 
 export const education = {
   degree: {
@@ -503,7 +479,6 @@ export const education = {
       issued: 'ago. 2026',
       expired: 'Expirou em ago. de 2026',
       credentialCode: '21186462-904d-4f54-8d4a-2a994a8382cc',
-      credentialUrl: site.urls.credentials.promptEngineering,
       description: 'Engenharia de Prompt, pensamento crítico e colaboração com IA.',
       skills: ['Engenharia de Prompt', 'Pensamento crítico', 'Colaboração com IA'],
     },
@@ -513,9 +488,8 @@ export const education = {
       issued: 'ago. 2026',
       expired: 'Expirou em ago. de 2026',
       credentialCode: 'aa1253e1-4ded-4c99-9ec9-492bb6cd337d',
-      credentialUrl: site.urls.credentials.responsibleAi,
       description: 'IA fraca e forte, Machine Learning e responsabilidade digital.',
       skills: ['Diferenciação de IA Fraca e IA Forte', 'Machine Learning', 'Responsabilidade Digital'],
     },
-  ],
+  ] as Certification[],
 }

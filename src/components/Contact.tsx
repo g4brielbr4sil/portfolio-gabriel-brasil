@@ -66,7 +66,7 @@ export default function Contact({ showFooter = true }: { showFooter?: boolean })
 
       {showFooter && (
         <footer className="mx-auto mt-8 flex max-w-7xl flex-wrap items-center justify-between gap-3 px-2 pb-8 text-[11px] uppercase tracking-[0.18em] text-cream/30">
-          <span>Gabriel Brasil · Analista de Sistemas e Desenvolvedor</span>
+          <span>Gabriel Brasil · Desenvolvedor Full Stack e Analista de Sistemas</span>
           <span>Brasília · DF</span>
         </footer>
       )}
