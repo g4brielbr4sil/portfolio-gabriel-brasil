@@ -25,12 +25,15 @@ const item: Variants = {
 
 type TimelineEntry = {
   title: string
-  description: string
-  meta: string
+  metaLine: string
+  description?: string
   details?: string[]
   href?: string
   linkLabel?: string
-  muted?: boolean
+}
+
+function certificationYear(issued: string) {
+  return issued.match(/\b\d{4}\b/)?.[0] ?? issued
 }
 
 export default function EducationExperience({ detailed = false }: { detailed?: boolean }) {
@@ -38,13 +41,11 @@ export default function EducationExperience({ detailed = false }: { detailed?: b
   const educationTimeline: TimelineEntry[] = [
     {
       title: education.degree.shortTitle,
-      description: `${education.degree.kind} · ${education.degree.institution}`,
-      meta: '',
+      metaLine: `${education.degree.kind} · ${education.degree.institution}`,
     },
     ...education.certifications.map((certification) => ({
       title: certification.title,
-      description: certification.institution,
-      meta: certification.issued,
+      metaLine: `${certification.institution} · ${detailed ? certification.issued : certificationYear(certification.issued)}`,
       details: detailed
         ? [
             certification.description,
@@ -60,8 +61,8 @@ export default function EducationExperience({ detailed = false }: { detailed?: b
 
   const experienceTimeline: TimelineEntry[] = experience.map((entry) => ({
     title: entry.role,
-    description: entry.organization ? `${entry.organization} · ${entry.description}` : entry.description,
-    meta: entry.meta,
+    metaLine: entry.organization ? `${entry.organization} · ${entry.meta}` : entry.meta,
+    description: entry.description,
     details: detailed && entry.details ? entry.details : undefined,
   }))
 
@@ -132,22 +133,18 @@ function TimelineColumn({
           >
             <span
               className={`absolute -left-[5px] top-[5px] size-[9px] rounded-full ring-4 ring-[#020303] ${
-                index === 0 ? firstDot : entry.muted ? 'bg-white/38' : 'bg-white/65'
+                index === 0 ? firstDot : 'bg-white/65'
               }`}
               aria-hidden="true"
             />
 
-            <div className="flex items-start justify-between gap-4">
-              <div className="min-w-0">
-                <h3 className="text-[14px] font-semibold leading-snug text-white/90 sm:text-[15px] xl:text-base">
-                  {entry.title}
-                </h3>
-                <p className="mt-1 text-[14px] leading-[1.6] text-white/52 sm:text-[15px] xl:text-base">{entry.description}</p>
-              </div>
-              {entry.meta && (
-                <span className="max-w-[122px] shrink-0 pt-0.5 text-right font-mono text-[10px] uppercase tracking-[0.08em] text-white/40 sm:text-[11px] xl:max-w-[164px] xl:text-[12px]">
-                  {entry.meta}
-                </span>
+            <div className="min-w-0">
+              <h3 className="text-[14px] font-semibold leading-snug text-white/90 sm:text-[15px] xl:text-base">
+                {entry.title}
+              </h3>
+              <p className="mt-1 text-[14px] leading-[1.6] text-white/52 sm:text-[15px] xl:text-base">{entry.metaLine}</p>
+              {entry.description && (
+                <p className="mt-2 text-[14px] leading-[1.65] text-white/58 sm:text-[15px] xl:text-base">{entry.description}</p>
               )}
             </div>
 
