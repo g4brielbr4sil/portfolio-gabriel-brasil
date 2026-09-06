@@ -142,6 +142,16 @@ test('education and experience follow the two-column timeline gate', async () =>
   assert.equal(journey.includes('rounded-[1.5rem]'), false)
 })
 
+test('education and experience inline the date next to the institution instead of a separate column', async () => {
+  const journey = await source('src/components/EducationExperience.tsx')
+  assert.match(journey, /function yearOf/)
+  assert.equal(journey.includes('justify-between'), false)
+  assert.equal(/max-w-\[\d+px\][^`]*text-right/.test(journey), false)
+  assert.match(journey, /entry\.org/)
+  assert.match(journey, /entry\.dateLabel/)
+  assert.match(journey, /entry\.body/)
+})
+
 test('home section order matches the desktop navigation sequence', async () => {
   const home = await source('src/pages/HomePage.tsx')
   assert.ok(home.indexOf('<EducationExperience />') < home.indexOf('<Stack />'))
@@ -431,6 +441,22 @@ test('canonical SEO configuration points to the official gabrielbrasil.dev domai
 
   assert.match(routes, /indexable: false/)
   assert.equal(routes.match(/indexable: false/g)?.length, 1)
+})
+
+test('CI workflow pins third-party actions by commit SHA, not a mutable tag', async () => {
+  const ci = await source('.github/workflows/ci.yml')
+  const usesLines = [...ci.matchAll(/^\s*uses:\s*(\S+)/gm)].map((match) => match[1])
+  assert.ok(usesLines.length > 0)
+  for (const usesLine of usesLines) {
+    assert.match(usesLine, /@[0-9a-f]{40}$/, `${usesLine} não está fixado por SHA de commit`)
+  }
+  assert.match(ci, /permissions:\s*\n\s*contents: read/)
+})
+
+test('ProfilePage JSON-LD links the Person as mainEntity instead of a generic about reference', async () => {
+  const metadata = await source('src/seo/metadata.ts')
+  assert.match(metadata, /route\.kind === 'about'[\s\S]{0,80}mainEntity: \{ '@id': `\$\{site\.canonicalUrl\}#gabriel-brasil` \}/)
+  assert.match(metadata, /about: \{ '@id': `\$\{site\.canonicalUrl\}#gabriel-brasil` \}/)
 })
 
 test('project gallery thumbnail strip stays contained on narrow viewports', async () => {
