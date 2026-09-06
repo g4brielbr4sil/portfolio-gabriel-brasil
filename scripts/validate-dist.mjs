@@ -36,11 +36,25 @@ for (const route of data.routes) {
   descriptions.add(description)
   canonicals.add(canonical)
   assert.match(html, /property="og:title"/)
+  assert.match(html, /property="og:image:type" content="image\/png"/)
   assert.match(html, /name="twitter:card"/)
   assert.match(html, /application\/ld\+json/)
   assert.match(canonical, /^https:\/\/gabrielbrasil\.dev\//, `Canonical fora do domínio oficial em ${route.path}`)
   assert.match(html, /content="index, follow/, `Rota pública sem robots index em ${route.path}`)
   assert.equal(/localhost|127\.0\.0\.1/.test(html), false, `Referência a localhost/127.0.0.1 em ${route.path}`)
+
+  if (route.kind === 'about') {
+    assert.match(html, /"@type":"ProfilePage"/, 'A página Sobre precisa declarar ProfilePage')
+    assert.match(
+      html,
+      /"mainEntity":\{"@id":"https:\/\/gabrielbrasil\.dev\/#gabriel-brasil"\}/,
+      'ProfilePage precisa apontar para Gabriel Brasil como mainEntity',
+    )
+  }
+
+  if (route.indexable && route.path !== '/') {
+    assert.match(html, /"@type":"BreadcrumbList"/, `BreadcrumbList ausente em ${route.path}`)
+  }
 }
 
 const notFound = await readFile(path.join(dist, '404.html'), 'utf8')
