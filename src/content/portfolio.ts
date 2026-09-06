@@ -447,6 +447,14 @@ export const experience = [
     ],
     skills: ['Desenvolvimento web', 'Lógica de programação', 'Prototipação', 'Design de interface', 'Análise de sistemas'],
   },
+  {
+    role: 'Hello, World!',
+    organization: 'Marco pessoal',
+    description: 'Primeiros passos em programação e início da minha trajetória em tecnologia.',
+    meta: '2022',
+    details: [],
+    skills: [],
+  },
 ]
 
 export type Certification = {

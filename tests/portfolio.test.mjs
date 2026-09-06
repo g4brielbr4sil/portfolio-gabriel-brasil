@@ -135,11 +135,32 @@ test('education and experience follow the two-column timeline gate', async () =>
   assert.match(portfolio, /Desenvolvedor Júnior/)
   assert.match(portfolio, /meta: 'mar\. 2026 a ago\. 2026'/)
   assert.match(portfolio, /Acclivity/)
-  assert.equal(portfolio.includes('Hello, World!'), false)
   assert.equal(portfolio.includes('Expirou em ago. de 2026'), false)
   assert.equal(portfolio.includes('Cisco IT Essentials 1 e 2'), false)
   assert.equal(portfolio.includes('Conclusão prevista para dezembro de 2027'), false)
   assert.equal(journey.includes('rounded-[1.5rem]'), false)
+})
+
+test('experience timeline restores the "Hello, World!" personal milestone as the third entry, not a job', async () => {
+  const portfolio = await source('src/content/portfolio.ts')
+  const experienceBlockMatch = portfolio.match(/export const experience = \[([\s\S]*?)\n\]/)
+  assert.ok(experienceBlockMatch, 'experience array not found')
+  const experienceBlock = experienceBlockMatch[1]
+
+  const acclivityIndex = experienceBlock.indexOf("organization: 'Acclivity'")
+  const helloWorldIndex = experienceBlock.indexOf("role: 'Hello, World!'")
+  assert.ok(acclivityIndex > -1, 'Acclivity entry not found')
+  assert.ok(helloWorldIndex > acclivityIndex, 'Hello, World! must come after Acclivity')
+
+  const entries = experienceBlock.split(/\n  \{/).filter((chunk) => chunk.trim().length > 0)
+  assert.equal(entries.length, 3)
+  assert.match(entries[2], /role: 'Hello, World!'/)
+  assert.match(entries[2], /organization: 'Marco pessoal'/)
+  assert.match(entries[2], /meta: '2022'/)
+  assert.match(entries[2], /Primeiros passos em programação e início da minha trajetória em tecnologia\./)
+  assert.equal(entries[2].includes('cargo'), false)
+
+  assert.ok(portfolio.indexOf("role: 'Hello, World!'") < portfolio.indexOf('export const education'), 'Hello, World! must stay in experience, not education')
 })
 
 test('education and experience inline the date next to the institution instead of a separate column', async () => {
