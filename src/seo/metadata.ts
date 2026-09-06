@@ -86,7 +86,9 @@ function structuredData(route: PortfolioRoute) {
       url: canonical,
       inLanguage: 'pt-BR',
       isPartOf: { '@id': `${site.canonicalUrl}#website` },
-      about: { '@id': `${site.canonicalUrl}#gabriel-brasil` },
+      ...(route.kind === 'about'
+        ? { mainEntity: { '@id': `${site.canonicalUrl}#gabriel-brasil` } }
+        : { about: { '@id': `${site.canonicalUrl}#gabriel-brasil` } }),
     },
   ]
 

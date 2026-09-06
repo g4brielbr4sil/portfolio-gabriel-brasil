@@ -25,12 +25,17 @@ const item: Variants = {
 
 type TimelineEntry = {
   title: string
-  description: string
-  meta: string
+  org: string
+  dateLabel?: string
+  body?: string
   details?: string[]
   href?: string
   linkLabel?: string
   muted?: boolean
+}
+
+function yearOf(dateLabel: string) {
+  return dateLabel.match(/\d{4}/)?.[0] ?? dateLabel
 }
 
 export default function EducationExperience({ detailed = false }: { detailed?: boolean }) {
@@ -38,13 +43,12 @@ export default function EducationExperience({ detailed = false }: { detailed?: b
   const educationTimeline: TimelineEntry[] = [
     {
       title: education.degree.shortTitle,
-      description: `${education.degree.kind} · ${education.degree.institution}`,
-      meta: '',
+      org: `${education.degree.kind} · ${education.degree.institution}`,
     },
     ...education.certifications.map((certification) => ({
       title: certification.title,
-      description: certification.institution,
-      meta: certification.issued,
+      org: certification.institution,
+      dateLabel: detailed ? certification.issued : yearOf(certification.issued),
       details: detailed
         ? [
             certification.description,
@@ -60,8 +64,9 @@ export default function EducationExperience({ detailed = false }: { detailed?: b
 
   const experienceTimeline: TimelineEntry[] = experience.map((entry) => ({
     title: entry.role,
-    description: entry.organization ? `${entry.organization} · ${entry.description}` : entry.description,
-    meta: entry.meta,
+    org: entry.organization ?? '',
+    dateLabel: entry.meta,
+    body: entry.description,
     details: detailed && entry.details ? entry.details : undefined,
   }))
 
@@ -137,17 +142,20 @@ function TimelineColumn({
               aria-hidden="true"
             />
 
-            <div className="flex items-start justify-between gap-4">
-              <div className="min-w-0">
-                <h3 className="text-[14px] font-semibold leading-snug text-white/90 sm:text-[15px] xl:text-base">
-                  {entry.title}
-                </h3>
-                <p className="mt-1 text-[14px] leading-[1.6] text-white/52 sm:text-[15px] xl:text-base">{entry.description}</p>
-              </div>
-              {entry.meta && (
-                <span className="max-w-[122px] shrink-0 pt-0.5 text-right font-mono text-[10px] uppercase tracking-[0.08em] text-white/40 sm:text-[11px] xl:max-w-[164px] xl:text-[12px]">
-                  {entry.meta}
-                </span>
+            <div className="min-w-0">
+              <h3 className="text-[14px] font-semibold leading-snug text-white/90 sm:text-[15px] xl:text-base">
+                {entry.title}
+              </h3>
+              <p className="mt-1 text-[14px] leading-[1.6] text-white/52 sm:text-[15px] xl:text-base">
+                {entry.org}
+                {entry.dateLabel && (
+                  <span className="ml-1.5 font-mono text-[11px] uppercase tracking-[0.06em] text-white/40 sm:text-[12px]">
+                    · {entry.dateLabel}
+                  </span>
+                )}
+              </p>
+              {entry.body && (
+                <p className="mt-2 text-[14px] leading-[1.6] text-white/46 sm:text-[15px] xl:text-base">{entry.body}</p>
               )}
             </div>
 

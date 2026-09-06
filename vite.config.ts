@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 import path from 'node:path'
 import { existsSync } from 'node:fs'
 
-const hasResume = existsSync(path.resolve(__dirname, 'public/curriculo-gabriel-brasil.pdf'))
+const hasResume = existsSync(path.resolve(import.meta.dirname, 'public/curriculo-gabriel-brasil.pdf'))
 
 export default defineConfig({
   base: '/',
@@ -14,7 +14,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '@': path.resolve(import.meta.dirname, './src'),
     },
     dedupe: ['react', 'react-dom'],
   },
