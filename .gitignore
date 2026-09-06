@@ -6,6 +6,8 @@ dist/
 .env.*
 !.env.example
 coverage/
+artifacts/
+plans/
 *.log
 .DS_Store
 Thumbs.db
