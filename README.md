@@ -63,6 +63,7 @@ public/
 | `/projetos/barthy-web-studio-v2/` | case da Barthy Web Studio |
 | `/projetos/pnqc/` | case do PNQC |
 | `/projetos/hermes-command-center/` | case do Hermes |
+| `/projetos/radar-df/` | case do Radar DF em pesquisa e desenvolvimento |
 | `/contato/` | canais profissionais e formulário |
 
 ## Configuração pública
