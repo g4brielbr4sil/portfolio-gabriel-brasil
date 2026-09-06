@@ -449,7 +449,7 @@ export const experience = [
   },
   {
     role: 'Hello, World!',
-    organization: 'Marco pessoal',
+    organization: 'Minha primeira linha de código',
     description: 'Primeiros passos em programação e início da minha trajetória em tecnologia.',
     meta: '2022',
     details: [],

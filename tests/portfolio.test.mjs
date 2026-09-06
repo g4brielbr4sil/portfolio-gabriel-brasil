@@ -141,7 +141,7 @@ test('education and experience follow the two-column timeline gate', async () =>
   assert.equal(journey.includes('rounded-[1.5rem]'), false)
 })
 
-test('experience timeline restores the "Hello, World!" personal milestone as the third entry, not a job', async () => {
+test('experience timeline restores "Hello, World!" as the third entry, framed as a personal first line of code, not a job', async () => {
   const portfolio = await source('src/content/portfolio.ts')
   const experienceBlockMatch = portfolio.match(/export const experience = \[([\s\S]*?)\n\]/)
   assert.ok(experienceBlockMatch, 'experience array not found')
@@ -155,7 +155,7 @@ test('experience timeline restores the "Hello, World!" personal milestone as the
   const entries = experienceBlock.split(/\n  \{/).filter((chunk) => chunk.trim().length > 0)
   assert.equal(entries.length, 3)
   assert.match(entries[2], /role: 'Hello, World!'/)
-  assert.match(entries[2], /organization: 'Marco pessoal'/)
+  assert.match(entries[2], /organization: 'Minha primeira linha de código'/)
   assert.match(entries[2], /meta: '2022'/)
   assert.match(entries[2], /Primeiros passos em programação e início da minha trajetória em tecnologia\./)
   assert.equal(entries[2].includes('cargo'), false)
