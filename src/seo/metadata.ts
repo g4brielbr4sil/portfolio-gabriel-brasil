@@ -11,8 +11,9 @@ function personSchema() {
     '@id': `${site.canonicalUrl}#gabriel-brasil`,
     name: site.name,
     jobTitle: site.role,
+    description: site.description,
     url: site.canonicalUrl,
-    email: site.contact.mailto,
+    email: site.contact.email,
     address: {
       '@type': 'PostalAddress',
       addressLocality: site.location.city,
@@ -30,6 +31,28 @@ function personSchema() {
       'APIs REST',
       'Automação de processos',
       'Integrações',
+    ],
+  }
+}
+
+function fixedRouteBreadcrumb(route: PortfolioRoute, canonical: string) {
+  if (!route.indexable || route.path === '/') return null
+
+  const label =
+    route.kind === 'about'
+      ? 'Sobre'
+      : route.kind === 'projects'
+        ? 'Projetos'
+        : route.kind === 'contact'
+          ? 'Contato'
+          : route.title
+
+  return {
+    '@type': 'BreadcrumbList',
+    '@id': `${canonical}#breadcrumb`,
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Início', item: site.canonicalUrl },
+      { '@type': 'ListItem', position: 2, name: label, item: canonical },
     ],
   }
 }
@@ -52,12 +75,14 @@ function structuredData(route: PortfolioRoute) {
           name: project.name,
           description: project.description,
           url: canonical,
+          inLanguage: 'pt-BR',
           creator: { '@id': `${site.canonicalUrl}#gabriel-brasil` },
           keywords: project.tech,
           sameAs: project.links.flatMap((link) => (link.href ? [link.href] : [])),
         },
         {
           '@type': 'BreadcrumbList',
+          '@id': `${canonical}#breadcrumb`,
           itemListElement: [
             { '@type': 'ListItem', position: 1, name: 'Início', item: site.canonicalUrl },
             { '@type': 'ListItem', position: 2, name: 'Projetos', item: absoluteUrl('/projetos/') },
@@ -69,6 +94,21 @@ function structuredData(route: PortfolioRoute) {
   }
 
   const pageType = route.kind === 'about' ? 'ProfilePage' : route.kind === 'contact' ? 'ContactPage' : 'WebPage'
+  const page: Record<string, unknown> = {
+    '@type': pageType,
+    '@id': `${canonical}#page`,
+    name: route.title,
+    description: route.description,
+    url: canonical,
+    inLanguage: 'pt-BR',
+    isPartOf: { '@id': `${site.canonicalUrl}#website` },
+    about: { '@id': `${site.canonicalUrl}#gabriel-brasil` },
+  }
+
+  if (route.kind === 'about') {
+    page.mainEntity = { '@id': `${site.canonicalUrl}#gabriel-brasil` }
+  }
+
   const graph: Record<string, unknown>[] = [
     person,
     {
@@ -78,17 +118,11 @@ function structuredData(route: PortfolioRoute) {
       url: site.canonicalUrl,
       inLanguage: 'pt-BR',
     },
-    {
-      '@type': pageType,
-      '@id': `${canonical}#page`,
-      name: route.title,
-      description: route.description,
-      url: canonical,
-      inLanguage: 'pt-BR',
-      isPartOf: { '@id': `${site.canonicalUrl}#website` },
-      about: { '@id': `${site.canonicalUrl}#gabriel-brasil` },
-    },
+    page,
   ]
+
+  const breadcrumb = fixedRouteBreadcrumb(route, canonical)
+  if (breadcrumb) graph.push(breadcrumb)
 
   return { '@context': 'https://schema.org', '@graph': graph }
 }
@@ -102,7 +136,9 @@ export function renderMetadata(route: PortfolioRoute) {
   const verification = [
     site.verification.google ? `<meta name="google-site-verification" content="${escapeAttribute(site.verification.google)}" />` : '',
     site.verification.bing ? `<meta name="msvalidate.01" content="${escapeAttribute(site.verification.bing)}" />` : '',
-  ].filter(Boolean).join('\n    ')
+  ]
+    .filter(Boolean)
+    .join('\n    ')
   const jsonLd = JSON.stringify(structuredData(route)).replace(/</g, '\\u003c')
 
   return `<title>${title}</title>
@@ -117,6 +153,7 @@ export function renderMetadata(route: PortfolioRoute) {
     <meta property="og:description" content="${description}" />
     <meta property="og:url" content="${canonical}" />
     <meta property="og:image" content="${socialImage}" />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Gabriel Brasil, Desenvolvedor Full Stack e Analista de Sistemas" />
