@@ -9,3 +9,16 @@ coverage/
 *.log
 .DS_Store
 Thumbs.db
+
+# Credenciais, backups e dados locais
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+credentials/
+*.db
+*.sqlite
+*.sqlite3
+*.bak
+*.backup
